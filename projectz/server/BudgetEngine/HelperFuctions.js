@@ -20,14 +20,20 @@ export function FindLowestDebt(){
 
 }
 
-export function SortDebtLowToHigh(){
+//list the debts by lowest intrest rate
+export function SortDebtbyIntrestLowToHigh(){
 
 }
 
-export function SortDebtHighToLow(){
+//list the debts by highest intrest rate
+export function SortDebtbyIntrestHighToLow(){
 
 }
 
 export function SortDebtCustom(){
+
+}
+
+export function findPayOffDate(){
     
 }
