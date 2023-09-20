@@ -1,7 +1,7 @@
 
 
 export let debt = {
-    id: 0,
+    _id: 0,
     name: '',
     intrestRate: 0.0,
     minumnPayment: 0,
