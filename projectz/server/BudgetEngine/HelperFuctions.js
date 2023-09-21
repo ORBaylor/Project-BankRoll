@@ -35,5 +35,10 @@ export function SortDebtCustom(){
 }
 
 export function findPayOffDate(){
-    
+
+}
+
+export function findIntrestRate(){
+
+    //Use AI (Maybe) to find the intrest rate of a debt 
 }

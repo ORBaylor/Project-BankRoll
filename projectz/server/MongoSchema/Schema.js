@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
+import { boolean } from 'webidl-conversions';
 const { Schema } = mongoose;
+
+const settingSchema = new Schema({
+
+        //User-specific settings and preferences, such as currency format, 
+        //time zone, language, and notification preferences.
+
+})
 
 const userSchema = new Schema({
     Name: String,
@@ -31,20 +39,77 @@ const incomeSchema = new Schema({
 
 })
 
+const customPayOffOptions = new Schema({
+
+    payMore: Boolean,
+    payLess: Boolean,
+    PaffOff: Boolean,
+    payMorePercent:  Number,
+    payLessPercent: Number,
+
+})
+
 const budgetFrame = new Schema({
 
+   
+    useIncomeCollection: Boolean,
+    payOffStyle: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     DebtCollection: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Debt'
           },
     ],
-    useDebtCollection: Boolean,
+    IncomeCollection: [
+        {
+           type: mongoose.Schema.Types.ObjectId,
+           ref: 'Income'
+       },
+   ]
+
+
+})
+
+const customBudgetFrame = new Schema({
+
     payOffStyle: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    customPayOffOptions: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CustomPayOffOptions'
+    },
+    DebtCollection: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Debt'
+          },
+    ],
+    IncomeCollection: [
+         {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Income'
+        },
+    ]
+
+
+})
+
+const budgetOutcome = new Schema({
+
+        daysUntilAllDebtPayedOff: Number,
+
+
+
+})
+
+const customBudgetOutcome = new Schema({
 
 
 })
