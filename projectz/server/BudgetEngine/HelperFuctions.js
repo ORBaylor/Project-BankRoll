@@ -1,3 +1,6 @@
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel } from "../MongoSchema/SchemaModel";
+
+
 
 export function ReturnHalf(){
 
@@ -41,4 +44,8 @@ export function findPayOffDate(){
 export function findIntrestRate(){
 
     //Use AI (Maybe) to find the intrest rate of a debt 
+}
+
+export function updateDebt(){
+
 }
