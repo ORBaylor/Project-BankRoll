@@ -35,13 +35,13 @@ const PayUserSchema =  new Schema({
 let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 
 const debtSchema = new Schema({
-    name: String,
+    
     creditorName: String,
     intrestRate: Number,
     minumnPayment: Number,
     monthlyPayment: Number,
     payedOff: Boolean,
-    deDate: {type: Date, default: Date.now()}
+    dueDate: {type: Date, default: Date.now()}
 })
 export let DebtModel = mongoose.model('DebtModel', debtSchema)
 
@@ -66,7 +66,7 @@ const customPayOffOptions = new Schema({
 })
 let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', customPayOffOptions)
 
- const budgetFrame = new Schema({
+ let budgetFrame = new Schema({
 
    
     useIncomeCollection: Boolean,
@@ -135,7 +135,7 @@ const customBudgetFrame = new Schema({
 
 
 })
-export let CustomBudgetFrameModel = mongoose.model('budgetFrameModel', customBudgetFrame)
+export let CustomBudgetFrameModel = mongoose.model('customBudgetFrame', customBudgetFrame)
 
 const budgetOutcome = new Schema({
 
