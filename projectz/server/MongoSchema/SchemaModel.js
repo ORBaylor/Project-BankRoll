@@ -198,4 +198,20 @@ const customBudgetOutcome = new Schema({
 })
 export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
+const debtPayOffTimeFrame = new Schema({
+   creditorName: String,
+
+   totalPayments: Number,
+   paymentsLeft: Number,
+
+   originalDebtAmount: Number,
+   currentDebtAmount: Number,
+
+   totalIntrest: Number,
+   payOffStyle: String,
+   LastUpdated: Date,
+
+
+})
+
 //const YourModel = mongoose.model('YourModel', yourSchema);
