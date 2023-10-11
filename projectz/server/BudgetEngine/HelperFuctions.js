@@ -1,4 +1,4 @@
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel } from '../MongoSchema/SchemaModel.js'
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
 
 //import { UserModel } from "../MongoSchema/SchemaModel";
 
@@ -147,7 +147,7 @@ export function getlowestDebtItem(intrestArray){
 
   
 }
-console.log(getlowestDebtItem(testArray));
+//console.log(getlowestDebtItem(testArray));
 
 //list the debts by highest intrest rate
 export function SortDebtbyIntrestHighToLow(intrestArray){
@@ -178,8 +178,8 @@ export function FindPayOffDate(budgetFrameObject){
 
 }
 
-export function FindIntrestRate(){
-  //Fu
+export function FindIntrestRateAI(){
+  //Future idea
     //Use AI (Maybe) to find the intrest rate of a debt 
 }
 
@@ -209,13 +209,23 @@ export function CheckMethodType(input, type){
         return correctAmount;
 
       case 'number':
-        if(Number.isInteger(input)){
+        if(Number.isInteger(input) ){
           correctAmount = true;
         }
         else{
           correctAmount = false;
         }
 
+      return correctAmount;
+
+      case 'float':
+
+      if (typeof input === 'number' && !Number.isInteger(input)){
+        correctAmount = true;
+      }
+      else{
+        correctAmount = false;
+      }
       return correctAmount;
 
       case 'array':
@@ -235,4 +245,42 @@ export function CheckMethodType(input, type){
 
 
 }
+
+//console.log(CheckMethodType(1.9, 'float'))
+
+
+//A method to get the total number of payments
+export function GetTotalPayments(amount,intrestRate,payment){
+
+}
+//A method to update the number of payments left
+
+//A method that will show the current number of payments left if the user reports no change
+
+//A method to find the intrest of the debt object
+//Given the intrest rate and the debt amount, this method will return the intrest rate
+export function GetMonthlyIntrestRate(intrestRate){
+
+  let goodIntrestRatePercent = CheckMethodType(intrestRate,'float');
+  let goodIntrestRateInt = CheckMethodType(intrestRate,'number');
+  ///let goodDebtAmount = CheckMethodType(debtAmount,'float')
+  let monthlyIntrestRate = 0.0
+
+  if(goodIntrestRatePercent ||  goodIntrestRateInt){
+
+    let percent = (intrestRate / 100)
+   monthlyIntrestRate = (percent / 12).toFixed(6);
+
+   return monthlyIntrestRate;
+
+  }else{
+    return intrestRate
+  }
+
+  
+  
+}
+//A method to update how much intresst have been payed so far.
+
+console.log(GetMonthlyIntrestRate(6));
 

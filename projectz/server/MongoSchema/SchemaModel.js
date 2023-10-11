@@ -145,26 +145,28 @@ const budgetOutcome = new Schema({
     },
         //A Key value pair of the debts and 
         //when they will be payed off
-        daysUntilAllDebtPayedOff: Map,
+       // daysUntilAllDebtPayedOff: Map,
 
         //A key vaule pair of the debts that are
         //payed off
-        debtsPayedOff: Map,
+       // debtsPayedOff: Map,
 
         //A key value pair of the intrest each debt has paid/will pay
-        intrestPayed: Map,
+        //  intrestPayed: Map,
 
         //A key value pair of the debts and what day the payment is due.
         //The user will be sent an email when the payment is close to being due
         //And when it is due
         notificationEmailList: Map,
 
-        payOffMethod: String,
+       // payOffMethod: String,
 
-       
-
-      
-
+        DebtPayOffArray: [
+             {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'debtPayOffTimeFrameModel'
+            }
+        ],
 
 
 })
@@ -208,10 +210,20 @@ const debtPayOffTimeFrame = new Schema({
    currentDebtAmount: Number,
 
    totalIntrest: Number,
+   intrestPayed: Number,
+
    payOffStyle: String,
-   LastUpdated: Date,
+
+   dueDate: Date,
+   lastUpdated: Date,
 
 
 })
+
+export let debtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
+
+
+
+
 
 //const YourModel = mongoose.model('YourModel', yourSchema);
