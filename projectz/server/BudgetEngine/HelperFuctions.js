@@ -1,5 +1,5 @@
 import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-
+import {log,ceil} from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
 
 //Model vars
@@ -220,7 +220,7 @@ export function CheckMethodType(input, type){
 
       case 'float':
 
-      if (typeof input === 'number' && !Number.isInteger(input)){
+      if (typeof input === 'number' && !Number.isInteger(input) || Number.isInteger(input)){
         correctAmount = true;
       }
       else{
@@ -249,10 +249,7 @@ export function CheckMethodType(input, type){
 //console.log(CheckMethodType(1.9, 'float'))
 
 
-//A method to get the total number of payments
-export function GetTotalPayments(amount,intrestRate,payment){
 
-}
 //A method to update the number of payments left
 
 //A method that will show the current number of payments left if the user reports no change
@@ -268,8 +265,9 @@ export function GetMonthlyIntrestRate(intrestRate){
 
   if(goodIntrestRatePercent ||  goodIntrestRateInt){
 
-    let percent = (intrestRate / 100)
-   monthlyIntrestRate = (percent / 12).toFixed(6);
+    //let percent = (intrestRate / 100)
+
+   monthlyIntrestRate = (intrestRate / 12).toFixed(6);
 
    return monthlyIntrestRate;
 
@@ -280,7 +278,39 @@ export function GetMonthlyIntrestRate(intrestRate){
   
   
 }
+
+//A method to get the total number of payments
+export function GetTotalPayOffMonth(amount,intrestRate,payment){
+
+    let isGoodAmount = CheckMethodType(amount, 'float');
+    let isGoodRate = CheckMethodType(intrestRate, 'float');
+    let isGoodPayment = CheckMethodType(payment, "float")
+    let totalMonths = 0;
+    let monthlyIntrestRate = 0;
+
+
+    if(isGoodAmount && isGoodPayment && isGoodRate){
+        monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
+     //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
+        //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
+
+      totalMonths = -log(1 - ((amount * 0.004167) / payment)) / log(1 + 0.004167) 
+
+
+      totalMonths = ceil(totalMonths);
+    }else{
+
+    }
+
+    return totalMonths;
+
+
+}
 //A method to update how much intresst have been payed so far.
 
-console.log(GetMonthlyIntrestRate(6));
+//console.log(GetMonthlyIntrestRate(0.05));
+console.log(GetTotalPayOffMonth(10000, 6, 200));
+
+//Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
+
 
