@@ -1,5 +1,5 @@
 import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import {log,ceil} from 'mathjs'
+import {log,ceil,} from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
 
 //Model vars
@@ -261,13 +261,14 @@ export function GetMonthlyIntrestRate(intrestRate){
   let goodIntrestRatePercent = CheckMethodType(intrestRate,'float');
   let goodIntrestRateInt = CheckMethodType(intrestRate,'number');
   ///let goodDebtAmount = CheckMethodType(debtAmount,'float')
-  let monthlyIntrestRate = 0.0
+  
 
   if(goodIntrestRatePercent ||  goodIntrestRateInt){
 
     //let percent = (intrestRate / 100)
+    
 
-   monthlyIntrestRate = (intrestRate / 12).toFixed(6);
+    const monthlyIntrestRate = intrestRate / 12;
 
    return monthlyIntrestRate;
 
@@ -280,9 +281,9 @@ export function GetMonthlyIntrestRate(intrestRate){
 }
 
 //A method to get the total number of payments
-export function GetTotalPayOffMonth(amount,intrestRate,payment){
+export function GetTotalPayOffMonths(debtAmount,intrestRate,payment){
 
-    let isGoodAmount = CheckMethodType(amount, 'float');
+    let isGoodAmount = CheckMethodType(debtAmount, 'float');
     let isGoodRate = CheckMethodType(intrestRate, 'float');
     let isGoodPayment = CheckMethodType(payment, "float")
     let totalMonths = 0;
@@ -290,26 +291,52 @@ export function GetTotalPayOffMonth(amount,intrestRate,payment){
 
 
     if(isGoodAmount && isGoodPayment && isGoodRate){
-        monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
+       // monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
+       monthlyIntrestRate = intrestRate /12;
      //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
         //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
 
-      totalMonths = -log(1 - ((amount * 0.004167) / payment)) / log(1 + 0.004167) 
+      //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
+    let totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
+  
 
 
-      totalMonths = ceil(totalMonths);
+      const totalPayMonths = ceil(totalMonths);
+
+      return totalPayMonths
     }else{
 
     }
 
-    return totalMonths;
+   // return totalMonths;
 
 
 }
+
+
 //A method to update how much intresst have been payed so far.
 
 //console.log(GetMonthlyIntrestRate(0.05));
-console.log(GetTotalPayOffMonth(10000, 6, 200));
+console.log(GetTotalPayOffMonths(40000, 0.04, 500));
+
+function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
+  // Calculate the monthly interest rate
+  const monthlyInterestRate = annualInterestRate / 12;
+  
+  // Calculate the number of months required to pay off the debt
+  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+  
+  // Round up to the nearest whole month
+  const roundedMonths = Math.ceil(numberOfMonths);
+  
+  // Calculate the payoff date
+  const today = new Date();
+  const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
+  
+  return payoffDate.toDateString();
+}
+
+console.log(calculatePayoffDate(40000,0.03,500));
 
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
 
