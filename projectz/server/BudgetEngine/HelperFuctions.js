@@ -171,13 +171,6 @@ export function SortDebtCustom(){
 
 }
 
-//use the bugetFrame Object to return am array of days it will take 
-export function FindPayOffDate(budgetFrameObject){
-
-
-
-}
-
 export function FindIntrestRateAI(){
   //Future idea
     //Use AI (Maybe) to find the intrest rate of a debt 
@@ -281,7 +274,7 @@ export function GetMonthlyIntrestRate(intrestRate){
 }
 
 //A method to get the total number of payments
-export function GetTotalPayOffMonths(debtAmount,intrestRate,payment){
+export function GetTotalPayments(debtAmount,intrestRate,payment){
 
     let isGoodAmount = CheckMethodType(debtAmount, 'float');
     let isGoodRate = CheckMethodType(intrestRate, 'float');
@@ -303,7 +296,7 @@ export function GetTotalPayOffMonths(debtAmount,intrestRate,payment){
 
       const totalPayMonths = ceil(totalMonths);
 
-      return totalPayMonths
+      return totalPayMonths 
     }else{
 
     }
@@ -317,15 +310,17 @@ export function GetTotalPayOffMonths(debtAmount,intrestRate,payment){
 //A method to update how much intresst have been payed so far.
 
 //console.log(GetMonthlyIntrestRate(0.05));
-console.log(GetTotalPayOffMonths(40000, 0.04, 500));
+console.log(GetTotalPayments(20000, 0.04, 200));
 
-function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
+export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
   // Calculate the monthly interest rate
   const monthlyInterestRate = annualInterestRate / 12;
   
   // Calculate the number of months required to pay off the debt
   const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
-  
+
+
+  //console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
   // Round up to the nearest whole month
   const roundedMonths = Math.ceil(numberOfMonths);
   
@@ -336,7 +331,24 @@ function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
   return payoffDate.toDateString();
 }
 
-console.log(calculatePayoffDate(40000,0.03,500));
+console.log(calculatePayoffDate(20000,0.04,200));
+
+export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
+
+  // Calculate the monthly interest rate
+  const monthlyInterestRate = annualInterestRate / 12;
+  
+  // Calculate the number of months required to pay off the debt
+  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+
+  const totalIntrest = ((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2)
+  
+  return totalIntrest;
+
+
+}
+
+console.log(GetTotalIntrest(20000,0.01,200))
 
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
 
