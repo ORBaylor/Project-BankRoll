@@ -352,4 +352,11 @@ console.log(GetTotalIntrest(20000,0.01,200))
 
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
 
+//CUSTOM DEBTS
+
+//RETURNS A MAP OF HOW MUCH EACH DEBT WILL BE PAYED.
+export function SplitIncome(IncomeAmount, ){
+
+}
+
 

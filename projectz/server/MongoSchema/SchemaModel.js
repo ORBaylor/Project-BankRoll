@@ -41,7 +41,11 @@ const debtSchema = new Schema({
     minumnPayment: Number,
     monthlyPayment: Number,
     payedOff: Boolean,
-    dueDate: {type: Date, default: Date.now()}
+    dueDate: {type: Date, default: Date.now()},
+
+    //Adding two properties for custom debts
+    isCustomDebt: Boolean,
+    CustomDebtOrder: Number,
 })
 export let DebtModel = mongoose.model('DebtModel', debtSchema)
 
@@ -221,6 +225,37 @@ const debtPayOffTimeFrame = new Schema({
 })
 
 export let debtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
+
+const CustomDebtPayOffTimeFrame = new Schema({
+    creditorName: String,
+ 
+
+    originalDebtAmount: Number,
+    currentDebtAmount: Number,
+ 
+    //MAY NOT BE NEEDED!!
+    // totalIntrest: Number,
+    // intrestPayed: Number,
+
+    //THE AMOUNT OF PAY THAT WAS USED TO PAY THIS DEBT
+    amountOfPay: Number,
+
+    isPayedOff: Boolean,
+ 
+    payOffStyle: String,
+ 
+   // dueDate: Date,
+    lastUpdated: Date,
+
+   
+
+
+ 
+ 
+ })
+ 
+ export let CustomDebtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
+ 
 
 
 
