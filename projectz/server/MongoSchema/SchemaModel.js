@@ -40,7 +40,7 @@ const debtSchema = new Schema({
     intrestRate: Number,
     minumnPayment: Number,
     monthlyPayment: Number,
-    payedOff: Boolean,
+    isPayedOff: Boolean,
     dueDate: {type: Date, default: Date.now()},
 
     //Adding two properties for custom debts

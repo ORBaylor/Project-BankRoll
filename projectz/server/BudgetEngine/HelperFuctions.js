@@ -17,6 +17,25 @@ let debt = new DebtModel;
 
 debt.intrestRate = 4.3;
 let testArray = [33,55,11,3,54,89,34,2,47,65]
+let testArray2 = [80,200,'|',40,100,'|',50,300,'|'] 
+const testArray3 = testArray2.splice(5);
+console.log(testArray3);
+
+//The custom object that will be used
+//to change the array of data
+let customeDebtObjArry= [
+
+    customDebtObj = {
+    id: 0,
+    creditorName: '',
+    totalAmount: 0,
+    amountPayed: 0,
+    amountLeft: 0,
+    isPayedOff: false,
+    }
+    
+]
+ 
 
 export function ReturnHalf(){
 
@@ -310,7 +329,7 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
 //A method to update how much intresst have been payed so far.
 
 //console.log(GetMonthlyIntrestRate(0.05));
-console.log(GetTotalPayments(20000, 0.04, 200));
+//console.log(GetTotalPayments(20000, 0.04, 200));
 
 export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
   // Calculate the monthly interest rate
@@ -331,7 +350,7 @@ export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayme
   return payoffDate.toDateString();
 }
 
-console.log(calculatePayoffDate(20000,0.04,200));
+//console.log(calculatePayoffDate(20000,0.04,200));
 
 export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 
@@ -348,14 +367,17 @@ export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 
 }
 
-console.log(GetTotalIntrest(20000,0.01,200))
+//console.log(GetTotalIntrest(20000,0.01,200))
 
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
 
 //CUSTOM DEBTS
 
 //RETURNS A MAP OF HOW MUCH EACH DEBT WILL BE PAYED.
-export function SplitIncome(IncomeAmount, ){
+
+//Takes in two arrays
+//The first will be the amount of money 
+export function CustomDebtPaymentFrame(IncomeAmount, ){
 
 }
 
