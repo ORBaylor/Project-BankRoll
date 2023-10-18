@@ -19,32 +19,45 @@ debt.intrestRate = 4.3;
 let testArray = [33,55,11,3,54,89,34,2,47,65]
 let testArray2 = [80,200,'|',40,100,'|',50,300,'|'] 
 const testArray3 = testArray2.splice(5);
-console.log(testArray3);
+//console.log(testArray3);
 
 //The custom object that will be used
 //to change the array of data
-let customeDebtObjArry= [
+// let customDebtObjArry=  [
 
-    customDebtObj = {
-    id: 0,
-    creditorName: '',
-    totalAmount: 0,
-    amountPayed: 0,
-    amountLeft: 0,
-    isPayedOff: false,
-    }
+//     customDebtObj = {
+//     id: 0,
+//     creditorName: '',
+//     totalAmount: 0,
+//     amountPayed: 0,
+//     amountLeft: 0,
+//     isPayedOff: false,
+//     }
     
-]
+// ]
  
 
 export function ReturnHalf(){
 
 }
 
-export function ReturnPercentage(User, dividend){
+//For Custom Debt payoff, Maybe?
+export function ReturnPercentageAmount(percentage, amount){
+    const goodAmount= CheckMethodType(amount, 'float');
+    const goodPercentage = CheckMethodType(percentage, 'float');
+    let returnAmount = 0;
 
+    if(goodAmount && goodPercentage){
+      returnAmount = ((amount / 10) * percentage);
+
+    }else{
+      return returnAmount
+    }
+
+    return returnAmount;
 
 }
+console.log(ReturnPercentageAmount(1.5, 400))
 
 export function SubtractAmountFromDebt(debt, amount){
 
@@ -377,7 +390,18 @@ export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 
 //Takes in two arrays
 //The first will be the amount of money 
-export function CustomDebtPaymentFrame(IncomeAmount, ){
+export function CustomDebtPaymentFrame(customArry, totalIncome ){
+
+  const goodCustomArry = CheckMethodType(customArry, 'array');
+  const goodIncome = CheckMethodType(totalIncome, 'float')
+
+  if(goodCustomArry && goodIncome){
+      //loop through customArry and use the percent of pay to determin how 
+      //much of the total Income will go to paying off that debt.
+  }
+  else{
+
+  }
 
 }
 

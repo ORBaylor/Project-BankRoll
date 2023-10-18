@@ -37,6 +37,7 @@ let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 const debtSchema = new Schema({
     
     creditorName: String,
+    debtAmount: Number,
     intrestRate: Number,
     minumnPayment: Number,
     monthlyPayment: Number,
@@ -48,6 +49,23 @@ const debtSchema = new Schema({
     CustomDebtOrder: Number,
 })
 export let DebtModel = mongoose.model('DebtModel', debtSchema)
+
+const CustomDebtSchema = new Schema({
+    
+    creditorName: String,
+    debtAmount: Number,
+  //  intrestRate: Number,
+    //minumnPayment: Number,
+  //  monthlyPayment: Number,
+    percentOfIncome: Number,
+    isPayedOff: Boolean,
+   // dueDate: {type: Date, default: Date.now()},
+
+    //Adding two properties for custom debts
+    isCustomDebt: Boolean,
+    CustomDebtOrder: Number,
+})
+export let CustomDebtModel = mongoose.model('DebtModel', debtSchema)
 
 const incomeSchema = new Schema({
 
