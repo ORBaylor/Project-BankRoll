@@ -1,4 +1,4 @@
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel } from '../MongoSchema/SchemaModel.js'
 import {log,ceil,} from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
 
@@ -57,10 +57,12 @@ export function ReturnPercentageAmount(percentage, amount){
     return returnAmount;
 
 }
-console.log(ReturnPercentageAmount(1.5, 400))
+//console.log(ReturnPercentageAmount(1.5, 400))
 
 export function SubtractAmountFromDebt(debt, amount){
 
+
+  return debt = debt - amount;
 
 }
 
@@ -338,7 +340,6 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
 
 }
 
-
 //A method to update how much intresst have been payed so far.
 
 //console.log(GetMonthlyIntrestRate(0.05));
@@ -387,17 +388,140 @@ export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 //CUSTOM DEBTS
 
 //RETURNS A MAP OF HOW MUCH EACH DEBT WILL BE PAYED.
+let CustDebtArry = [
 
-//Takes in two arrays
-//The first will be the amount of money 
-export function CustomDebtPaymentFrame(customArry, totalIncome ){
+  {
+    creditorName: "payPal",
+    originalDebtAmount: 4109,
+    currentDebtAmount: 4109,
+    percentOfPayUsed: 3,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "policeAndFire",
+    originalDebtAmount: 2450,
+    currentDebtAmount: 2450,
+    percentOfPayUsed: 2,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "420 Empire",
+    originalDebtAmount: 4020,
+    currentDebtAmount: 4020,
+    percentOfPayUsed: 3,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "Disover",
+    originalDebtAmount: 3970,
+    currentDebtAmount: 3000,
+    percentOfPayUsed: 2,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: new Date(),
+    amountLeftOver: 0,
+  }
+]
+
+export function getTotalIncomeAmount(incomeArry = []){
+
+  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+  let returnAmount  = 0;
+
+  if(goodIncomeArry){
+
+     incomeArry.forEach((arry) => {
+
+      returnAmount += arry.amount;
+
+     })
+
+     return returnAmount;
+  }
+
+  return returnAmount;
+}
+
+const incomeArry = [
+
+    {
+        amount: 300
+    },
+    {
+       amount: 500
+    },
+    {
+      amount: 100
+    },
+
+
+]
+
+let testNum = getTotalIncomeAmount(incomeArry);
+
+console.log(testNum);
+
+//Returns an array of CustomDebtModel with the pay updated
+export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
-  const goodIncome = CheckMethodType(totalIncome, 'float')
+  const goodIncome = CheckMethodType(totalIncome, 'float');
+  let returnArry = [];
+  let customDebt = new CustomDebtModel;
+
 
   if(goodCustomArry && goodIncome){
       //loop through customArry and use the percent of pay to determin how 
       //much of the total Income will go to paying off that debt.
+      customArry.forEach((Arry) => {
+
+        let percentOfPay = 0;
+        let amountOfPay = 0;
+
+       amountOfPay = ReturnPercentageAmount(Arry.percentOfPayUsed, totalIncome);
+      
+       if(amountOfPay >= Arry.originalDebtAmount){
+
+          if((amountOfPay - Arry.originalDebtAmount) > 0){
+            Arry.isPayedOff = true;
+            Arry.amountLeftOver = ((amountOfPay - Arry.originalDebtAmount));
+            Arry.currentDebtAmount = 0;
+            Arry.amountOfPayUsed = amountOfPay;
+            Arry.payOffStyle = "custom"
+          }
+          
+
+       }else if((amountOfPay - Arry.originalDebtAmount) <= 0){
+            Arry.currentDebtAmount = SubtractAmountFromDebt(Arry.originalDebtAmount, amountOfPay);
+            if(Arry.currentDebtAmount !== 0){
+              Arry.isPayedOff == false;
+            }
+            Arry.amountOfPayUsed = amountOfPay;
+            Arry.payOffStyle = "custom"
+       }
+
+
+      })
+
+      //return customArry;
+
+      let isDebtPayed = CheckIfAllDebtsArePaid(customArry);
+
+      return isDebtPayed;
+
   }
   else{
 
@@ -405,4 +529,46 @@ export function CustomDebtPaymentFrame(customArry, totalIncome ){
 
 }
 
+export function CheckIfAllDebtsArePaid(customArry = []){
 
+  const goodCustomArry = CheckMethodType(customArry, 'array');
+  let allDebtsPaid = false;
+  let debtCount = 1;
+
+  if(goodCustomArry){
+      customArry.forEach((arry) => {
+
+        if(arry.amountLeftOver > 0){
+           debtCount = debtCount + 1;
+        }
+
+      })
+      if(debtCount > 1){
+        allDebtsPaid = false;
+      }
+      else if(debtCount === 1){
+        allDebtsPaid = true;
+      }
+
+      return allDebtsPaid
+
+  }
+
+
+}
+
+const newArry = CustomDebtPaymentFrame(CustDebtArry, 18000);
+
+console.log(newArry);
+// const CustomDebtPayOffTimeFrame = new Schema({
+//   creditorName: String,
+//   originalDebtAmount: Number,
+//   currentDebtAmount: Number,
+//   percentOfPayUsed: Number,
+//   amountOfPayUsed: Number,
+//   isPayedOff: Boolean,
+//   payOffStyle: String,
+//   lastUpdated: Date,
+
+
+// })

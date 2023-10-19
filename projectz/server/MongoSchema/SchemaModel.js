@@ -70,7 +70,7 @@ export let CustomDebtModel = mongoose.model('DebtModel', debtSchema)
 const incomeSchema = new Schema({
 
     name: String,
-    aount: String,
+    amount: Number,
     occurrence: String, //'weekly' | 'bi-weekly' | 'semi-annually' | 'annually'
 
 
@@ -130,6 +130,7 @@ export let budgetFrameModel = mongoose.model('budgetFrameModel', budgetFrame)
 const customBudgetFrame = new Schema({
 
     payOffStyle: String,
+    useLeftOver: Boolean,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
@@ -250,13 +251,15 @@ const CustomDebtPayOffTimeFrame = new Schema({
 
     originalDebtAmount: Number,
     currentDebtAmount: Number,
+
+    percentOfPayUsed: Number,
  
     //MAY NOT BE NEEDED!!
     // totalIntrest: Number,
     // intrestPayed: Number,
 
     //THE AMOUNT OF PAY THAT WAS USED TO PAY THIS DEBT
-    amountOfPay: Number,
+    amountOfPayUsed: Number,
 
     isPayedOff: Boolean,
  
@@ -264,6 +267,8 @@ const CustomDebtPayOffTimeFrame = new Schema({
  
    // dueDate: Date,
     lastUpdated: Date,
+
+    amountLeftOver: Number
 
    
 
