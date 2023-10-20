@@ -503,7 +503,6 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
             Arry.payOffStyle = "custom"
           }
           
-
        }else if((amountOfPay - Arry.originalDebtAmount) <= 0){
             Arry.currentDebtAmount = SubtractAmountFromDebt(Arry.originalDebtAmount, amountOfPay);
             if(Arry.currentDebtAmount !== 0){
@@ -517,10 +516,18 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
       })
 
       //return customArry;
+      let cust = customArry
 
-      let isDebtPayed = CheckIfAllDebtsArePaid(customArry);
+      console.log("This is the first debtModel: " )
+      console.log(customArry)
+      console.log("-----------------------------------------------")
 
-      return isDebtPayed;
+      const custRemain = PayOffRemainDebt(customArry);
+      console.log(custRemain)
+
+      // let isDebtPayed = CheckIfAllDebtsArePaid(customArry);
+
+      // return isDebtPayed;
 
   }
   else{
@@ -537,11 +544,9 @@ export function CheckIfAllDebtsArePaid(customArry = []){
 
   if(goodCustomArry){
       customArry.forEach((arry) => {
-
         if(arry.amountLeftOver > 0){
            debtCount = debtCount + 1;
         }
-
       })
       if(debtCount > 1){
         allDebtsPaid = false;
@@ -549,17 +554,72 @@ export function CheckIfAllDebtsArePaid(customArry = []){
       else if(debtCount === 1){
         allDebtsPaid = true;
       }
-
       return allDebtsPaid
-
   }
 
 
 }
 
-const newArry = CustomDebtPaymentFrame(CustDebtArry, 18000);
+//This method will use the amount left over to pay off the remain debts
+export function PayOffRemainDebt(customArry = []){
 
-console.log(newArry);
+  const goodCustomArry = CheckMethodType(customArry, 'array');
+  let totalLeftOver = 0;
+
+  if(goodCustomArry){
+
+    
+    customArry.forEach((arry) => {
+
+      if(arry.isPayedOff == true && arry.amountLeftOver > 0){
+          totalLeftOver += arry.amountLeftOver;
+          arry.amountLeftOver = 0;
+      }
+      // else {
+
+      //   if(arry.currentDebtAmount > 0 && totalLeftOver > arry)
+      // }
+    })
+
+    customArry.forEach((arry) =>{
+
+        if(totalLeftOver == 0){
+          return
+        }
+        else{
+          if(arry.isPayedOff == false){
+            if(totalLeftOver > arry.currentDebtAmount){
+                totalLeftOver -= arry.currentDebtAmount
+                arry.currentDebtAmount = 0;
+                arry.isPayedOff = true;
+            }
+            else{
+              if(totalLeftOver > 0){
+                  arry.currentDebtAmount -= totalLeftOver;
+                  totalLeftOver -= totalLeftOver;
+                  //totalLeftOver = 0;
+               
+              }
+            }
+        }
+        }
+       
+    })
+
+    if(totalLeftOver > 0){
+      let x = totalLeftOver
+      customArry[0].amountLeftOver = x;
+      
+    }
+
+    return customArry;
+  }
+
+}
+
+const newArry = CustomDebtPaymentFrame(CustDebtArry, 15000);
+
+//console.log(newArry);
 // const CustomDebtPayOffTimeFrame = new Schema({
 //   creditorName: String,
 //   originalDebtAmount: Number,
@@ -572,3 +632,11 @@ console.log(newArry);
 
 
 // })
+
+export function FindAllCurrentDebt(){
+
+}
+
+export function FindAmountLeftOver(){
+
+}

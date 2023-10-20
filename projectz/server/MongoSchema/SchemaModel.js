@@ -204,19 +204,7 @@ const customBudgetOutcome = new Schema({
    
        //A key vaule pair of the debts that are
         //payed off
-        debtsPayedOff: Map,
-
-        //A key value pair of debts that are not payed off
-        debtsNotPayedOff: Map,
-
-        //A key value pair of the intrest each debt has paid/will pay
-        intrestPayed: Map,
-
-        isUserPaid: Boolean,
-
-        payPercent: Number,
-
-        payAmount: Number
+    
 
 
 
