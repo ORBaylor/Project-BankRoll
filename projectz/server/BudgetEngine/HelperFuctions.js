@@ -19,6 +19,67 @@ debt.intrestRate = 4.3;
 let testArray = [33,55,11,3,54,89,34,2,47,65]
 let testArray2 = [80,200,'|',40,100,'|',50,300,'|'] 
 const testArray3 = testArray2.splice(5);
+const incomeArry = [
+
+  {
+      amount: 300
+  },
+  {
+     amount: 500
+  },
+  {
+    amount: 100
+  },
+
+
+]
+let CustDebtArry = [
+
+  {
+    creditorName: "payPal",
+    originalDebtAmount: 4109,
+    currentDebtAmount: 4109,
+    percentOfPayUsed: 3,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "policeAndFire",
+    originalDebtAmount: 2450,
+    currentDebtAmount: 2450,
+    percentOfPayUsed: 2,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "420 Empire",
+    originalDebtAmount: 4020,
+    currentDebtAmount: 4020,
+    percentOfPayUsed: 3,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: Date.now(),
+    amountLeftOver: 0,
+  },
+  {
+    creditorName: "Disover",
+    originalDebtAmount: 3970,
+    currentDebtAmount: 3000,
+    percentOfPayUsed: 2,
+    amountOfPayUsed: 0,
+    isPayedOff: false,
+    payOffStyle: "",
+    lastUpdated: new Date(),
+    amountLeftOver: 0,
+  }
+]
 //console.log(testArray3);
 
 //The custom object that will be used
@@ -103,20 +164,26 @@ export function FindLowestDebtArray(debtArray){
   let goodInput = CheckMethodType(debtArray, 'array');
 
   if(goodInput){
-    for (let i = 0; i < debtArray.length - 1; i++) {
-      let minIndex = i;
-      for (let j = i + 1; j < debtArray.length; j++) {
-        if (debtArray[j] < debtArray[minIndex]) {
-          minIndex = j;
-        }
-      }
-      if (minIndex !== i) {
-        const temp = debtArray[i];
-        debtArray[i] = debtArray[minIndex];
-        debtArray[minIndex] = temp;
-      }
-    }
+    // for (let i = 0; i < debtArray.length - 1; i++) {
+    //   let minIndex = i;
+    //   for (let j = i + 1; j < debtArray.length; j++) {
+    //     if (debtArray[j] < debtArray[minIndex]) {
+    //       minIndex = j;
+    //     }
+    //   }
+    //   if (minIndex !== i) {
+    //     const temp = debtArray[i];
+    //     debtArray[i] = debtArray[minIndex];
+    //     debtArray[minIndex] = temp;
+    //   }
+    // }
+
+
+    debtArray.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
+    
     return debtArray;
+
+    //people.sort((a, b) => a.age - b.age);
   }
   else{
     debtArray
@@ -125,7 +192,9 @@ export function FindLowestDebtArray(debtArray){
   
 }
 
-//console.log(FindLowestDebtItem(testArray))
+let protoArry = FindLowestDebtArray(CustDebtArry);
+console.log(protoArry)
+
 
 //list the debts by lowest intrest rate
 export function SortDebtbyIntrestLowToHigh(intrestArray){
@@ -181,7 +250,7 @@ export function getlowestDebtItem(intrestArray){
 
   
 }
-//console.log(getlowestDebtItem(testArray));
+
 
 //list the debts by highest intrest rate
 export function SortDebtbyIntrestHighToLow(intrestArray){
@@ -200,7 +269,7 @@ export function SortDebtbyIntrestHighToLow(intrestArray){
  
 
 }
-//console.log(SortDebtbyIntrestHighToLow(testArray))
+
 export function SortDebtCustom(){
 
 }
@@ -272,11 +341,6 @@ export function CheckMethodType(input, type){
 
 
 }
-
-//console.log(CheckMethodType(1.9, 'float'))
-
-
-
 //A method to update the number of payments left
 
 //A method that will show the current number of payments left if the user reports no change
@@ -342,9 +406,6 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
 
 //A method to update how much intresst have been payed so far.
 
-//console.log(GetMonthlyIntrestRate(0.05));
-//console.log(GetTotalPayments(20000, 0.04, 200));
-
 export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
   // Calculate the monthly interest rate
   const monthlyInterestRate = annualInterestRate / 12;
@@ -364,8 +425,6 @@ export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayme
   return payoffDate.toDateString();
 }
 
-//console.log(calculatePayoffDate(20000,0.04,200));
-
 export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 
   // Calculate the monthly interest rate
@@ -381,60 +440,11 @@ export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
 
 }
 
-//console.log(GetTotalIntrest(20000,0.01,200))
-
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
 
 //CUSTOM DEBTS
 
 //RETURNS A MAP OF HOW MUCH EACH DEBT WILL BE PAYED.
-let CustDebtArry = [
-
-  {
-    creditorName: "payPal",
-    originalDebtAmount: 4109,
-    currentDebtAmount: 4109,
-    percentOfPayUsed: 3,
-    amountOfPayUsed: 0,
-    isPayedOff: false,
-    payOffStyle: "",
-    lastUpdated: Date.now(),
-    amountLeftOver: 0,
-  },
-  {
-    creditorName: "policeAndFire",
-    originalDebtAmount: 2450,
-    currentDebtAmount: 2450,
-    percentOfPayUsed: 2,
-    amountOfPayUsed: 0,
-    isPayedOff: false,
-    payOffStyle: "",
-    lastUpdated: Date.now(),
-    amountLeftOver: 0,
-  },
-  {
-    creditorName: "420 Empire",
-    originalDebtAmount: 4020,
-    currentDebtAmount: 4020,
-    percentOfPayUsed: 3,
-    amountOfPayUsed: 0,
-    isPayedOff: false,
-    payOffStyle: "",
-    lastUpdated: Date.now(),
-    amountLeftOver: 0,
-  },
-  {
-    creditorName: "Disover",
-    originalDebtAmount: 3970,
-    currentDebtAmount: 3000,
-    percentOfPayUsed: 2,
-    amountOfPayUsed: 0,
-    isPayedOff: false,
-    payOffStyle: "",
-    lastUpdated: new Date(),
-    amountLeftOver: 0,
-  }
-]
 
 export function getTotalIncomeAmount(incomeArry = []){
 
@@ -454,26 +464,6 @@ export function getTotalIncomeAmount(incomeArry = []){
 
   return returnAmount;
 }
-
-const incomeArry = [
-
-    {
-        amount: 300
-    },
-    {
-       amount: 500
-    },
-    {
-      amount: 100
-    },
-
-
-]
-
-let testNum = getTotalIncomeAmount(incomeArry);
-
-console.log(testNum);
-
 //Returns an array of CustomDebtModel with the pay updated
 export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
 
@@ -482,7 +472,7 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
   let returnArry = [];
   let customDebt = new CustomDebtModel;
 
-
+   
   if(goodCustomArry && goodIncome){
       //loop through customArry and use the percent of pay to determin how 
       //much of the total Income will go to paying off that debt.
@@ -515,19 +505,9 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
 
       })
 
-      //return customArry;
-      let cust = customArry
+      return customArry;
 
-      console.log("This is the first debtModel: " )
-      console.log(customArry)
-      console.log("-----------------------------------------------")
-
-      const custRemain = PayOffRemainDebt(customArry);
-      console.log(custRemain)
-
-      // let isDebtPayed = CheckIfAllDebtsArePaid(customArry);
-
-      // return isDebtPayed;
+      
 
   }
   else{
@@ -561,7 +541,7 @@ export function CheckIfAllDebtsArePaid(customArry = []){
 }
 
 //This method will use the amount left over to pay off the remain debts
-export function PayOffRemainDebt(customArry = []){
+export function PayOffRemainingDebt(customArry = []){
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   let totalLeftOver = 0;
@@ -617,26 +597,36 @@ export function PayOffRemainDebt(customArry = []){
 
 }
 
+export function FindAllCurrentDebt(customArry = []){
+      let goodCustomArry = CheckMethodType(customArry, 'array');
+      let totalDebt = 0;
+
+      if(goodCustomArry){
+          customArry.forEach((arry) => {
+            totalDebt += arry.currentDebtAmount;
+
+          })
+
+      }
+      
+      return totalDebt;
+}
+
+export function FindAmountLeftOver(customArry = []){
+
+  let goodCustomArry = CheckMethodType(customArry, 'array');
+  let totalAmount = 0;
+
+  if(goodCustomArry){
+      customArry.forEach((arry) => {
+        totalAmount += arry.amountLeftOver;
+
+      })
+
+  }
+  
+  return totalAmount;
+
+}
+
 const newArry = CustomDebtPaymentFrame(CustDebtArry, 15000);
-
-//console.log(newArry);
-// const CustomDebtPayOffTimeFrame = new Schema({
-//   creditorName: String,
-//   originalDebtAmount: Number,
-//   currentDebtAmount: Number,
-//   percentOfPayUsed: Number,
-//   amountOfPayUsed: Number,
-//   isPayedOff: Boolean,
-//   payOffStyle: String,
-//   lastUpdated: Date,
-
-
-// })
-
-export function FindAllCurrentDebt(){
-
-}
-
-export function FindAmountLeftOver(){
-
-}
