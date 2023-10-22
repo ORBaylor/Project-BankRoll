@@ -71,7 +71,7 @@ let CustDebtArry = [
   {
     creditorName: "Disover",
     originalDebtAmount: 3970,
-    currentDebtAmount: 3000,
+    currentDebtAmount: 3970,
     percentOfPayUsed: 2,
     amountOfPayUsed: 0,
     isPayedOff: false,
@@ -159,120 +159,195 @@ export function FindLowestDebtItem(debtArray){
 }
 
 
-export function FindLowestDebtArray(debtArray){
+// export function FindLowestDebtArrayDecending(debtArray){
 
-  let goodInput = CheckMethodType(debtArray, 'array');
+//   let goodInput = CheckMethodType(debtArray, 'array');
 
-  if(goodInput){
-    // for (let i = 0; i < debtArray.length - 1; i++) {
-    //   let minIndex = i;
-    //   for (let j = i + 1; j < debtArray.length; j++) {
-    //     if (debtArray[j] < debtArray[minIndex]) {
-    //       minIndex = j;
-    //     }
-    //   }
-    //   if (minIndex !== i) {
-    //     const temp = debtArray[i];
-    //     debtArray[i] = debtArray[minIndex];
-    //     debtArray[minIndex] = temp;
-    //   }
-    // }
-
-
-    debtArray.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
+//   if(goodInput){
+//     // for (let i = 0; i < debtArray.length - 1; i++) {
+//     //   let minIndex = i;
+//     //   for (let j = i + 1; j < debtArray.length; j++) {
+//     //     if (debtArray[j] < debtArray[minIndex]) {
+//     //       minIndex = j;
+//     //     }
+//     //   }
+//     //   if (minIndex !== i) {
+//     //     const temp = debtArray[i];
+//     //     debtArray[i] = debtArray[minIndex];
+//     //     debtArray[minIndex] = temp;
+//     //   }
+//     // }
+//     debtArray.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
     
-    return debtArray;
+//     return debtArray;
 
-    //people.sort((a, b) => a.age - b.age);
-  }
-  else{
-    debtArray
-  }
+//     //people.sort((a, b) => a.age - b.age);
+//   }
+//   else{
+//     debtArray
+//   }
  
   
+// }
+
+export function SortIncome(){
+
 }
 
-let protoArry = FindLowestDebtArray(CustDebtArry);
-console.log(protoArry)
+
 
 
 //list the debts by lowest intrest rate
-export function SortDebtbyIntrestLowToHigh(intrestArray){
+// export function SortDebtbyIntrestLowToHigh(intrestArray = []){
 
-  let goodInput = CheckMethodType(intrestArray, 'array');
+//   let goodInput = CheckMethodType(intrestArray, 'array');
 
-  if(goodInput){
-    for (let i = 0; i < intrestArray.length - 1; i++) {
-      let minIndex = i;
-      for (let j = i + 1; j < intrestArray.length; j++) {
-        if (intrestArray[j] < intrestArray[minIndex]) {
-          minIndex = j;
-        }
-      }
-      if (minIndex !== i) {
-        const temp = intrestArray[i];
-        intrestArray[i] = intrestArray[minIndex];
-        intrestArray[minIndex] = temp;
-      }
-    }
-    return intrestArray;
-  }
-  else {
-    return intrestArray;
-  }
-
-  
-}
-
-export function getlowestDebtItem(intrestArray){
-
-  let goodInput = CheckMethodType(intrestArray, 'array');
-
-  if(goodInput){
-    for (let i = 0; i < intrestArray.length - 1; i++) {
-      let minIndex = i;
-      for (let j = i + 1; j < intrestArray.length; j++) {
-        if (intrestArray[j] < intrestArray[minIndex]) {
-          minIndex = j;
-        }
-      }
-      if (minIndex !== i) {
-        const temp = intrestArray[i];
-        intrestArray[i] = intrestArray[minIndex];
-        intrestArray[minIndex] = temp;
-      }
-    }
-    return intrestArray[0];
-  }
-  else {
-    return intrestArray;
-  }
+//   if(goodInput){
+//     for (let i = 0; i < intrestArray.length - 1; i++) {
+//       let minIndex = i;
+//       for (let j = i + 1; j < intrestArray.length; j++) {
+//         if (intrestArray[j] < intrestArray[minIndex]) {
+//           minIndex = j;
+//         }
+//       }
+//       if (minIndex !== i) {
+//         const temp = intrestArray[i];
+//         intrestArray[i] = intrestArray[minIndex];
+//         intrestArray[minIndex] = temp;
+//       }
+//     }
+//     return intrestArray;
+//   }
+//   else {
+//     return intrestArray;
+//   }
 
   
-}
+// }
+
+// export function getlowestDebtItem(intrestArray){
+
+//   let goodInput = CheckMethodType(intrestArray, 'array');
+
+//   if(goodInput){
+//     for (let i = 0; i < intrestArray.length - 1; i++) {
+//       let minIndex = i;
+//       for (let j = i + 1; j < intrestArray.length; j++) {
+//         if (intrestArray[j] < intrestArray[minIndex]) {
+//           minIndex = j;
+//         }
+//       }
+//       if (minIndex !== i) {
+//         const temp = intrestArray[i];
+//         intrestArray[i] = intrestArray[minIndex];
+//         intrestArray[minIndex] = temp;
+//       }
+//     }
+//     return intrestArray[0];
+//   }
+//   else {
+//     return intrestArray;
+//   }
+
+  
+// }
 
 
 //list the debts by highest intrest rate
-export function SortDebtbyIntrestHighToLow(intrestArray){
+// export function SortDebtbyIntrestHighToLow(intrestArray){
 
-  let goodInput = CheckMethodType(intrestArray, 'array');
+//   let goodInput = CheckMethodType(intrestArray, 'array');
 
-  if(goodInput){
-     // Create a copy of the array and reverse it
-     const reversedArr = [...intrestArray].sort((a, b) => b - a);
-     return reversedArr;
-  }
-  else{
+//   if(goodInput){
+//      // Create a copy of the array and reverse it
+//      const reversedArr = [...intrestArray].sort((a, b) => b.intrestRate - a.intrestRate);
+//      return reversedArr;
+//   }
+//   else{
 
-    return intrestArray;
-  }
+//     return intrestArray;
+//   }
  
 
+// }
+
+export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
+
+  const goodArray = CheckMethodType(customArry, 'array');
+  const goodSort = CheckMethodType(sortItem, 'string');
+  const  goodDirection = CheckMethodType(direction, 'string')
+
+  if(goodArray && goodSort && goodDirection){
+   if(direction.toLowerCase() == 'low'){
+      switch(sortItem){
+
+        case 'originalDebtAmount':
+          customArry.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
+          break;
+        case 'currentDebtAmount':
+          customArry.sort((a,b) => a.currentDebtAmount - b.currentDebtAmount)
+          break;
+        case 'percentOfPayUsed':
+          customArry.sort((a,b) => a.percentOfPayUsed - b.percentOfPayUsed)
+          break;
+        case 'amountOfPayUsed':
+          customArry.sort((a,b) => a.amountOfPayUsed - b.amountOfPayUsed)
+          break;
+        case 'amountLeftOver':
+          customArry.sort((a,b) => a.amountLeftOver - b.amountLeftOver)
+          break;
+        case 'intrestRate':
+          customArry.sort((a,b) => a.intrestRate - b.intrestRate)
+          break;
+        case 'minumnPayment':
+          customArry.sort((a,b) => a.minumnPayment - b.minumnPayment)
+          break;
+          case 'monthlyPayment':
+            customArry.sort((a,b) => a.monthlyPayment - b.monthlyPayment)
+            break;
+
+      }
+
+   }else if(direction.toLowerCase() == 'high'){
+    switch(sortItem){
+
+      case 'originalDebtAmount':
+        customArry.sort((a,b) => b.originalDebtAmount - a.originalDebtAmount )
+        break;
+      case 'currentDebtAmount':
+        customArry.sort((a,b) => b.currentDebtAmount - a.currentDebtAmount )
+        break;
+      case 'percentOfPayUsed':
+        customArry.sort((a,b) => b.percentOfPayUsed - a.percentOfPayUsed )
+        break;
+      case 'amountOfPayUsed':
+        customArry.sort((a,b) => b.amountOfPayUsed - a.amountOfPayUsed )
+        break;
+      case 'amountLeftOver':
+        customArry.sort((a,b) => b.amountLeftOver - a.amountLeftOver )
+        break;
+      case 'intrestRate':
+          customArry.sort((a,b) => b.intrestRate - a.intrestRate)
+          break;
+      case 'minumnPayment':
+          customArry.sort((a,b) => b.minumnPayment - a.minumnPayment)
+          break;
+      case 'monthlyPayment':
+            customArry.sort((a,b) => b.monthlyPayment - a.monthlyPayment)
+            break;
+
+    }
+   }else{
+
+   }
+    return customArry;
+
+  }
+
 }
 
-export function SortDebtCustom(){
-
-}
+let protoArry = SortDebtCustom(CustDebtArry, 'currentDebtAmount', 'high');
+console.log(protoArry)
 
 export function FindIntrestRateAI(){
   //Future idea

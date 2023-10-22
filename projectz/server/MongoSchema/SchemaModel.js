@@ -201,6 +201,13 @@ const customBudgetOutcome = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
     },
+    customPayOffFrame: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'CustomDebtPayOffTimeFrameModel'
+        }
+
+    ]
    
        //A key vaule pair of the debts that are
         //payed off
