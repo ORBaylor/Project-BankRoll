@@ -18,6 +18,7 @@ export const SettingsModel = mongoose.model('SettingsModel', settingSchema)
 const userSchema = new Schema({
     Name: String,
     UserName: String,
+    Password: String,
    ContactInformation: {
     EmailAdress: String,
     PhoneNumber: Number
@@ -38,15 +39,14 @@ const debtSchema = new Schema({
     
     creditorName: String,
     debtAmount: Number,
+    currentAmount: Number,
     intrestRate: Number,
     minumnPayment: Number,
     monthlyPayment: Number,
     isPayedOff: Boolean,
     dueDate: {type: Date, default: Date.now()},
 
-    //Adding two properties for custom debts
-    isCustomDebt: Boolean,
-    CustomDebtOrder: Number,
+   
 })
 export let DebtModel = mongoose.model('DebtModel', debtSchema)
 
@@ -88,11 +88,8 @@ const customPayOffOptions = new Schema({
 })
 let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', customPayOffOptions)
 
- let budgetFrame = new Schema({
+let budgetFrame = new Schema({
 
-   
-    useIncomeCollection: Boolean,
-    payOffStyle: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
@@ -111,15 +108,18 @@ let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', custom
    ],
     //Use the minimum payment the user set in the debt 
     //to pay off the debt
-     useMinimumPayment: Boolean,
+    useMinimumPayment: Boolean,
 
     //Use the Monthly payment the user set in the debt
     //to pay off the debt
     useMonthlyPayment: Boolean,
+
+    useIncomeCollection: Boolean,
+    payOffStyle: String,
      
     //The Date the user would like to have there dabt payed off,
     //Check and see if the user can pay off the debt by the date
-    PayOffDate: Date,
+   // PayOffDate: Date,
 
 
 
@@ -219,6 +219,7 @@ const customBudgetOutcome = new Schema({
 export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
 const debtPayOffTimeFrame = new Schema({
+
    creditorName: String,
 
    totalPayments: Number,
