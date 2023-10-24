@@ -22,13 +22,19 @@ const testArray3 = testArray2.splice(5);
 const incomeArry = [
 
   {
-      amount: 300
+      name: 'drugs',
+      amount: 500,
+      occurrence: 'weekly'
   },
   {
-     amount: 500
+      name: 'guns',
+      amount: 700,
+      occurrence: 'bi-weekly'
   },
   {
-    amount: 100
+      name: 'Other Drugs',
+      amount: 3000,
+      occurrence: 'annually'
   },
 
 
@@ -80,6 +86,8 @@ let CustDebtArry = [
     amountLeftOver: 0,
   }
 ]
+
+
 //console.log(testArray3);
 
 //The custom object that will be used
@@ -347,7 +355,7 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
 }
 
 let protoArry = SortDebtCustom(CustDebtArry, 'currentDebtAmount', 'high');
-console.log(protoArry)
+//console.log(protoArry)
 
 export function FindIntrestRateAI(){
   //Future idea
@@ -704,4 +712,85 @@ export function FindAmountLeftOver(customArry = []){
 
 }
 
-const newArry = CustomDebtPaymentFrame(CustDebtArry, 15000);
+//const newArry = CustomDebtPaymentFrame(CustDebtArry, 15000);
+
+//returns the amount of money that is needed per month 
+export function DivideIncomeByOurr(incomeArry = []){
+  const goodIncome = CheckMethodType(incomeArry, 'array');
+
+  let weeklyIcomeArry = [];
+  let biWeeklyIncomeArry = [];
+  let semiAnnuallyIncomeArry = [];
+  let AnnuallyIncomeArry = [];
+
+  let totalMonthlyIncome = 0;
+
+  if(goodIncome){
+
+    incomeArry.forEach((income) => {
+      switch(income.occurrence){
+
+        case 'weekly':
+          weeklyIcomeArry.push(income.amount);
+          break;
+        case 'bi-weekly':
+          biWeeklyIncomeArry.push(income.amount);
+          break;
+        case 'semi-annually':
+          semiAnnuallyIncomeArry.push(income.amount);
+          break;
+        case 'annually':
+          AnnuallyIncomeArry.push(income.amount);
+        break;
+      }
+    })
+
+    if(weeklyIcomeArry.length >= 1){
+
+        weeklyIcomeArry.forEach((week) => {
+
+            totalMonthlyIncome += (week * 4)
+        })
+     }
+    if(biWeeklyIncomeArry.length >= 1){
+
+      biWeeklyIncomeArry.forEach((week) => {
+
+          totalMonthlyIncome += (week * 2)
+      })
+    }
+    if(semiAnnuallyIncomeArry.length >= 1){
+
+      semiAnnuallyIncomeArry.forEach((week) => {
+
+          totalMonthlyIncome += ((week * 2) / 12)
+      })
+    }
+    if(AnnuallyIncomeArry.length >= 1){
+
+      AnnuallyIncomeArry.forEach((week) => {
+
+        totalMonthlyIncome += (week  / 12)
+      })
+    }
+      return totalMonthlyIncome;
+
+  }else{
+    return totalMonthlyIncome;
+  }
+
+
+}
+
+//returns a yes if income is over 10% of total debt
+export function CheckIncomeOverTenPercent(){
+
+  
+
+
+}
+
+//Add 
+export function AddPercentage(){
+
+}

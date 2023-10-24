@@ -78,23 +78,16 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
     //possible. Pay minimums on all other debt.
     if(payOffStyle === 'snowball'){
 
-        //Needs an Income collection
-        if(useIncomeCollection === true){
+        //Grab the smallest debt
+        //that debt will be payed 25%-35% more than the other debts
 
-            //use the total income for the budget
+        //divide the money buy the amount of debts
+        //make sure all minimum payments are paid
 
-            //Use a majority of the income for the smalllest debt and use a db trigger 
-            //to update the rest.
+        //if there is any money left it will go to the current smallest debt
+       
 
-        }else{
 
-            if(useMinimunPay == true){
-
-            }
-            else if(usemonthlyPay == true){
-
-            }
-        }
 
     //Pay the largest or highest interest rate debt as 
  //fast as possible. Pay minimums on all other debt.
