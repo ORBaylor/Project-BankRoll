@@ -38,11 +38,11 @@ let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 const debtSchema = new Schema({
     
     creditorName: String,
-    debtAmount: Number,
+    OriginalDebtAmount: Number,
     currentAmount: Number,
     intrestRate: Number,
+    OriginalMinumnPayment: Number,
     minumnPayment: Number,
-    monthlyPayment: Number,
     isPayedOff: Boolean,
     dueDate: {type: Date, default: Date.now()},
 
@@ -233,7 +233,8 @@ const debtPayOffTimeFrame = new Schema({
 
    payOffStyle: String,
 
-   dueDate: Date,
+   PaymentDate: Date,
+   PayOffDate: Date,
    lastUpdated: Date,
 
 

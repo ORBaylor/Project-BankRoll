@@ -1,6 +1,6 @@
 
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel } from '../MongoSchema/SchemaModel.js'
-import {SortDebtCustom, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid,CustomDebtPaymentFrame,getTotalIncomeAmount,GetTotalIntrest,calculatePayoffDate,GetTotalPayments,GetMonthlyIntrestRate} from './HelperFuctions.js'
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, CustomDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+import {SortDebtCustom, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid,CustomDebtPaymentFrame,getTotalIncomeAmount,GetTotalIntrest,calculatePayoffDate,GetTotalPayments,GetMonthlyIntrestRate, PayBareMinimum} from './HelperFuctions.js'
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
 
@@ -71,6 +71,9 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
     const incomeCollection = budetFrame.IncomeCollection;
     const currentUser = budetFrame.user;
 
+    let outputTimeFrame = new debtPayOffTimeFrameModel;
+    let budgetOutcome = new BudgetOutcomeModel;
+
     //const allIncome = get all of the income from the collection 
 
 
@@ -78,13 +81,28 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
     //possible. Pay minimums on all other debt.
     if(payOffStyle === 'snowball'){
 
-        //Grab the smallest debt
-        //that debt will be payed 25%-35% more than the other debts
+        if(PayBareMinimum(debtCollection, incomeCollection)){
 
-        //divide the money buy the amount of debts
-        //make sure all minimum payments are paid
+              //Sort the Array depending on the pay Off style
 
-        //if there is any money left it will go to the current smallest debt
+              //Grab the first debt in the Array and modify the miniumPayment
+              //Add what is left of the money to the miniumPayment
+
+              //Run through all of the debts in the array 
+              //caculate what needs to be caculated 
+
+              //add the results to the budegframe model.
+
+              
+
+              
+
+
+        }else{
+
+            //Let the User know the income will not pay off the debt.
+        }
+      
        
 
 
@@ -113,7 +131,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
 
     }
 
-
+    return budgetOutcome;
 
 }
 
