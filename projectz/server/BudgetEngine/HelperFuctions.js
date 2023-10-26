@@ -21,16 +21,16 @@ let testArray2 = [80,200,'|',40,100,'|',50,300,'|']
 const testArray3 = testArray2.splice(5);
 const incomeArry = [
 
-  // {
-  //     name: 'drugs',
-  //     amount: 300,
-  //     occurrence: 'weekly'
-  // },
-  // {
-  //     name: 'guns',
-  //     amount: 500,
-  //     occurrence: 'bi-weekly'
-  // },
+  {
+      name: 'drugs',
+      amount: 300,
+      occurrence: 'weekly'
+  },
+  {
+      name: 'guns',
+      amount: 500,
+      occurrence: 'bi-weekly'
+  },
   {
       name: 'Other Drugs',
       amount: 30000,
@@ -456,8 +456,27 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
 
 }
 
-let amount = AmountAddedToCurrentDebt(RegularDebtArry, incomeArry);
-console.log(amount);
+export function UpdateMiniMumPayment(debtArry = [], amount){
+
+  const goodDebtArry = CheckMethodType(debtArry, 'array');
+  const goodAmount = CheckMethodType(amount, 'number');
+
+  if(goodDebtArry && goodAmount){
+
+    debtArry[0].minumnPayment = amount;
+
+    return debtArry;
+
+  }else{
+
+  }
+    
+
+}
+
+
+let amount = UpdateMiniMumPayment(RegularDebtArry, 3000);
+//console.log(amount);
 
 
 //-----------------------------------------CUSTOM
@@ -627,7 +646,7 @@ export function CheckIfAllDebtsArePaid(customArry = []){
 
 //-----------------------------------------------------BOTH
 
-// export function getTotalIncomeAmount(incomeArry = []){
+export function getTotalIncomeAmount(incomeArry = []){
 
 //   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
 //   let returnAmount  = 0;
@@ -644,7 +663,7 @@ export function CheckIfAllDebtsArePaid(customArry = []){
 //   }
 
 //   return returnAmount;
-// }
+}
 
 //Returns a true / false if the method arg matches the type
 export function CheckMethodType(input, type){

@@ -108,13 +108,13 @@ let budgetFrame = new Schema({
    ],
     //Use the minimum payment the user set in the debt 
     //to pay off the debt
-    useMinimumPayment: Boolean,
+    //useMinimumPayment: Boolean,
 
     //Use the Monthly payment the user set in the debt
     //to pay off the debt
-    useMonthlyPayment: Boolean,
+   // useMonthlyPayment: Boolean,
 
-    useIncomeCollection: Boolean,
+   // useIncomeCollection: Boolean,
     payOffStyle: String,
      
     //The Date the user would like to have there dabt payed off,
