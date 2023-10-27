@@ -15,11 +15,11 @@ let guns = new IncomeModel;
 let moreGuns = new IncomeModel;
 
 guns.name = 'guns';
-guns.amount = 300;
+guns.amount = 3000;
 guns.occurrence = 'weekly';
 
 moreGuns.name = 'drugs';
-moreGuns.amount = 500;
+moreGuns.amount = 5000;
 moreGuns.occurrence = 'bi-weekly';
 
 drugs.name = 'drugs';
@@ -225,12 +225,13 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
               //Sort the Array depending on the pay Off style
               sortedArray = SortDebtCustom(debtCollection, 'OriginalMinumnPayment', 'low');
 
+              //console.log(sortedArray);
               //Grab the first debt in the Array and modify the miniumPayment
               //Add what is left of the money to the miniumPayment
               minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
-
+              //console.log(minimumAdded);
               updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
-
+              //console.log(updatedArray);
 
               //Run through all of the debts in the array 
               //caculate what needs to be caculated 
@@ -241,7 +242,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
                     outputTimeFrame.creditorName = arry.creditorName;
                     outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
                     outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-
+                    outputTimeFrame.payment = arry.minumnPayment;
                     outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
                     outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
 

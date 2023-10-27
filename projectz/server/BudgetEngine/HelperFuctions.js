@@ -463,7 +463,31 @@ export function UpdateMiniMumPayment(debtArry = [], amount){
 
   if(goodDebtArry && goodAmount){
 
-    debtArry[0].minumnPayment = amount;
+    
+    if( amount >= debtArry[0].OriginalDebtAmount){
+        debtArry[0].minumnPayment = debtArry[0].OriginalDebtAmount
+        amount -= debtArry[0].OriginalDebtAmount;
+    }
+    
+      
+      if(amount > 0){
+        let amountIsEmpty = false;
+        let incrementer = 0;
+        while(amountIsEmpty == false  ){
+
+          if(debtArry[incrementer].minumnPayment == debtArry[incrementer].OriginalDebtAmount){
+              incrementer++;
+          }else{
+              debtArry[incrementer].minumnPayment = amount;
+              amount -= amount;
+          }
+          if(amount == 0){
+            amountIsEmpty = true;
+          }
+         
+        }
+      }
+        
 
     return debtArry;
 
@@ -757,6 +781,9 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
           case 'monthlyPayment':
             customArry.sort((a,b) => a.monthlyPayment - b.monthlyPayment)
             break;
+          case 'OriginalMinumnPayment':
+            customArry.sort((a,b) => a.OriginalMinumnPayment - b.OriginalMinumnPayment)
+            break;
 
       }
 
@@ -786,6 +813,9 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
           break;
       case 'monthlyPayment':
             customArry.sort((a,b) => b.monthlyPayment - a.monthlyPayment)
+            break;
+      case 'OriginalMinumnPayment':
+            customArry.sort((a,b) => b.OriginalMinumnPayment - a.OriginalMinumnPayment)
             break;
 
     }
