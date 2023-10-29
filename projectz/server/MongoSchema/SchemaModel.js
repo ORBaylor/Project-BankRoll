@@ -53,7 +53,7 @@ export let DebtModel = mongoose.model('DebtModel', debtSchema)
 const CustomDebtSchema = new Schema({
     
     creditorName: String,
-    debtAmount: Number,
+    originalDebtAmount: Number,
   //  intrestRate: Number,
     //minumnPayment: Number,
   //  monthlyPayment: Number,
@@ -135,10 +135,10 @@ const customBudgetFrame = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
     },
-    customPayOffOption: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'CustomPayOffOptionsModel'
-    },
+    // customPayOffOption: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'CustomPayOffOptionsModel'
+    // },
     DebtCollection: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -190,6 +190,7 @@ const budgetOutcome = new Schema({
                 ref: 'debtPayOffTimeFrameModel'
             }
         ],
+        isPayedOff: Boolean,
 
 
 })
@@ -207,7 +208,8 @@ const customBudgetOutcome = new Schema({
             ref: 'CustomDebtPayOffTimeFrameModel'
         }
 
-    ]
+    ],
+    isPayedOff: Boolean,
    
        //A key vaule pair of the debts that are
         //payed off

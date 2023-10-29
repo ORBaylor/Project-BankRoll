@@ -329,18 +329,24 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
 
 
   if(isGoodAmount && isGoodPayment && isGoodRate){
-     // monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
-     monthlyIntrestRate = intrestRate /12;
-   //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
-      //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
 
-    //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
-  let totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
+    if(debtAmount == payment){
+       return totalMonths = 1
+    }
+    else{
+      //monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
+      monthlyIntrestRate = intrestRate /12;
+    //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
+       //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
+ 
+     //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
+    totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
 
-
+ 
+    }
 
     const totalPayMonths = ceil(totalMonths);
-
+     
     return totalPayMonths 
   }else{
 
@@ -836,6 +842,9 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
           case 'originalMinumnPayment':
             customArry.sort((a,b) => a.originalMinumnPayment - b.originalMinumnPayment)
             break;
+          case 'percentOfIncome':
+            customArry.sort((a,b) => a.percentOfIncome - b.percentOfIncome)
+            break;
 
       }
 
@@ -869,6 +878,9 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
       case 'originalMinumnPayment':
             customArry.sort((a,b) => b.originalMinumnPayment - a.originalMinumnPayment)
             break;
+            case 'percentOfIncome':
+              customArry.sort((a,b) => b.percentOfIncome - a.percentOfIncome)
+              break;
 
     }
    }else{
@@ -1002,6 +1014,42 @@ export function PayBareMinimum(debtArry = [], incomeArry = []){
   }
 }
 
-// let canPay = PayBareMinimum(RegularDebtArry, incomeArry);
+export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
 
-// console.log(canPay)
+  const goodDebtArry = CheckMethodType(debtArry, 'array');
+  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+  let canPayMinimum = false;
+  let totalIncome = 0;
+  let allDebtMinimum = 0;
+
+  if(goodDebtArry && goodIncomeArry){
+
+    totalIncome = DivideIncomeByOurr(incomeArry);
+    debtArry.forEach((debt) => {
+      allDebtMinimum += debt.originalDebtAmount;
+    })
+    
+    if(totalIncome >= allDebtMinimum){
+        canPayMinimum = true;
+    }else{
+      canPayMinimum = false;
+    }
+
+    return canPayMinimum;
+
+
+  }else{
+    //Not sure yet
+
+  }
+}
+
+//These methods are used to update OutCome model
+export function UpdateBudgetOutCome(){
+
+}
+
+export function UpdateCustomBudgetOutCome(){
+  
+}
+
