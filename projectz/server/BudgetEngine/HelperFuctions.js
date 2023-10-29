@@ -93,7 +93,7 @@ let RegularDebtArry = [
     originalDebtAmount: 40000,
     currentDebtAmount: 40000,
     intrestRate: 0.3,
-    OriginalMinumnPayment: 600,
+    originalMinumnPayment: 600,
     minumnPayment: 600,
     isPayedOff: false,
 
@@ -103,7 +103,7 @@ let RegularDebtArry = [
     originalDebtAmount: 500,
     currentDebtAmount: 500,
     intrestRate: 0.1,
-    OriginalMinumnPayment: 60,
+    originalMinumnPayment: 60,
     minumnPayment: 60,
     isPayedOff: false,
   },
@@ -112,7 +112,7 @@ let RegularDebtArry = [
     originalDebtAmount: 509,
     currentDebtAmount: 509,
     intrestRate: 0.4,
-    OriginalMinumnPayment: 60,
+    originalMinumnPayment: 60,
     minumnPayment: 60,
     isPayedOff: false,
   },
@@ -121,7 +121,7 @@ let RegularDebtArry = [
     originalDebtAmount: 1009,
     currentDebtAmount: 1009,
     intrestRate: 0.9,
-    OriginalMinumnPayment: 60,
+    originalMinumnPayment: 60,
     minumnPayment: 60,
     isPayedOff: false,
   }
@@ -419,7 +419,7 @@ export function FindAllOriginalDebt(customArry = []){
 
   if(goodCustomArry){
       customArry.forEach((arry) => {
-        totalDebt += arry.OriginalDebtAmount;
+        totalDebt += arry.originalDebtAmount;
 
       })
 
@@ -440,7 +440,8 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
   if(goodDebtArry && goodIncomeArry){
 
       debtArry.forEach((debt) => {
-       allMinimum += debt.OriginalMinumnPayment;
+       allMinimum = allMinimum + debt.originalMinumnPayment;
+      
       })
 
     totalIncome = DivideIncomeByOurr(incomeArry);
@@ -456,7 +457,7 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
 
 }
 
-export function UpdateMiniMumPayment(debtArry = [], amount){
+export function UpdateMiniMumPayment(debtArry =[], amount){
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodAmount = CheckMethodType(amount, 'number');
@@ -464,30 +465,81 @@ export function UpdateMiniMumPayment(debtArry = [], amount){
   if(goodDebtArry && goodAmount){
 
     
-    if( amount >= debtArry[0].OriginalDebtAmount){
-        debtArry[0].minumnPayment = debtArry[0].OriginalDebtAmount
-        amount -= debtArry[0].OriginalDebtAmount;
-    }
+    
+
+    // if( amount >= debtArry[0].OriginalDebtAmount){
+    //     debtArry[0].minumnPayment = debtArry[0].OriginalDebtAmount
+    //     amount -= debtArry[0].OriginalDebtAmount;
+    // }
     
       
-      if(amount > 0){
-        let amountIsEmpty = false;
-        let incrementer = 0;
-        while(amountIsEmpty == false  ){
+      // if(amount > 0){
+      //   let amountIsEmpty = false;
+      //   let incrementer = 0;
+      //   while(amountIsEmpty == false  ){
 
-          if(debtArry[incrementer].minumnPayment == debtArry[incrementer].OriginalDebtAmount){
-              incrementer++;
-          }else{
-              debtArry[incrementer].minumnPayment = amount;
+      //     if(debtArry[incrementer].minumnPayment == debtArry[incrementer].OriginalDebtAmount){
+      //         incrementer++;
+      //     }else{
+      //         debtArry[incrementer].minumnPayment = amount;
+      //         amount -= amount;
+      //     }
+      //     if(amount == 0){
+      //       amountIsEmpty = true;
+      //     }
+         
+      //   }
+      // }
+
+        let tempAmount = 0;
+        let incrementer = 0;
+
+      
+
+        for(let i = 0; i < debtArry.length; i++){
+          if(amount > debtArry[i].originalDebtAmount){
+
+            debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
+            debtArry[i].isPayedOff = true;
+            amount  -= debtArry[i].originalDebtAmount
+          }
+          else{
+            if(amount != 0){
+              debtArry[i].minumnPayment += amount;
               amount -= amount;
+            }
+           
           }
           if(amount == 0){
-            amountIsEmpty = true;
+            break;
           }
-         
         }
-      }
-        
+
+        // while(amount != 0){
+
+           
+
+        //     if(amount > debtArry[0].originalDebtAmount){
+
+        //       debtArry[incrementer].minumnPayment = debtArry[incrementer].originalDebtAmount;
+        //       amount  -= tempAmount
+        //     }
+        //     else{
+        //       if(amount != 0){
+        //         debtArry[incrementer].minumnPayment += amount;
+        //         amount -= amount;
+        //       }
+        //       else{
+        //         return;
+        //       }
+             
+        //     }
+        //    if(amount > 0){
+        //     incrementer++;
+        //    }
+
+
+        // }
 
     return debtArry;
 
@@ -499,7 +551,7 @@ export function UpdateMiniMumPayment(debtArry = [], amount){
 }
 
 
-let amount = UpdateMiniMumPayment(RegularDebtArry, 3000);
+//let amount = UpdateMiniMumPayment(RegularDebtArry, 3000);
 //console.log(amount);
 
 
@@ -781,8 +833,8 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
           case 'monthlyPayment':
             customArry.sort((a,b) => a.monthlyPayment - b.monthlyPayment)
             break;
-          case 'OriginalMinumnPayment':
-            customArry.sort((a,b) => a.OriginalMinumnPayment - b.OriginalMinumnPayment)
+          case 'originalMinumnPayment':
+            customArry.sort((a,b) => a.originalMinumnPayment - b.originalMinumnPayment)
             break;
 
       }
@@ -814,8 +866,8 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
       case 'monthlyPayment':
             customArry.sort((a,b) => b.monthlyPayment - a.monthlyPayment)
             break;
-      case 'OriginalMinumnPayment':
-            customArry.sort((a,b) => b.OriginalMinumnPayment - a.OriginalMinumnPayment)
+      case 'originalMinumnPayment':
+            customArry.sort((a,b) => b.originalMinumnPayment - a.originalMinumnPayment)
             break;
 
     }

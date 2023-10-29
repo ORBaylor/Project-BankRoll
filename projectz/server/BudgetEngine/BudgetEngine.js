@@ -15,32 +15,40 @@ let guns = new IncomeModel;
 let moreGuns = new IncomeModel;
 
 guns.name = 'guns';
-guns.amount = 3000;
+guns.amount = 200;
 guns.occurrence = 'weekly';
 
 moreGuns.name = 'drugs';
-moreGuns.amount = 5000;
+moreGuns.amount = 300;
 moreGuns.occurrence = 'bi-weekly';
 
 drugs.name = 'drugs';
-drugs.amount = 30000;
+drugs.amount = 3000;
 drugs.occurrence = 'annually';
 
 
 
 car.creditorName = 'Car'
-car.originalDebtAmount = 40000;
-car.currentDebtAmount =40000;
+car.originalDebtAmount = 400;
+car.currentDebtAmount =400;
 car.intrestRate = 0.3;
-car.OriginalMinumnPayment =600;
-car.minumnPayment = 600;
+car.originalMinumnPayment =60;
+car.minumnPayment = 60;
 car.isPayedOff = false;
+
+// car.creditorName = 'loan'
+// car.originalDebtAmount = 550;
+// car.currentDebtAmount =550;
+// car.intrestRate = 0.3;
+// car.originalMinumnPayment =55;
+// car.minumnPayment = 55;
+// car.isPayedOff = false;
 
 CuraLeaf.creditorName = 'Cura Leaf'
 CuraLeaf.originalDebtAmount = 600;
 CuraLeaf.currentDebtAmount =600;
 CuraLeaf.intrestRate = 0.6;
-CuraLeaf.OriginalMinumnPayment =80;
+CuraLeaf.originalMinumnPayment =80;
 CuraLeaf.minumnPayment = 80;
 CuraLeaf.isPayedOff = false;
 
@@ -48,7 +56,7 @@ BestBuy.creditorName = 'Best Buy'
 BestBuy.originalDebtAmount = 500;
 BestBuy.currentDebtAmount =500;
 BestBuy.intrestRate = 0.5;
-BestBuy.OriginalMinumnPayment =70;
+BestBuy.originalMinumnPayment =70;
 BestBuy.minumnPayment = 70;
 BestBuy.isPayedOff = false;
 
@@ -56,7 +64,7 @@ Discover.creditorName = 'Discover'
 Discover.originalDebtAmount = 760;
 Discover.currentDebtAmount =760;
 Discover.intrestRate = 0.7;
-Discover.OriginalMinumnPayment =75;
+Discover.originalMinumnPayment =75;
 Discover.minumnPayment = 75;
 Discover.isPayedOff = false;
 
@@ -74,53 +82,53 @@ let IncomeCollection = [];
 
 
 
-let CustDebtArry = [
+// let CustDebtArry = [
 
-    {
-      creditorName: "payPal",
-      originalDebtAmount: 4109,
-      currentDebtAmount: 4109,
-      percentOfPayUsed: 3,
-      amountOfPayUsed: 0,
-      isPayedOff: false,
-      payOffStyle: "",
-      lastUpdated: Date.now(),
-      amountLeftOver: 0,
-    },
-    {
-      creditorName: "policeAndFire",
-      originalDebtAmount: 2450,
-      currentDebtAmount: 2450,
-      percentOfPayUsed: 2,
-      amountOfPayUsed: 0,
-      isPayedOff: false,
-      payOffStyle: "",
-      lastUpdated: Date.now(),
-      amountLeftOver: 0,
-    },
-    {
-      creditorName: "420 Empire",
-      originalDebtAmount: 4020,
-      currentDebtAmount: 4020,
-      percentOfPayUsed: 3,
-      amountOfPayUsed: 0,
-      isPayedOff: false,
-      payOffStyle: "",
-      lastUpdated: Date.now(),
-      amountLeftOver: 0,
-    },
-    {
-      creditorName: "Disover",
-      originalDebtAmount: 3970,
-      currentDebtAmount: 3970,
-      percentOfPayUsed: 2,
-      amountOfPayUsed: 0,
-      isPayedOff: false,
-      payOffStyle: "",
-      lastUpdated: new Date(),
-      amountLeftOver: 0,
-    }
-  ]
+//     {
+//       creditorName: "payPal",
+//       originalDebtAmount: 4109,
+//       currentDebtAmount: 4109,
+//       percentOfPayUsed: 3,
+//       amountOfPayUsed: 0,
+//       isPayedOff: false,
+//       payOffStyle: "",
+//       lastUpdated: Date.now(),
+//       amountLeftOver: 0,
+//     },
+//     {
+//       creditorName: "policeAndFire",
+//       originalDebtAmount: 2450,
+//       currentDebtAmount: 2450,
+//       percentOfPayUsed: 2,
+//       amountOfPayUsed: 0,
+//       isPayedOff: false,
+//       payOffStyle: "",
+//       lastUpdated: Date.now(),
+//       amountLeftOver: 0,
+//     },
+//     {
+//       creditorName: "420 Empire",
+//       originalDebtAmount: 4020,
+//       currentDebtAmount: 4020,
+//       percentOfPayUsed: 3,
+//       amountOfPayUsed: 0,
+//       isPayedOff: false,
+//       payOffStyle: "",
+//       lastUpdated: Date.now(),
+//       amountLeftOver: 0,
+//     },
+//     {
+//       creditorName: "Disover",
+//       originalDebtAmount: 3970,
+//       currentDebtAmount: 3970,
+//       percentOfPayUsed: 2,
+//       amountOfPayUsed: 0,
+//       isPayedOff: false,
+//       payOffStyle: "",
+//       lastUpdated: new Date(),
+//       amountLeftOver: 0,
+//     }
+//   ]
 let user = {
     name: '0',
     userName: 'That guy'
@@ -209,7 +217,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
     let budgetOutcome = new BudgetOutcomeModel;
 
     let sortedArray = [];
-    let updatedArray = [];
+   // let updatedArray = [];
     let minimumAdded = 0;
 
     //const allIncome = get all of the income from the collection 
@@ -223,15 +231,15 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
         if(PayBareMinimum(debtCollection, incomeCollection)){
 
               //Sort the Array depending on the pay Off style
-              sortedArray = SortDebtCustom(debtCollection, 'OriginalMinumnPayment', 'low');
+              sortedArray = SortDebtCustom(debtCollection, 'originalDebtAmount', 'low');
 
               //console.log(sortedArray);
               //Grab the first debt in the Array and modify the miniumPayment
               //Add what is left of the money to the miniumPayment
               minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
               //console.log(minimumAdded);
-              updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
-              //console.log(updatedArray);
+            let  updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
+              console.log(updatedArray);
 
               //Run through all of the debts in the array 
               //caculate what needs to be caculated 
@@ -298,7 +306,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
 }
 
 let outCome = CreateBudget(frame);
-console.log(outCome);
+//console.log(outCome);
 export function CreateCustomBudget(){
 
 }

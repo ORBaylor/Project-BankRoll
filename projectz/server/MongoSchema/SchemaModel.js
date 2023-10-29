@@ -38,10 +38,10 @@ let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 const debtSchema = new Schema({
     
     creditorName: String,
-    OriginalDebtAmount: Number,
-    currentAmount: Number,
+    originalDebtAmount: Number,
+    currentDebtAmount: Number,
     intrestRate: Number,
-    OriginalMinumnPayment: Number,
+    originalMinumnPayment: Number,
     minumnPayment: Number,
     isPayedOff: Boolean,
     dueDate: {type: Date, default: Date.now()},
