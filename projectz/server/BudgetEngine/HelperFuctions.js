@@ -555,6 +555,36 @@ export function UpdateMiniMumPayment(debtArry =[], amount){
     
 
 }
+export function PayBareMinimum(debtArry = [], incomeArry = []){
+
+  const goodDebtArry = CheckMethodType(debtArry, 'array');
+  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+  let canPayMinimum = false;
+  let totalIncome = 0;
+  let allDebtMinimum = 0;
+
+  if(goodDebtArry && goodIncomeArry){
+
+    totalIncome = DivideIncomeByOurr(incomeArry);
+    debtArry.forEach((debt) => {
+      allDebtMinimum += debt.minumnPayment;
+    })
+    
+    if(totalIncome >= allDebtMinimum){
+        canPayMinimum = true;
+    }else{
+      canPayMinimum = false;
+    }
+
+    return canPayMinimum;
+
+
+  }else{
+    //Not sure yet
+
+  }
+}
+
 
 
 //let amount = UpdateMiniMumPayment(RegularDebtArry, 3000);
@@ -568,7 +598,7 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
   const goodCustomArry = CheckMethodType(customArry, 'array');
   const goodIncome = CheckMethodType(totalIncome, 'float');
   let returnArry = [];
-  let customDebt = new CustomDebtModel;
+  
 
    
   if(goodCustomArry && goodIncome){
@@ -593,7 +623,7 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
           
        }else if((amountOfPay - Arry.originalDebtAmount) <= 0){
             Arry.currentDebtAmount = SubtractAmountFromDebt(Arry.originalDebtAmount, amountOfPay);
-            if(Arry.currentDebtAmount !== 0){
+            if(Arry.currentDebtAmount > 0){
               Arry.isPayedOff == false;
             }
             Arry.amountOfPayUsed = amountOfPay;
@@ -603,7 +633,20 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
 
       })
 
-      return customArry;
+      customArry.forEach((arry) => {
+        let customDebt = new CustomDebtModel;
+
+       customDebt.creditorName = arry.creditorName;
+       customDebt.originalDebtAmount = arry.originalDebtAmount;
+       customDebt.currentDebtAmount = arry.currentDebtAmount;
+       customDebt.percentOfIncome = arry.percentOfIncome;
+       customDebt.isPayedOff = arry.isPayedOff;
+
+       returnArry.push(customDebt);
+
+      })
+
+      return returnArry;
 
       
 
@@ -670,6 +713,7 @@ export function PayOffRemainingDebt(customArry = []){
 
 }
 
+//runs through all of the debt and returns the total
 export function FindAllCurrentDebt(customArry = []){
       let goodCustomArry = CheckMethodType(customArry, 'array');
       let totalDebt = 0;
@@ -685,6 +729,7 @@ export function FindAllCurrentDebt(customArry = []){
       return totalDebt;
 }
 
+//Used at the end to return the amount leftover to the user
 export function FindAmountLeftOver(customArry = []){
 
   let goodCustomArry = CheckMethodType(customArry, 'array');
@@ -702,6 +747,7 @@ export function FindAmountLeftOver(customArry = []){
 
 }
 
+//returns a bool value if all of the current debts are paid
 export function CheckIfAllDebtsArePaid(customArry = []){
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
@@ -724,6 +770,36 @@ export function CheckIfAllDebtsArePaid(customArry = []){
   }
 
 
+}
+
+export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
+
+  const goodDebtArry = CheckMethodType(debtArry, 'array');
+  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+  let canPayMinimum = false;
+  let totalIncome = 0;
+  let allDebtMinimum = 0;
+
+  if(goodDebtArry && goodIncomeArry){
+
+    totalIncome = DivideIncomeByOurr(incomeArry);
+    debtArry.forEach((debt) => {
+      allDebtMinimum += debt.originalDebtAmount;
+    })
+    
+    if(totalIncome >= allDebtMinimum){
+        canPayMinimum = true;
+    }else{
+      canPayMinimum = false;
+    }
+
+    return canPayMinimum;
+
+
+  }else{
+    //Not sure yet
+
+  }
 }
 
 //-----------------------------------------------------BOTH
@@ -984,65 +1060,8 @@ export function DivideIncomeByOurr(incomeArry = []){
 
 }
 
-export function PayBareMinimum(debtArry = [], incomeArry = []){
-
-  const goodDebtArry = CheckMethodType(debtArry, 'array');
-  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
-  let canPayMinimum = false;
-  let totalIncome = 0;
-  let allDebtMinimum = 0;
-
-  if(goodDebtArry && goodIncomeArry){
-
-    totalIncome = DivideIncomeByOurr(incomeArry);
-    debtArry.forEach((debt) => {
-      allDebtMinimum += debt.minumnPayment;
-    })
-    
-    if(totalIncome >= allDebtMinimum){
-        canPayMinimum = true;
-    }else{
-      canPayMinimum = false;
-    }
-
-    return canPayMinimum;
 
 
-  }else{
-    //Not sure yet
-
-  }
-}
-
-export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
-
-  const goodDebtArry = CheckMethodType(debtArry, 'array');
-  const goodIncomeArry = CheckMethodType(incomeArry, 'array');
-  let canPayMinimum = false;
-  let totalIncome = 0;
-  let allDebtMinimum = 0;
-
-  if(goodDebtArry && goodIncomeArry){
-
-    totalIncome = DivideIncomeByOurr(incomeArry);
-    debtArry.forEach((debt) => {
-      allDebtMinimum += debt.originalDebtAmount;
-    })
-    
-    if(totalIncome >= allDebtMinimum){
-        canPayMinimum = true;
-    }else{
-      canPayMinimum = false;
-    }
-
-    return canPayMinimum;
-
-
-  }else{
-    //Not sure yet
-
-  }
-}
 
 //These methods are used to update OutCome model
 export function UpdateBudgetOutCome(){

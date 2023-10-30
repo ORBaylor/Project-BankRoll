@@ -151,10 +151,7 @@ const customBudgetFrame = new Schema({
             ref: 'IncomeModel'
         },
     ],
-    PayUser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PayUserModel'
-    }
+   
 
 
 })
@@ -209,7 +206,11 @@ const customBudgetOutcome = new Schema({
         }
 
     ],
-    isPayedOff: Boolean,
+    AllDebtsPayedOff: Boolean,
+    PayUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PayUserModel'
+    }
    
        //A key vaule pair of the debts that are
         //payed off
