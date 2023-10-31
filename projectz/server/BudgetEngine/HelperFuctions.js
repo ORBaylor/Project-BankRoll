@@ -471,32 +471,7 @@ export function UpdateMiniMumPayment(debtArry =[], amount){
   if(goodDebtArry && goodAmount){
 
     
-    
-
-    // if( amount >= debtArry[0].OriginalDebtAmount){
-    //     debtArry[0].minumnPayment = debtArry[0].OriginalDebtAmount
-    //     amount -= debtArry[0].OriginalDebtAmount;
-    // }
-    
-      
-      // if(amount > 0){
-      //   let amountIsEmpty = false;
-      //   let incrementer = 0;
-      //   while(amountIsEmpty == false  ){
-
-      //     if(debtArry[incrementer].minumnPayment == debtArry[incrementer].OriginalDebtAmount){
-      //         incrementer++;
-      //     }else{
-      //         debtArry[incrementer].minumnPayment = amount;
-      //         amount -= amount;
-      //     }
-      //     if(amount == 0){
-      //       amountIsEmpty = true;
-      //     }
-         
-      //   }
-      // }
-
+  
         let tempAmount = 0;
         let incrementer = 0;
 
@@ -552,9 +527,9 @@ export function UpdateMiniMumPayment(debtArry =[], amount){
   }else{
 
   }
-    
-
 }
+
+
 export function PayBareMinimum(debtArry = [], incomeArry = []){
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
@@ -703,7 +678,7 @@ export function PayOffRemainingDebt(customArry = []){
     })
 
     if(totalLeftOver > 0){
-      let x = totalLeftOver
+      let x = totalLeftOver;
       customArry[0].amountLeftOver = x;
       
     }
@@ -798,6 +773,48 @@ export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
 
   }else{
     //Not sure yet
+
+  }
+}
+
+export function UpdateLeftOverAmount(debtArry =[], amount){
+
+  const goodDebtArry = CheckMethodType(debtArry, 'array');
+  const goodAmount = CheckMethodType(amount, 'number');
+
+  if(goodDebtArry && goodAmount){
+
+    
+  
+        let tempAmount = 0;
+        let incrementer = 0;
+
+      
+
+        for(let i = 0; i < debtArry.length; i++){
+          if(amount > debtArry[i].originalDebtAmount){
+
+            debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
+            debtArry[i].isPayedOff = true;
+            amount  -= debtArry[i].originalDebtAmount
+          }
+          else{
+            if(amount != 0){
+              debtArry[i].minumnPayment += amount;
+              amount -= amount;
+            }
+           
+          }
+          if(amount == 0){
+            break;
+          }
+        }
+
+        
+
+    return debtArry;
+
+  }else{
 
   }
 }

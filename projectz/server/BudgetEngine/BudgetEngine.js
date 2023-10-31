@@ -356,22 +356,76 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
         totalIncome = DivideIncomeByOurr(incomeCollection);
       let budgetOutcomeArry = CustomDebtPaymentFrame(sortedArray, totalIncome);
 
-      if(CheckIfAllDebtsArePaid(budgetOutcomeArry)){
-        let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
-        if(amountLeftOver > 0){
-            budgetOutcomeArry
-        }
-      }
-      //Paying a user is only going to happen if there is money left over
+      if( useLeftOver == true){
+        
+        let remainingOutcomeArry = PayOffRemainingDebt(budgetOutcomeArry)
 
+        let amountLeftOver = FindAmountLeftOver(remainingOutcomeArry)
+
+
+        if(CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0){
+            customBudetOutcome.PayUser.isUserPaid = true;
+            customBudetOutcome.PayUser.payAmount = amountLeftOver;
+           // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+           amountLeftOver -= amountLeftOver;
+            
+        }
+
+        remainingOutcomeArry.forEach((arry) => {
+
+            let customPayOffTimeFrame = new CustomDebtPayOffTimeFrameModel;
+
+            customPayOffTimeFrame.creditorName = arry.creditorName;
+            customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+            customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
+            customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
+            customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
+            customPayOffTimeFrame.payOffStyle = payOffStyle;
+            customPayOffTimeFrame.amountLeftOver = amountLeftOver;
+            
+
+            customBudetOutcome.push(customPayOffTimeFrame);
+        })
+}     
+     else{
+        
+             let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
+
+
+            if(amountLeftOver > 0){
+                customBudetOutcome.PayUser.isUserPaid = true;
+                customBudetOutcome.PayUser.payAmount = amountLeftOver;
+            // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+            amountLeftOver -= amountLeftOver;
+                
+            }
+
+            remainingOutcomeArry.forEach((arry) => {
+
+                let customPayOffTimeFrame = new CustomDebtPayOffTimeFrameModel;
+
+                customPayOffTimeFrame.creditorName = arry.creditorName;
+                customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+                customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
+                customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
+                customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
+                customPayOffTimeFrame.payOffStyle = payOffStyle;
+                customPayOffTimeFrame.amountLeftOver = amountLeftOver;
+                
+
+                customBudetOutcome.push(customPayOffTimeFrame);
+            
+            })
+      //PayOffRemainingDebt
+      //Paying a user is only going to happen if there is money left over
     }
 
 
 
+    }
+
     return customBudetOutcome;
-
 }
-
 export function CreateBudgetFrame(){
 
 }
@@ -380,7 +434,7 @@ export function CreateCustomBudgetFrame(){
 
 }
 
-export function UpdateBudget(){
+// export function UpdateBudget(){
 
-}
+// }
 
