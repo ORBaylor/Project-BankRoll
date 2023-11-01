@@ -1,6 +1,6 @@
 
 import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, CustomDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import {SortDebtCustom, CustomPayBareMinimum,  UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid,CustomDebtPaymentFrame,getTotalIncomeAmount,GetTotalIntrest,calculatePayoffDate,GetTotalPayments,GetMonthlyIntrestRate, PayBareMinimum} from './HelperFuctions.js'
+import {SortDebtCustom, CustomPayBareMinimum,  UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid,CustomDebtPaymentFrame,getTotalIncomeAmount,GetTotalIntrest,calculatePayoffDate,GetTotalPayments,GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr} from './HelperFuctions.js'
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
 
@@ -22,15 +22,15 @@ let guns = new IncomeModel;
 let moreGuns = new IncomeModel;
 
 guns.name = 'guns';
-guns.amount = 200;
+guns.amount = 500;
 guns.occurrence = 'weekly';
 
 moreGuns.name = 'drugs';
-moreGuns.amount = 300;
+moreGuns.amount = 600;
 moreGuns.occurrence = 'bi-weekly';
 
 drugs.name = 'drugs';
-drugs.amount = 3000;
+drugs.amount = 30000;
 drugs.occurrence = 'annually';
 
 
@@ -69,7 +69,7 @@ Discover.minumnPayment = 75;
 Discover.isPayedOff = false;
 
 
-car2.creditorName = 'Car'
+car2.creditorName = 'Car 2'
 car2.originalDebtAmount = 400;
 car2.currentDebtAmount =400;
 car2.intrestRate = 0.3;
@@ -152,6 +152,13 @@ frame.user = user;
 frame.DebtCollection = DebtCollection;
 frame.IncomeCollection = IncomeCollection;
 frame.payOffStyle = 'minimun';
+
+custFrame.user = user;
+custFrame.DebtCollection = CustomDebtCollection;
+custFrame.IncomeCollection = IncomeCollection;
+custFrame.useLeftOver = true;
+custFrame.payOffStyle = 'custom';
+
 
 //When a full budget model has been created and everthing has been caculated, all a user will have to do
 //is login and all active budgetFrames will popup.
@@ -344,8 +351,11 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
     const currentUser = customBudetFrame.user;
     const payUserOptions = customBudetFrame.payUserOptions;
     const useLeftOver = customBudetFrame.useLeftOver;
+
     let customBudetOutcome = new CustomBudgetOutcomeModel;
-    let totalIncome = 0;
+    let customBudgetArry = [];
+   
+   // let totalIncome = 0;
     let sortedArray = [];
    
 
@@ -353,7 +363,7 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
     if(CustomPayBareMinimum(debtCollection, incomeCollection)){
 
         sortedArray = SortDebtCustom(debtCollection, 'percentOfIncome', 'high');
-        totalIncome = DivideIncomeByOurr(incomeCollection);
+      let  totalIncome = DivideIncomeByOurr(incomeCollection);
       let budgetOutcomeArry = CustomDebtPaymentFrame(sortedArray, totalIncome);
 
       if( useLeftOver == true){
@@ -364,11 +374,24 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
 
         if(CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0){
-            customBudetOutcome.PayUser.isUserPaid = true;
-            customBudetOutcome.PayUser.payAmount = amountLeftOver;
+            customBudetOutcome.isUserPaid = true;
+            customBudetOutcome.payAmount = amountLeftOver;
            // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
            amountLeftOver -= amountLeftOver;
             
+        }else{
+            if(amountLeftOver > 0){
+                customBudetOutcome.isUserPaid = true;
+                customBudetOutcome.payAmount = amountLeftOver;
+               // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+               amountLeftOver -= amountLeftOver;
+            }else{
+                customBudetOutcome.isUserPaid = false;
+                customBudetOutcome.payAmount = amountLeftOver;
+               // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+               amountLeftOver -= amountLeftOver;
+            }
+          
         }
 
         remainingOutcomeArry.forEach((arry) => {
@@ -384,9 +407,9 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
             customPayOffTimeFrame.amountLeftOver = amountLeftOver;
             
 
-            customBudetOutcome.push(customPayOffTimeFrame);
+            customBudgetArry.push(customPayOffTimeFrame);
         })
-}     
+        }     
      else{
         
              let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
@@ -413,7 +436,7 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver;
                 
 
-                customBudetOutcome.push(customPayOffTimeFrame);
+                customBudgetArry.push(customPayOffTimeFrame);
             
             })
       //PayOffRemainingDebt
@@ -424,6 +447,8 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
     }
 
+    customBudetOutcome.customPayOffFrame = customBudgetArry;
+
     return customBudetOutcome;
 }
 export function CreateBudgetFrame(){
@@ -433,6 +458,10 @@ export function CreateBudgetFrame(){
 export function CreateCustomBudgetFrame(){
 
 }
+
+let custBudget = CreateCustomBudget(custFrame);
+
+console.log(custBudget);
 
 // export function UpdateBudget(){
 

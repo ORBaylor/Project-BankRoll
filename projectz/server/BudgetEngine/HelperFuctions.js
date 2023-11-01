@@ -581,10 +581,11 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
       //much of the total Income will go to paying off that debt.
       customArry.forEach((Arry) => {
 
-        let percentOfPay = 0;
+       // let percentOfPay = 0;
         let amountOfPay = 0;
+        let percentOfPay = Arry.percentOfIncome;
 
-       amountOfPay = ReturnPercentageAmount(Arry.percentOfPayUsed, totalIncome);
+       amountOfPay = ReturnPercentageAmount(percentOfPay, totalIncome);
       
        if(amountOfPay >= Arry.originalDebtAmount){
 
@@ -777,6 +778,7 @@ export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
   }
 }
 
+//Not needed----\\\\\\\\\\
 export function UpdateLeftOverAmount(debtArry =[], amount){
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
