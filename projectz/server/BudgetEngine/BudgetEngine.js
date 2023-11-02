@@ -1,6 +1,6 @@
 
 import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, CustomDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import {SortDebtCustom, CustomPayBareMinimum,  UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid,CustomDebtPaymentFrame,getTotalIncomeAmount,GetTotalIntrest,calculatePayoffDate,GetTotalPayments,GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr} from './HelperFuctions.js'
+import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr } from './HelperFuctions.js'
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
 
@@ -13,8 +13,8 @@ let Discover = new DebtModel;
 
 let car2 = new CustomDebtModel;
 let CuraLeaf2 = new CustomDebtModel;
-let BestBuy2= new CustomDebtModel;
-let Discover2= new CustomDebtModel;
+let BestBuy2 = new CustomDebtModel;
+let Discover2 = new CustomDebtModel;
 
 
 let drugs = new IncomeModel;
@@ -37,70 +37,66 @@ drugs.occurrence = 'annually';
 
 car.creditorName = 'Car'
 car.originalDebtAmount = 400;
-car.currentDebtAmount =400;
+car.currentDebtAmount = 400;
 car.intrestRate = 0.3;
-car.originalMinumnPayment =60;
+car.originalMinumnPayment = 60;
 car.minumnPayment = 60;
 car.isPayedOff = false;
 
 
 CuraLeaf.creditorName = 'Cura Leaf'
 CuraLeaf.originalDebtAmount = 600;
-CuraLeaf.currentDebtAmount =600;
+CuraLeaf.currentDebtAmount = 600;
 CuraLeaf.intrestRate = 0.6;
-CuraLeaf.originalMinumnPayment =80;
+CuraLeaf.originalMinumnPayment = 80;
 CuraLeaf.minumnPayment = 80;
 CuraLeaf.isPayedOff = false;
 
 BestBuy.creditorName = 'Best Buy'
 BestBuy.originalDebtAmount = 500;
-BestBuy.currentDebtAmount =500;
+BestBuy.currentDebtAmount = 500;
 BestBuy.intrestRate = 0.5;
-BestBuy.originalMinumnPayment =70;
+BestBuy.originalMinumnPayment = 70;
 BestBuy.minumnPayment = 70;
 BestBuy.isPayedOff = false;
 
 Discover.creditorName = 'Discover'
 Discover.originalDebtAmount = 760;
-Discover.currentDebtAmount =760;
+Discover.currentDebtAmount = 760;
 Discover.intrestRate = 0.7;
-Discover.originalMinumnPayment =75;
+Discover.originalMinumnPayment = 75;
 Discover.minumnPayment = 75;
 Discover.isPayedOff = false;
 
 
 car2.creditorName = 'Car 2'
 car2.originalDebtAmount = 400;
-car2.currentDebtAmount =400;
-car2.intrestRate = 0.3;
-car2.originalMinumnPayment =60;
-car2.minumnPayment = 60;
+car2.currentDebtAmount = 400;
+car2.percentOfIncome = 2.5;
 car2.isPayedOff = false;
+car2.amountLeftOver = 0;
 
 
 CuraLeaf2.creditorName = 'Cura Leaf'
 CuraLeaf2.originalDebtAmount = 600;
-CuraLeaf2.currentDebtAmount =600;
-CuraLeaf2.intrestRate = 0.6;
-CuraLeaf2.originalMinumnPayment =80;
-CuraLeaf2.minumnPayment = 80;
+CuraLeaf2.currentDebtAmount = 600;
+CuraLeaf2.percentOfIncome = 2.5;
 CuraLeaf2.isPayedOff = false;
+CuraLeaf2.amountLeftOver = 0;
 
 BestBuy2.creditorName = 'Best Buy'
 BestBuy2.originalDebtAmount = 500;
-BestBuy2.currentDebtAmount =500;
-BestBuy2.intrestRate = 0.5;
-BestBuy2.originalMinumnPayment =70;
-BestBuy2.minumnPayment = 70;
+BestBuy2.currentDebtAmount = 500;
+BestBuy2.percentOfIncome = 2.5;
 BestBuy2.isPayedOff = false;
+BestBuy2.amountLeftOver = 0;
 
 Discover2.creditorName = 'Discover'
 Discover2.originalDebtAmount = 760;
-Discover2.currentDebtAmount =760;
-Discover2.intrestRate = 0.7;
-Discover2.originalMinumnPayment =75;
-Discover2.minumnPayment = 75;
+Discover2.currentDebtAmount = 760;
+Discover2.percentOfIncome = 2.5;
 Discover2.isPayedOff = false;
+Discover2.amountLeftOver = 0;
 
 let CustomDebtCollection = [];
 
@@ -111,14 +107,14 @@ CustomDebtCollection.push(CuraLeaf2)
 
 let DebtCollection = [];
 let IncomeCollection = [];
- DebtCollection.push(car)
- DebtCollection.push(CuraLeaf)
- DebtCollection.push(BestBuy)
- DebtCollection.push(Discover)
+DebtCollection.push(car)
+DebtCollection.push(CuraLeaf)
+DebtCollection.push(BestBuy)
+DebtCollection.push(Discover)
 
- IncomeCollection.push(guns)
- IncomeCollection.push(drugs)
- IncomeCollection.push(moreGuns)
+IncomeCollection.push(guns)
+IncomeCollection.push(drugs)
+IncomeCollection.push(moreGuns)
 
 
 
@@ -145,8 +141,8 @@ let user = {
 //         amount: 30000,
 //         occurrence: 'annually'
 //     },
-  
-  
+
+
 // ],
 frame.user = user;
 frame.DebtCollection = DebtCollection;
@@ -167,7 +163,7 @@ custFrame.payOffStyle = 'custom';
 
 //console.log(frame);
 
-export function CreateBudget(budetFrame = new budgetFrameModel){
+export function CreateBudget(budetFrame = new budgetFrameModel) {
 
     const payOffStyle = budetFrame.payOffStyle.toString();
 
@@ -184,62 +180,62 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
 
     //Pay the smallest debt as fast as 
     //possible. Pay minimums on all other debt.
-    if(payOffStyle === 'snowball'){
+    if (payOffStyle === 'snowball') {
 
-        if(PayBareMinimum(debtCollection, incomeCollection)){
+        if (PayBareMinimum(debtCollection, incomeCollection)) {
 
-              //Sort the Array depending on the pay Off style
-              sortedArray = SortDebtCustom(debtCollection, 'originalDebtAmount', 'low');
+            //Sort the Array depending on the pay Off style
+            sortedArray = SortDebtCustom(debtCollection, 'originalDebtAmount', 'low');
 
-              //console.log(sortedArray);
-              //Grab the first debt in the Array and modify the miniumPayment
-              //Add what is left of the money to the miniumPayment
-              minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
-              //console.log(minimumAdded);
-            let  updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
-              //console.log(updatedArray);
+            //console.log(sortedArray);
+            //Grab the first debt in the Array and modify the miniumPayment
+            //Add what is left of the money to the miniumPayment
+            minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
+            //console.log(minimumAdded);
+            let updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
+            //console.log(updatedArray);
 
-              //Run through all of the debts in the array 
-              //caculate what needs to be caculated 
-              //add the results to the budegframe model.
-                updatedArray.forEach((arry) => {
-                    let outputTimeFrame = new debtPayOffTimeFrameModel;
+            //Run through all of the debts in the array 
+            //caculate what needs to be caculated 
+            //add the results to the budegframe model.
+            updatedArray.forEach((arry) => {
+                let outputTimeFrame = new debtPayOffTimeFrameModel;
 
-                    outputTimeFrame.creditorName = arry.creditorName;
-                    outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                    outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                    outputTimeFrame.payment = arry.minumnPayment;
-                    outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
-                    outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.creditorName = arry.creditorName;
+                outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.payment = arry.minumnPayment;
+                outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
 
-                    outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                    outputTimeFrame.intrestPayed =GetMonthlyIntrestRate(arry.intrestRate);
+                outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.intrestPayed = GetMonthlyIntrestRate(arry.intrestRate);
 
-                    outputTimeFrame.PaymentDate = arry.dueDate;
-                    outputTimeFrame.payOffStyle = payOffStyle;
-                    outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
+                outputTimeFrame.PaymentDate = arry.dueDate;
+                outputTimeFrame.payOffStyle = payOffStyle;
+                outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
 
-                    budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
-                })
-              
+                budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
+            })
 
-              
-                return budgetOutcome
 
-        }else{
+
+            return budgetOutcome
+
+        } else {
 
             //Let the User know the income will not pay off the debt.
         }
-      
-       
 
 
 
-    //Pay the largest or highest interest rate debt as 
- //fast as possible. Pay minimums on all other debt.
-    }else if(payOffStyle === 'avalanche'){
 
-        if(PayBareMinimum(debtCollection, incomeCollection)){
+
+        //Pay the largest or highest interest rate debt as 
+        //fast as possible. Pay minimums on all other debt.
+    } else if (payOffStyle === 'avalanche') {
+
+        if (PayBareMinimum(debtCollection, incomeCollection)) {
 
             //Sort the Array depending on the pay Off style
             sortedArray = SortDebtCustom(debtCollection, 'intrestRate', 'high');
@@ -249,45 +245,45 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
             //Add what is left of the money to the miniumPayment
             minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
             //console.log(minimumAdded);
-          let  updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
+            let updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
             //console.log(updatedArray);
 
             //Run through all of the debts in the array 
             //caculate what needs to be caculated 
             //add the results to the budegframe model.
-              updatedArray.forEach((arry) => {
-                  let outputTimeFrame = new debtPayOffTimeFrameModel;
+            updatedArray.forEach((arry) => {
+                let outputTimeFrame = new debtPayOffTimeFrameModel;
 
-                  outputTimeFrame.creditorName = arry.creditorName;
-                  outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.payment = arry.minumnPayment;
-                  outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
-                  outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.creditorName = arry.creditorName;
+                outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.payment = arry.minumnPayment;
+                outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
 
-                  outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.intrestPayed =GetMonthlyIntrestRate(arry.intrestRate);
+                outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.intrestPayed = GetMonthlyIntrestRate(arry.intrestRate);
 
-                  outputTimeFrame.PaymentDate = arry.dueDate;
-                  outputTimeFrame.payOffStyle = payOffStyle;
-                  outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
+                outputTimeFrame.PaymentDate = arry.dueDate;
+                outputTimeFrame.payOffStyle = payOffStyle;
+                outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
 
-                  budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
-              })
-            
+                budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
+            })
 
-            
-              return budgetOutcome
 
-      }else{
 
-          //Let the User know the income will not pay off the debt.
-      }
+            return budgetOutcome
+
+        } else {
+
+            //Let the User know the income will not pay off the debt.
+        }
 
     }
-    else if(payOffStyle === 'minimun'){
+    else if (payOffStyle === 'minimun') {
 
-        if(PayBareMinimum(debtCollection, incomeCollection)){
+        if (PayBareMinimum(debtCollection, incomeCollection)) {
 
             //Sort the Array depending on the pay Off style
             sortedArray = SortDebtCustom(debtCollection, 'intrestRate', 'high');
@@ -296,42 +292,42 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
             //Grab the first debt in the Array and modify the miniumPayment
             //Add what is left of the money to the miniumPayment
 
-           // minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
+            // minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
             //console.log(minimumAdded);
-          let  updatedArray = debtCollection;
+            let updatedArray = debtCollection;
             //console.log(updatedArray);
 
             //Run through all of the debts in the array 
             //caculate what needs to be caculated 
             //add the results to the budegframe model.
-              updatedArray.forEach((arry) => {
-                  let outputTimeFrame = new debtPayOffTimeFrameModel;
+            updatedArray.forEach((arry) => {
+                let outputTimeFrame = new debtPayOffTimeFrameModel;
 
-                  outputTimeFrame.creditorName = arry.creditorName;
-                  outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.payment = arry.minumnPayment;
-                  outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
-                  outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.creditorName = arry.creditorName;
+                outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.payment = arry.minumnPayment;
+                outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+                outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
 
-                  outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-                  outputTimeFrame.intrestPayed =GetMonthlyIntrestRate(arry.intrestRate);
+                outputTimeFrame.intrestRate = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+                outputTimeFrame.intrestPayed = GetMonthlyIntrestRate(arry.intrestRate);
 
-                  outputTimeFrame.PaymentDate = arry.dueDate;
-                  outputTimeFrame.payOffStyle = payOffStyle;
-                  outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
+                outputTimeFrame.PaymentDate = arry.dueDate;
+                outputTimeFrame.payOffStyle = payOffStyle;
+                outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
 
-                  budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
-              })
-            
+                budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
+            })
 
-            
-              return budgetOutcome
 
-      }else{
 
-          //Let the User know the income will not pay off the debt.
-      }
+            return budgetOutcome
+
+        } else {
+
+            //Let the User know the income will not pay off the debt.
+        }
     }
 
     return budgetOutcome;
@@ -342,7 +338,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel){
 // console.log(outCome);
 
 
-export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel){
+export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel) {
 
     const payOffStyle = customBudetFrame.payOffStyle.toString();
 
@@ -354,73 +350,46 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
     let customBudetOutcome = new CustomBudgetOutcomeModel;
     let customBudgetArry = [];
-   
-   // let totalIncome = 0;
+
+    // let totalIncome = 0;
     let sortedArray = [];
-   
 
 
-    if(CustomPayBareMinimum(debtCollection, incomeCollection)){
+
+    if (CustomPayBareMinimum(debtCollection, incomeCollection)) {
 
         sortedArray = SortDebtCustom(debtCollection, 'percentOfIncome', 'high');
-      let  totalIncome = DivideIncomeByOurr(incomeCollection);
-      let budgetOutcomeArry = CustomDebtPaymentFrame(sortedArray, totalIncome);
+        let totalIncome = DivideIncomeByOurr(incomeCollection);
+        let budgetOutcomeArry = CustomDebtPaymentFrame(sortedArray, totalIncome);
 
-      if( useLeftOver == true){
-        
-        let remainingOutcomeArry = PayOffRemainingDebt(budgetOutcomeArry)
+        if (useLeftOver == true) {
 
-        let amountLeftOver = FindAmountLeftOver(remainingOutcomeArry)
+            let remainingOutcomeArry = PayOffRemainingDebt(budgetOutcomeArry)
+
+            let amountLeftOver = FindAmountLeftOver(remainingOutcomeArry)
 
 
-        if(CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0){
-            customBudetOutcome.isUserPaid = true;
-            customBudetOutcome.payAmount = amountLeftOver;
-           // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
-           amountLeftOver -= amountLeftOver;
-            
-        }else{
-            if(amountLeftOver > 0){
+            if (CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0) {
+                customBudetOutcome.AllDebtsPayedOff = true;
                 customBudetOutcome.isUserPaid = true;
                 customBudetOutcome.payAmount = amountLeftOver;
-               // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
-               amountLeftOver -= amountLeftOver;
-            }else{
-                customBudetOutcome.isUserPaid = false;
-                customBudetOutcome.payAmount = amountLeftOver;
-               // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
-               amountLeftOver -= amountLeftOver;
-            }
-          
-        }
+                // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+                amountLeftOver -= amountLeftOver;
 
-        remainingOutcomeArry.forEach((arry) => {
+            } else {
+                customBudetOutcome.AllDebtsPayedOff = CheckIfAllDebtsArePaid(remainingOutcomeArry);
+                if (amountLeftOver > 0) {
+                    customBudetOutcome.isUserPaid = true;
+                    customBudetOutcome.payAmount = amountLeftOver;
+                    // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+                    amountLeftOver -= amountLeftOver;
+                } else {
+                    customBudetOutcome.isUserPaid = false;
+                    customBudetOutcome.payAmount = amountLeftOver;
+                    // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+                    amountLeftOver -= amountLeftOver;
+                }
 
-            let customPayOffTimeFrame = new CustomDebtPayOffTimeFrameModel;
-
-            customPayOffTimeFrame.creditorName = arry.creditorName;
-            customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
-            customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
-            customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
-            customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
-            customPayOffTimeFrame.payOffStyle = payOffStyle;
-            customPayOffTimeFrame.amountLeftOver = amountLeftOver;
-            
-
-            customBudgetArry.push(customPayOffTimeFrame);
-        })
-        }     
-     else{
-        
-             let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
-
-
-            if(amountLeftOver > 0){
-                customBudetOutcome.PayUser.isUserPaid = true;
-                customBudetOutcome.PayUser.payAmount = amountLeftOver;
-            // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
-            amountLeftOver -= amountLeftOver;
-                
             }
 
             remainingOutcomeArry.forEach((arry) => {
@@ -434,28 +403,46 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
                 customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
                 customPayOffTimeFrame.payOffStyle = payOffStyle;
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver;
-                
 
-                customBudgetArry.push(customPayOffTimeFrame);
-            
+                console.log(arry);
+                customBudetOutcome.customPayOffFrame.push(arry);
             })
-      //PayOffRemainingDebt
-      //Paying a user is only going to happen if there is money left over
-    }
+
+
+        }
+
+        else {
+
+            let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
+
+
+            if (amountLeftOver > 0) {
+                customBudetOutcome.PayUser.isUserPaid = true;
+                customBudetOutcome.PayUser.payAmount = amountLeftOver;
+                // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
+                amountLeftOver -= amountLeftOver;
+
+            }
+            customBudgetArry = budgetOutcomeArry;
+
+
+            //PayOffRemainingDebt
+            //Paying a user is only going to happen if there is money left over
+        }
 
 
 
     }
 
-    customBudetOutcome.customPayOffFrame = customBudgetArry;
+    //customBudetOutcome.customPayOffFrame = customBudgetArry;
 
     return customBudetOutcome;
 }
-export function CreateBudgetFrame(){
+export function CreateBudgetFrame() {
 
 }
 
-export function CreateCustomBudgetFrame(){
+export function CreateCustomBudgetFrame() {
 
 }
 

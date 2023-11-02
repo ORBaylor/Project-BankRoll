@@ -580,6 +580,7 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
       //loop through customArry and use the percent of pay to determin how 
       //much of the total Income will go to paying off that debt.
       customArry.forEach((Arry) => {
+      let customDebtFrame = new CustomDebtPayOffTimeFrameModel;
 
        // let percentOfPay = 0;
         let amountOfPay = 0;
@@ -607,20 +608,25 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
        }
 
 
-      })
+       customDebtFrame.creditorName = Arry.creditorName;
+       customDebtFrame.originalDebtAmount = Arry.originalDebtAmount;
+       customDebtFrame.currentDebtAmount = Arry.currentDebtAmount;
+       customDebtFrame.percentOfIncome = Arry.percentOfIncome;
+       customDebtFrame.isPayedOff = Arry.isPayedOff;
+       customDebtFrame.amountOfPayUsed = Arry.amountOfPayUsed;
+       customDebtFrame.lastUpdated =  Date.now();
+       customDebtFrame.amountLeftOver = Arry.amountLeftOver;
 
-      customArry.forEach((arry) => {
-        let customDebt = new CustomDebtModel;
-
-       customDebt.creditorName = arry.creditorName;
-       customDebt.originalDebtAmount = arry.originalDebtAmount;
-       customDebt.currentDebtAmount = arry.currentDebtAmount;
-       customDebt.percentOfIncome = arry.percentOfIncome;
-       customDebt.isPayedOff = arry.isPayedOff;
-
-       returnArry.push(customDebt);
+       returnArry.push(customDebtFrame);
 
       })
+
+      
+        
+
+      
+
+      
 
       return returnArry;
 
@@ -732,7 +738,7 @@ export function CheckIfAllDebtsArePaid(customArry = []){
 
   if(goodCustomArry){
       customArry.forEach((arry) => {
-        if(arry.amountLeftOver > 0){
+        if(arry.currentDebtAmount > 0){
            debtCount = debtCount + 1;
         }
       })

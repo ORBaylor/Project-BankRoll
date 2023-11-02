@@ -54,16 +54,14 @@ const CustomDebtSchema = new Schema({
     
     creditorName: String,
     originalDebtAmount: Number,
-  //  intrestRate: Number,
-    //minumnPayment: Number,
-  //  monthlyPayment: Number,
+    currentDebtAmount: String,
     percentOfIncome: Number,
+    amountLeftOver: Number,
     isPayedOff: Boolean,
+    
    // dueDate: {type: Date, default: Date.now()},
 
-    //Adding two properties for custom debts
-    isCustomDebt: Boolean,
-    CustomDebtOrder: Number,
+    
 })
 export let CustomDebtModel = mongoose.model('DebtModel', debtSchema)
 
