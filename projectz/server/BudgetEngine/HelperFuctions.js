@@ -1,5 +1,5 @@
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, CustomDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import {log,ceil,} from 'mathjs'
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+import { log, ceil, } from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
 
 //Model vars
@@ -16,25 +16,25 @@ import {log,ceil,} from 'mathjs'
 let debt = new DebtModel;
 
 debt.intrestRate = 4.3;
-let testArray = [33,55,11,3,54,89,34,2,47,65]
-let testArray2 = [80,200,'|',40,100,'|',50,300,'|'] 
+let testArray = [33, 55, 11, 3, 54, 89, 34, 2, 47, 65]
+let testArray2 = [80, 200, '|', 40, 100, '|', 50, 300, '|']
 const testArray3 = testArray2.splice(5);
 const incomeArry = [
 
   {
-      name: 'drugs',
-      amount: 300,
-      occurrence: 'weekly'
+    name: 'drugs',
+    amount: 300,
+    occurrence: 'weekly'
   },
   {
-      name: 'guns',
-      amount: 500,
-      occurrence: 'bi-weekly'
+    name: 'guns',
+    amount: 500,
+    occurrence: 'bi-weekly'
   },
   {
-      name: 'Other Drugs',
-      amount: 30000,
-      occurrence: 'annually'
+    name: 'Other Drugs',
+    amount: 30000,
+    occurrence: 'annually'
   },
 
 
@@ -128,21 +128,21 @@ let RegularDebtArry = [
 ]
 //10440
 
-export function ReturnHalf(){
+export function ReturnHalf() {
 
 }
 
 //For Custom Debt payoff, Maybe?
 
-export function PayCurrentDebt(debt, amount){
+export function PayCurrentDebt(debt, amount) {
 
 }
 
-export function FindLowestDebtItem(debtArray){
+export function FindLowestDebtItem(debtArray) {
 
   let goodInput = CheckMethodType(debtArray, 'array');
 
-  if(goodInput){
+  if (goodInput) {
     for (let i = 0; i < debtArray.length - 1; i++) {
       let minIndex = i;
       for (let j = i + 1; j < debtArray.length; j++) {
@@ -158,11 +158,11 @@ export function FindLowestDebtItem(debtArray){
     }
     return debtArray[0];
   }
-  else{
+  else {
     debtArray
   }
- 
-  
+
+
 }
 
 
@@ -185,7 +185,7 @@ export function FindLowestDebtItem(debtArray){
 //     //   }
 //     // }
 //     debtArray.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
-    
+
 //     return debtArray;
 
 //     //people.sort((a, b) => a.age - b.age);
@@ -193,11 +193,11 @@ export function FindLowestDebtItem(debtArray){
 //   else{
 //     debtArray
 //   }
- 
-  
+
+
 // }
 
-export function SortIncome(){
+export function SortIncome() {
 
 }
 
@@ -229,7 +229,7 @@ export function SortIncome(){
 //     return intrestArray;
 //   }
 
-  
+
 // }
 
 // export function getlowestDebtItem(intrestArray){
@@ -256,7 +256,7 @@ export function SortIncome(){
 //     return intrestArray;
 //   }
 
-  
+
 // }
 
 
@@ -274,7 +274,7 @@ export function SortIncome(){
 
 //     return intrestArray;
 //   }
- 
+
 
 // }
 
@@ -282,12 +282,12 @@ export function SortIncome(){
 //let protoArry = SortDebtCustom(CustDebtArry, 'currentDebtAmount', 'high');
 //console.log(protoArry)
 
-export function FindIntrestRateAI(){
+export function FindIntrestRateAI() {
   //Future idea
-    //Use AI (Maybe) to find the intrest rate of a debt 
+  //Use AI (Maybe) to find the intrest rate of a debt 
 }
 
-export function UpdateDebt(){
+export function UpdateDebt() {
 
 }
 
@@ -303,15 +303,15 @@ export function UpdateDebt(){
 
 
 //returns a yes if income is over 10% of total debt
-export function CheckIncomeOverTenPercent(){
+export function CheckIncomeOverTenPercent() {
 
-  
+
 
 
 }
 
 //Add 
-export function AddPercentage(){
+export function AddPercentage() {
 
 }
 
@@ -319,7 +319,7 @@ export function AddPercentage(){
 
 
 //A method to get the total number of payments
-export function GetTotalPayments(debtAmount,intrestRate,payment){
+export function GetTotalPayments(debtAmount, intrestRate, payment) {
 
   let isGoodAmount = CheckMethodType(debtAmount, 'float');
   let isGoodRate = CheckMethodType(intrestRate, 'float');
@@ -328,31 +328,31 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
   let monthlyIntrestRate = 0;
 
 
-  if(isGoodAmount && isGoodPayment && isGoodRate){
+  if (isGoodAmount && isGoodPayment && isGoodRate) {
 
-    if(debtAmount == payment){
-       return totalMonths = 1
+    if (debtAmount == payment) {
+      return totalMonths = 1
     }
-    else{
+    else {
       //monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
-      monthlyIntrestRate = intrestRate /12;
-    //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
-       //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
- 
-     //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
-    totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
+      monthlyIntrestRate = intrestRate / 12;
+      //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
+      //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
 
- 
+      //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
+      totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
+
+
     }
 
     const totalPayMonths = ceil(totalMonths);
-     
-    return totalPayMonths 
-  }else{
+
+    return totalPayMonths
+  } else {
 
   }
 
- // return totalMonths;
+  // return totalMonths;
 
 
 }
@@ -360,82 +360,82 @@ export function GetTotalPayments(debtAmount,intrestRate,payment){
 //A method to update how much intresst have been payed so far.
 
 export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
-// Calculate the monthly interest rate
-const monthlyInterestRate = annualInterestRate / 12;
+  // Calculate the monthly interest rate
+  const monthlyInterestRate = annualInterestRate / 12;
 
-// Calculate the number of months required to pay off the debt
-const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+  // Calculate the number of months required to pay off the debt
+  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
 
 
-//console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
-// Round up to the nearest whole month
-const roundedMonths = Math.ceil(numberOfMonths);
+  //console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
+  // Round up to the nearest whole month
+  const roundedMonths = Math.ceil(numberOfMonths);
 
-// Calculate the payoff date
-const today = new Date();
-const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
+  // Calculate the payoff date
+  const today = new Date();
+  const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
 
-return payoffDate.toDateString();
+  return payoffDate.toDateString();
 }
 
-export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment){
+export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment) {
 
-// Calculate the monthly interest rate
-const monthlyInterestRate = annualInterestRate / 12;
+  // Calculate the monthly interest rate
+  const monthlyInterestRate = annualInterestRate / 12;
 
-// Calculate the number of months required to pay off the debt
-const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+  // Calculate the number of months required to pay off the debt
+  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
 
-const totalIntrest = ((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2)
+  const totalIntrest = ((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2)
 
-return totalIntrest;
+  return totalIntrest;
 
 
 }
 
 //A method to find the intrest of the debt object
 //Given the intrest rate and the debt amount, this method will return the intrest rate
-export function GetMonthlyIntrestRate(intrestRate){
+export function GetMonthlyIntrestRate(intrestRate) {
 
-  let goodIntrestRatePercent = CheckMethodType(intrestRate,'float');
-  let goodIntrestRateInt = CheckMethodType(intrestRate,'number');
+  let goodIntrestRatePercent = CheckMethodType(intrestRate, 'float');
+  let goodIntrestRateInt = CheckMethodType(intrestRate, 'number');
   ///let goodDebtAmount = CheckMethodType(debtAmount,'float')
-  
 
-  if(goodIntrestRatePercent ||  goodIntrestRateInt){
+
+  if (goodIntrestRatePercent || goodIntrestRateInt) {
 
     //let percent = (intrestRate / 100)
-    
+
 
     const monthlyIntrestRate = intrestRate / 12;
 
-   return monthlyIntrestRate;
+    return monthlyIntrestRate;
 
-  }else{
+  } else {
     return intrestRate
   }
 
-  
-  
+
+
 }
 
-export function FindAllOriginalDebt(customArry = []){
+export function FindAllOriginalDebt(customArry = []) {
   let goodCustomArry = CheckMethodType(customArry, 'array');
   let totalDebt = 0;
 
-  if(goodCustomArry){
-      customArry.forEach((arry) => {
-        totalDebt += arry.originalDebtAmount;
+  if (goodCustomArry) {
+    customArry.forEach((arry) => {
+      totalDebt += arry.originalDebtAmount;
 
-      })
+    })
 
   }
-  
+
   return totalDebt;
 }
 
 //returns the amount that will be added to the minimum payment to help pay it off faster.
-export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
+export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -443,12 +443,12 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
   let allMinimum = 0;
   let totalIncome = 0;
 
-  if(goodDebtArry && goodIncomeArry){
+  if (goodDebtArry && goodIncomeArry) {
 
-      debtArry.forEach((debt) => {
-       allMinimum = allMinimum + debt.originalMinumnPayment;
-      
-      })
+    debtArry.forEach((debt) => {
+      allMinimum = allMinimum + debt.originalMinumnPayment;
+
+    })
 
     totalIncome = DivideIncomeByOurr(incomeArry);
 
@@ -456,81 +456,81 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []){
 
     return amountToBeAdded;
 
-  }else{
+  } else {
 
     //IDK 
   }
 
 }
 
-export function UpdateMiniMumPayment(debtArry =[], amount){
+export function UpdateMiniMumPayment(debtArry = [], amount) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodAmount = CheckMethodType(amount, 'number');
 
-  if(goodDebtArry && goodAmount){
+  if (goodDebtArry && goodAmount) {
 
-    
-  
-        let tempAmount = 0;
-        let incrementer = 0;
 
-      
 
-        for(let i = 0; i < debtArry.length; i++){
-          if(amount > debtArry[i].originalDebtAmount){
+    let tempAmount = 0;
+    let incrementer = 0;
 
-            debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
-            debtArry[i].isPayedOff = true;
-            amount  -= debtArry[i].originalDebtAmount
-          }
-          else{
-            if(amount != 0){
-              debtArry[i].minumnPayment += amount;
-              amount -= amount;
-            }
-           
-          }
-          if(amount == 0){
-            break;
-          }
+
+
+    for (let i = 0; i < debtArry.length; i++) {
+      if (amount > debtArry[i].originalDebtAmount) {
+
+        debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
+        debtArry[i].isPayedOff = true;
+        amount -= debtArry[i].originalDebtAmount
+      }
+      else {
+        if (amount != 0) {
+          debtArry[i].minumnPayment += amount;
+          amount -= amount;
         }
 
-        // while(amount != 0){
+      }
+      if (amount == 0) {
+        break;
+      }
+    }
 
-           
-
-        //     if(amount > debtArry[0].originalDebtAmount){
-
-        //       debtArry[incrementer].minumnPayment = debtArry[incrementer].originalDebtAmount;
-        //       amount  -= tempAmount
-        //     }
-        //     else{
-        //       if(amount != 0){
-        //         debtArry[incrementer].minumnPayment += amount;
-        //         amount -= amount;
-        //       }
-        //       else{
-        //         return;
-        //       }
-             
-        //     }
-        //    if(amount > 0){
-        //     incrementer++;
-        //    }
+    // while(amount != 0){
 
 
-        // }
+
+    //     if(amount > debtArry[0].originalDebtAmount){
+
+    //       debtArry[incrementer].minumnPayment = debtArry[incrementer].originalDebtAmount;
+    //       amount  -= tempAmount
+    //     }
+    //     else{
+    //       if(amount != 0){
+    //         debtArry[incrementer].minumnPayment += amount;
+    //         amount -= amount;
+    //       }
+    //       else{
+    //         return;
+    //       }
+
+    //     }
+    //    if(amount > 0){
+    //     incrementer++;
+    //    }
+
+
+    // }
 
     return debtArry;
 
-  }else{
+  } else {
 
   }
 }
 
 
-export function PayBareMinimum(debtArry = [], incomeArry = []){
+export function PayBareMinimum(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -538,23 +538,23 @@ export function PayBareMinimum(debtArry = [], incomeArry = []){
   let totalIncome = 0;
   let allDebtMinimum = 0;
 
-  if(goodDebtArry && goodIncomeArry){
+  if (goodDebtArry && goodIncomeArry) {
 
     totalIncome = DivideIncomeByOurr(incomeArry);
     debtArry.forEach((debt) => {
       allDebtMinimum += debt.minumnPayment;
     })
-    
-    if(totalIncome >= allDebtMinimum){
-        canPayMinimum = true;
-    }else{
+
+    if (totalIncome >= allDebtMinimum) {
+      canPayMinimum = true;
+    } else {
       canPayMinimum = false;
     }
 
     return canPayMinimum;
 
 
-  }else{
+  } else {
     //Not sure yet
 
   }
@@ -568,90 +568,90 @@ export function PayBareMinimum(debtArry = [], incomeArry = []){
 
 //-----------------------------------------CUSTOM
 
-export function CustomDebtPaymentFrame(customArry = [], totalIncome ){
+export function CustomDebtPaymentFrame(customArry = [], totalIncome) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   const goodIncome = CheckMethodType(totalIncome, 'float');
   let returnArry = [];
-  
-
-   
-  if(goodCustomArry && goodIncome){
-      //loop through customArry and use the percent of pay to determin how 
-      //much of the total Income will go to paying off that debt.
-      customArry.forEach((Arry) => {
-      let customDebtFrame = new CustomDebtPayOffTimeFrameModel;
-
-       // let percentOfPay = 0;
-        let amountOfPay = 0;
-        let percentOfPay = Arry.percentOfIncome;
-
-       amountOfPay = ReturnPercentageAmount(percentOfPay, totalIncome);
-      
-       if(amountOfPay >= Arry.originalDebtAmount){
-
-          if((amountOfPay - Arry.originalDebtAmount) > 0){
-            Arry.isPayedOff = true;
-            Arry.amountLeftOver = ((amountOfPay - Arry.originalDebtAmount));
-            Arry.currentDebtAmount = 0;
-            Arry.amountOfPayUsed = amountOfPay;
-            Arry.payOffStyle = "custom"
-          }
-          
-       }else if((amountOfPay - Arry.originalDebtAmount) <= 0){
-            Arry.currentDebtAmount = SubtractAmountFromDebt(Arry.originalDebtAmount, amountOfPay);
-            if(Arry.currentDebtAmount > 0){
-              Arry.isPayedOff == false;
-            }
-            Arry.amountOfPayUsed = amountOfPay;
-            Arry.payOffStyle = "custom"
-       }
 
 
-       customDebtFrame.creditorName = Arry.creditorName;
-       customDebtFrame.originalDebtAmount = Arry.originalDebtAmount;
-       customDebtFrame.currentDebtAmount = Arry.currentDebtAmount;
-       customDebtFrame.percentOfIncome = Arry.percentOfIncome;
-       customDebtFrame.isPayedOff = Arry.isPayedOff;
-       customDebtFrame.amountOfPayUsed = Arry.amountOfPayUsed;
-       customDebtFrame.lastUpdated =  Date.now();
-       customDebtFrame.amountLeftOver = Arry.amountLeftOver;
 
-       returnArry.push(customDebtFrame);
+  if (goodCustomArry && goodIncome) {
+    //loop through customArry and use the percent of pay to determin how 
+    //much of the total Income will go to paying off that debt.
+    customArry.forEach((Arry) => {
+      let customDebtFrame = new customDebtPayOffTimeFrameModel;
 
-      })
+      // let percentOfPay = 0;
+      let amountOfPay = 0;
+      let percentOfPay = Arry.percentOfIncome;
 
-      
-        
+      amountOfPay = ReturnPercentageAmount(percentOfPay, totalIncome);
 
-      
+      if (amountOfPay >= Arry.originalDebtAmount) {
 
-      
+        if ((amountOfPay - Arry.originalDebtAmount) > 0) {
+          Arry.isPayedOff = true;
+          Arry.amountLeftOver = ((amountOfPay - Arry.originalDebtAmount));
+          Arry.currentDebtAmount = 0;
+          Arry.amountOfPayUsed = amountOfPay;
+          Arry.payOffStyle = "custom"
+        }
 
-      return returnArry;
+      } else if ((amountOfPay - Arry.originalDebtAmount) <= 0) {
+        Arry.currentDebtAmount = SubtractAmountFromDebt(Arry.originalDebtAmount, amountOfPay);
+        if (Arry.currentDebtAmount > 0) {
+          Arry.isPayedOff == false;
+        }
+        Arry.amountOfPayUsed = amountOfPay;
+        Arry.payOffStyle = "custom"
+      }
 
-      
+
+      customDebtFrame.creditorName = Arry.creditorName;
+      customDebtFrame.originalDebtAmount = Arry.originalDebtAmount;
+      customDebtFrame.currentDebtAmount = Arry.currentDebtAmount;
+      customDebtFrame.percentOfIncome = Arry.percentOfIncome;
+      customDebtFrame.isPayedOff = Arry.isPayedOff;
+      customDebtFrame.amountOfPayUsed = Arry.amountOfPayUsed;
+      customDebtFrame.lastUpdated = Date.now();
+      customDebtFrame.amountLeftOver = Arry.amountLeftOver;
+
+      returnArry.push(customDebtFrame);
+
+    })
+
+
+
+
+
+
+
+
+    return returnArry;
+
+
 
   }
-  else{
+  else {
 
   }
 
 }
 //This method will use the amount left over to pay off the remain debts
-export function PayOffRemainingDebt(customArry = []){
+export function PayOffRemainingDebt(customArry = []) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   let totalLeftOver = 0;
 
-  if(goodCustomArry){
+  if (goodCustomArry) {
 
-    
+
     customArry.forEach((arry) => {
 
-      if(arry.isPayedOff == true && arry.amountLeftOver > 0){
-          totalLeftOver += arry.amountLeftOver;
-          arry.amountLeftOver = 0;
+      if (arry.isPayedOff == true && arry.amountLeftOver > 0) {
+        totalLeftOver += arry.amountLeftOver;
+        arry.amountLeftOver = 0;
       }
       // else {
 
@@ -659,35 +659,35 @@ export function PayOffRemainingDebt(customArry = []){
       // }
     })
 
-    customArry.forEach((arry) =>{
+    customArry.forEach((arry) => {
 
-        if(totalLeftOver == 0){
-          return
-        }
-        else{
-          if(arry.isPayedOff == false){
-            if(totalLeftOver > arry.currentDebtAmount){
-                totalLeftOver -= arry.currentDebtAmount
-                arry.currentDebtAmount = 0;
-                arry.isPayedOff = true;
+      if (totalLeftOver == 0) {
+        return
+      }
+      else {
+        if (arry.isPayedOff == false) {
+          if (totalLeftOver > arry.currentDebtAmount) {
+            totalLeftOver -= arry.currentDebtAmount
+            arry.currentDebtAmount = 0;
+            arry.isPayedOff = true;
+          }
+          else {
+            if (totalLeftOver > 0) {
+              arry.currentDebtAmount -= totalLeftOver;
+              totalLeftOver -= totalLeftOver;
+              //totalLeftOver = 0;
+
             }
-            else{
-              if(totalLeftOver > 0){
-                  arry.currentDebtAmount -= totalLeftOver;
-                  totalLeftOver -= totalLeftOver;
-                  //totalLeftOver = 0;
-               
-              }
-            }
+          }
         }
-        }
-       
+      }
+
     })
 
-    if(totalLeftOver > 0){
+    if (totalLeftOver > 0) {
       let x = totalLeftOver;
       customArry[0].amountLeftOver = x;
-      
+
     }
 
     return customArry;
@@ -696,65 +696,65 @@ export function PayOffRemainingDebt(customArry = []){
 }
 
 //runs through all of the debt and returns the total
-export function FindAllCurrentDebt(customArry = []){
-      let goodCustomArry = CheckMethodType(customArry, 'array');
-      let totalDebt = 0;
+export function FindAllCurrentDebt(customArry = []) {
+  let goodCustomArry = CheckMethodType(customArry, 'array');
+  let totalDebt = 0;
 
-      if(goodCustomArry){
-          customArry.forEach((arry) => {
-            totalDebt += arry.currentDebtAmount;
+  if (goodCustomArry) {
+    customArry.forEach((arry) => {
+      totalDebt += arry.currentDebtAmount;
 
-          })
+    })
 
-      }
-      
-      return totalDebt;
+  }
+
+  return totalDebt;
 }
 
 //Used at the end to return the amount leftover to the user
-export function FindAmountLeftOver(customArry = []){
+export function FindAmountLeftOver(customArry = []) {
 
   let goodCustomArry = CheckMethodType(customArry, 'array');
   let totalAmount = 0;
 
-  if(goodCustomArry){
-      customArry.forEach((arry) => {
-        totalAmount += arry.amountLeftOver;
+  if (goodCustomArry) {
+    customArry.forEach((arry) => {
+      totalAmount += arry.amountLeftOver;
 
-      })
+    })
 
   }
-  
+
   return totalAmount;
 
 }
 
 //returns a bool value if all of the current debts are paid
-export function CheckIfAllDebtsArePaid(customArry = []){
+export function CheckIfAllDebtsArePaid(customArry = []) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   let allDebtsPaid = false;
   let debtCount = 1;
 
-  if(goodCustomArry){
-      customArry.forEach((arry) => {
-        if(arry.currentDebtAmount > 0){
-           debtCount = debtCount + 1;
-        }
-      })
-      if(debtCount > 1){
-        allDebtsPaid = false;
+  if (goodCustomArry) {
+    customArry.forEach((arry) => {
+      if (arry.currentDebtAmount > 0) {
+        debtCount = debtCount + 1;
       }
-      else if(debtCount === 1){
-        allDebtsPaid = true;
-      }
-      return allDebtsPaid
+    })
+    if (debtCount > 1) {
+      allDebtsPaid = false;
+    }
+    else if (debtCount === 1) {
+      allDebtsPaid = true;
+    }
+    return allDebtsPaid
   }
 
 
 }
 
-export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
+export function CustomPayBareMinimum(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -762,94 +762,94 @@ export function CustomPayBareMinimum(debtArry = [], incomeArry = []){
   let totalIncome = 0;
   let allDebtMinimum = 0;
 
-  if(goodDebtArry && goodIncomeArry){
+  if (goodDebtArry && goodIncomeArry) {
 
     totalIncome = DivideIncomeByOurr(incomeArry);
     debtArry.forEach((debt) => {
       allDebtMinimum += debt.originalDebtAmount;
     })
-    
-    if(totalIncome >= allDebtMinimum){
-        canPayMinimum = true;
-    }else{
+
+    if (totalIncome >= allDebtMinimum) {
+      canPayMinimum = true;
+    } else {
       canPayMinimum = false;
     }
 
     return canPayMinimum;
 
 
-  }else{
+  } else {
     //Not sure yet
 
   }
 }
 
 //Not needed----\\\\\\\\\\
-export function UpdateLeftOverAmount(debtArry =[], amount){
+export function UpdateLeftOverAmount(debtArry = [], amount) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodAmount = CheckMethodType(amount, 'number');
 
-  if(goodDebtArry && goodAmount){
+  if (goodDebtArry && goodAmount) {
 
-    
-  
-        let tempAmount = 0;
-        let incrementer = 0;
 
-      
 
-        for(let i = 0; i < debtArry.length; i++){
-          if(amount > debtArry[i].originalDebtAmount){
+    let tempAmount = 0;
+    let incrementer = 0;
 
-            debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
-            debtArry[i].isPayedOff = true;
-            amount  -= debtArry[i].originalDebtAmount
-          }
-          else{
-            if(amount != 0){
-              debtArry[i].minumnPayment += amount;
-              amount -= amount;
-            }
-           
-          }
-          if(amount == 0){
-            break;
-          }
+
+
+    for (let i = 0; i < debtArry.length; i++) {
+      if (amount > debtArry[i].originalDebtAmount) {
+
+        debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
+        debtArry[i].isPayedOff = true;
+        amount -= debtArry[i].originalDebtAmount
+      }
+      else {
+        if (amount != 0) {
+          debtArry[i].minumnPayment += amount;
+          amount -= amount;
         }
 
-        
+      }
+      if (amount == 0) {
+        break;
+      }
+    }
+
+
 
     return debtArry;
 
-  }else{
+  } else {
 
   }
 }
 
 //-----------------------------------------------------BOTH
 
-export function getTotalIncomeAmount(incomeArry = []){
+export function getTotalIncomeAmount(incomeArry = []) {
 
-//   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
-//   let returnAmount  = 0;
+  //   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+  //   let returnAmount  = 0;
 
-//   if(goodIncomeArry){
+  //   if(goodIncomeArry){
 
-//      incomeArry.forEach((arry) => {
+  //      incomeArry.forEach((arry) => {
 
-//       returnAmount += arry.amount;
+  //       returnAmount += arry.amount;
 
-//      })
+  //      })
 
-//      return returnAmount;
-//   }
+  //      return returnAmount;
+  //   }
 
-//   return returnAmount;
+  //   return returnAmount;
 }
 
 //Returns a true / false if the method arg matches the type
-export function CheckMethodType(input, type){
+export function CheckMethodType(input, type) {
 
   //The input is the data that is being passed through the parent method
   //The type is a string that will say what type of data should of been passed to the method
@@ -857,151 +857,151 @@ export function CheckMethodType(input, type){
 
   let correctAmount = false;
 
-    switch(type){
+  switch (type) {
 
-      case 'string':
-        if(typeof input === 'string'){
-          correctAmount = true;
-        }
-        else{
-          correctAmount = false;
-        }
-        return correctAmount;
-
-      case 'number':
-        if(Number.isInteger(input) ){
-          correctAmount = true;
-        }
-        else{
-          correctAmount = false;
-        }
-
-      return correctAmount;
-
-      case 'float':
-
-      if (typeof input === 'number' && !Number.isInteger(input) || Number.isInteger(input)){
+    case 'string':
+      if (typeof input === 'string') {
         correctAmount = true;
       }
-      else{
+      else {
         correctAmount = false;
       }
       return correctAmount;
 
-      case 'array':
-        if(Array.isArray(input)){
-          correctAmount = true;
-        }
-        else{
-          correctAmount = false;
-        }
-      
+    case 'number':
+      if (Number.isInteger(input)) {
+        correctAmount = true;
+      }
+      else {
+        correctAmount = false;
+      }
+
       return correctAmount;
 
-      default:
-        return correctAmount;
-    }
+    case 'float':
+
+      if (typeof input === 'number' && !Number.isInteger(input) || Number.isInteger(input)) {
+        correctAmount = true;
+      }
+      else {
+        correctAmount = false;
+      }
+      return correctAmount;
+
+    case 'array':
+      if (Array.isArray(input)) {
+        correctAmount = true;
+      }
+      else {
+        correctAmount = false;
+      }
+
+      return correctAmount;
+
+    default:
+      return correctAmount;
+  }
 
 
 
 }
 
-export function SortDebtCustom(customArry = [], sortItem = '', direction = ''){
+export function SortDebtCustom(customArry = [], sortItem = '', direction = '') {
 
   const goodArray = CheckMethodType(customArry, 'array');
   const goodSort = CheckMethodType(sortItem, 'string');
-  const  goodDirection = CheckMethodType(direction, 'string')
+  const goodDirection = CheckMethodType(direction, 'string')
 
-  if(goodArray && goodSort && goodDirection){
-   if(direction.toLowerCase() == 'low'){
-      switch(sortItem){
+  if (goodArray && goodSort && goodDirection) {
+    if (direction.toLowerCase() == 'low') {
+      switch (sortItem) {
 
         case 'originalDebtAmount':
-          customArry.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
+          customArry.sort((a, b) => a.originalDebtAmount - b.originalDebtAmount)
           break;
         case 'currentDebtAmount':
-          customArry.sort((a,b) => a.currentDebtAmount - b.currentDebtAmount)
+          customArry.sort((a, b) => a.currentDebtAmount - b.currentDebtAmount)
           break;
         case 'percentOfPayUsed':
-          customArry.sort((a,b) => a.percentOfPayUsed - b.percentOfPayUsed)
+          customArry.sort((a, b) => a.percentOfPayUsed - b.percentOfPayUsed)
           break;
         case 'amountOfPayUsed':
-          customArry.sort((a,b) => a.amountOfPayUsed - b.amountOfPayUsed)
+          customArry.sort((a, b) => a.amountOfPayUsed - b.amountOfPayUsed)
           break;
         case 'amountLeftOver':
-          customArry.sort((a,b) => a.amountLeftOver - b.amountLeftOver)
+          customArry.sort((a, b) => a.amountLeftOver - b.amountLeftOver)
           break;
         case 'intrestRate':
-          customArry.sort((a,b) => a.intrestRate - b.intrestRate)
+          customArry.sort((a, b) => a.intrestRate - b.intrestRate)
           break;
         case 'minumnPayment':
-          customArry.sort((a,b) => a.minumnPayment - b.minumnPayment)
+          customArry.sort((a, b) => a.minumnPayment - b.minumnPayment)
           break;
-          case 'monthlyPayment':
-            customArry.sort((a,b) => a.monthlyPayment - b.monthlyPayment)
-            break;
-          case 'originalMinumnPayment':
-            customArry.sort((a,b) => a.originalMinumnPayment - b.originalMinumnPayment)
-            break;
-          case 'percentOfIncome':
-            customArry.sort((a,b) => a.percentOfIncome - b.percentOfIncome)
-            break;
+        case 'monthlyPayment':
+          customArry.sort((a, b) => a.monthlyPayment - b.monthlyPayment)
+          break;
+        case 'originalMinumnPayment':
+          customArry.sort((a, b) => a.originalMinumnPayment - b.originalMinumnPayment)
+          break;
+        case 'percentOfIncome':
+          customArry.sort((a, b) => a.percentOfIncome - b.percentOfIncome)
+          break;
 
       }
 
-   }else if(direction.toLowerCase() == 'high'){
-    switch(sortItem){
+    } else if (direction.toLowerCase() == 'high') {
+      switch (sortItem) {
 
-      case 'originalDebtAmount':
-        customArry.sort((a,b) => b.originalDebtAmount - a.originalDebtAmount )
-        break;
-      case 'currentDebtAmount':
-        customArry.sort((a,b) => b.currentDebtAmount - a.currentDebtAmount )
-        break;
-      case 'percentOfPayUsed':
-        customArry.sort((a,b) => b.percentOfPayUsed - a.percentOfPayUsed )
-        break;
-      case 'amountOfPayUsed':
-        customArry.sort((a,b) => b.amountOfPayUsed - a.amountOfPayUsed )
-        break;
-      case 'amountLeftOver':
-        customArry.sort((a,b) => b.amountLeftOver - a.amountLeftOver )
-        break;
-      case 'intrestRate':
-          customArry.sort((a,b) => b.intrestRate - a.intrestRate)
+        case 'originalDebtAmount':
+          customArry.sort((a, b) => b.originalDebtAmount - a.originalDebtAmount)
           break;
-      case 'minumnPayment':
-          customArry.sort((a,b) => b.minumnPayment - a.minumnPayment)
+        case 'currentDebtAmount':
+          customArry.sort((a, b) => b.currentDebtAmount - a.currentDebtAmount)
           break;
-      case 'monthlyPayment':
-            customArry.sort((a,b) => b.monthlyPayment - a.monthlyPayment)
-            break;
-      case 'originalMinumnPayment':
-            customArry.sort((a,b) => b.originalMinumnPayment - a.originalMinumnPayment)
-            break;
-            case 'percentOfIncome':
-              customArry.sort((a,b) => b.percentOfIncome - a.percentOfIncome)
-              break;
+        case 'percentOfPayUsed':
+          customArry.sort((a, b) => b.percentOfPayUsed - a.percentOfPayUsed)
+          break;
+        case 'amountOfPayUsed':
+          customArry.sort((a, b) => b.amountOfPayUsed - a.amountOfPayUsed)
+          break;
+        case 'amountLeftOver':
+          customArry.sort((a, b) => b.amountLeftOver - a.amountLeftOver)
+          break;
+        case 'intrestRate':
+          customArry.sort((a, b) => b.intrestRate - a.intrestRate)
+          break;
+        case 'minumnPayment':
+          customArry.sort((a, b) => b.minumnPayment - a.minumnPayment)
+          break;
+        case 'monthlyPayment':
+          customArry.sort((a, b) => b.monthlyPayment - a.monthlyPayment)
+          break;
+        case 'originalMinumnPayment':
+          customArry.sort((a, b) => b.originalMinumnPayment - a.originalMinumnPayment)
+          break;
+        case 'percentOfIncome':
+          customArry.sort((a, b) => b.percentOfIncome - a.percentOfIncome)
+          break;
+
+      }
+    } else {
 
     }
-   }else{
-
-   }
     return customArry;
 
   }
 
 }
 
-export function ReturnPercentageAmount(percentage, amount){
-  const goodAmount= CheckMethodType(amount, 'float');
+export function ReturnPercentageAmount(percentage, amount) {
+  const goodAmount = CheckMethodType(amount, 'float');
   const goodPercentage = CheckMethodType(percentage, 'float');
   let returnAmount = 0;
 
-  if(goodAmount && goodPercentage){
+  if (goodAmount && goodPercentage) {
     returnAmount = ((amount / 10) * percentage);
 
-  }else{
+  } else {
     return returnAmount
   }
 
@@ -1010,15 +1010,15 @@ export function ReturnPercentageAmount(percentage, amount){
 }
 //console.log(ReturnPercentageAmount(1.5, 400))
 
-export function SubtractAmountFromDebt(debt, amount){
+export function SubtractAmountFromDebt(debt, amount) {
 
 
-return debt = debt - amount;
+  return debt = debt - amount;
 
 }
 
 //returns the amount of money that is needed per month 
-export function DivideIncomeByOurr(incomeArry = []){
+export function DivideIncomeByOurr(incomeArry = []) {
   const goodIncome = CheckMethodType(incomeArry, 'array');
 
   let weeklyIcomeArry = [];
@@ -1028,10 +1028,10 @@ export function DivideIncomeByOurr(incomeArry = []){
 
   let totalMonthlyIncome = 0;
 
-  if(goodIncome){
+  if (goodIncome) {
 
     incomeArry.forEach((income) => {
-      switch(income.occurrence){
+      switch (income.occurrence) {
 
         case 'weekly':
           weeklyIcomeArry.push(income.amount);
@@ -1044,41 +1044,41 @@ export function DivideIncomeByOurr(incomeArry = []){
           break;
         case 'annually':
           AnnuallyIncomeArry.push(income.amount);
-        break;
+          break;
       }
     })
 
-    if(weeklyIcomeArry.length >= 1){
+    if (weeklyIcomeArry.length >= 1) {
 
-        weeklyIcomeArry.forEach((week) => {
+      weeklyIcomeArry.forEach((week) => {
 
-            totalMonthlyIncome += (week * 4)
-        })
-     }
-    if(biWeeklyIncomeArry.length >= 1){
+        totalMonthlyIncome += (week * 4)
+      })
+    }
+    if (biWeeklyIncomeArry.length >= 1) {
 
       biWeeklyIncomeArry.forEach((week) => {
 
-          totalMonthlyIncome += (week * 2)
+        totalMonthlyIncome += (week * 2)
       })
     }
-    if(semiAnnuallyIncomeArry.length >= 1){
+    if (semiAnnuallyIncomeArry.length >= 1) {
 
       semiAnnuallyIncomeArry.forEach((week) => {
 
-          totalMonthlyIncome += ((week * 2) / 12)
+        totalMonthlyIncome += ((week * 2) / 12)
       })
     }
-    if(AnnuallyIncomeArry.length >= 1){
+    if (AnnuallyIncomeArry.length >= 1) {
 
       AnnuallyIncomeArry.forEach((week) => {
 
-        totalMonthlyIncome += (week  / 12)
+        totalMonthlyIncome += (week / 12)
       })
     }
-      return totalMonthlyIncome;
+    return totalMonthlyIncome;
 
-  }else{
+  } else {
     return totalMonthlyIncome;
   }
 
@@ -1089,11 +1089,11 @@ export function DivideIncomeByOurr(incomeArry = []){
 
 
 //These methods are used to update OutCome model
-export function UpdateBudgetOutCome(){
+export function UpdateBudgetOutCome() {
 
 }
 
-export function UpdateCustomBudgetOutCome(){
-  
+export function UpdateCustomBudgetOutCome() {
+
 }
 

@@ -1,5 +1,5 @@
 
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, CustomDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
 import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr } from './HelperFuctions.js'
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
@@ -347,8 +347,9 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
     const currentUser = customBudetFrame.user;
     const payUserOptions = customBudetFrame.payUserOptions;
     const useLeftOver = customBudetFrame.useLeftOver;
-
     let customBudetOutcome = new CustomBudgetOutcomeModel;
+
+
     let customBudgetArry = [];
 
     // let totalIncome = 0;
@@ -358,6 +359,8 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
     if (CustomPayBareMinimum(debtCollection, incomeCollection)) {
 
+
+
         sortedArray = SortDebtCustom(debtCollection, 'percentOfIncome', 'high');
         let totalIncome = DivideIncomeByOurr(incomeCollection);
         let budgetOutcomeArry = CustomDebtPaymentFrame(sortedArray, totalIncome);
@@ -365,14 +368,19 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
         if (useLeftOver == true) {
 
             let remainingOutcomeArry = PayOffRemainingDebt(budgetOutcomeArry)
+            // console.log(remainingOutcomeArry);
 
             let amountLeftOver = FindAmountLeftOver(remainingOutcomeArry)
 
 
             if (CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0) {
                 customBudetOutcome.AllDebtsPayedOff = true;
-                customBudetOutcome.isUserPaid = true;
-                customBudetOutcome.payAmount = amountLeftOver;
+                customBudetOutcome.PayUser.isUserPaid = true;
+                customBudetOutcome.PayUser.payAmount = amountLeftOver;
+
+
+
+                //console.log(customBudetOutcome);
                 // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
                 amountLeftOver -= amountLeftOver;
 
@@ -394,20 +402,31 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
             remainingOutcomeArry.forEach((arry) => {
 
-                let customPayOffTimeFrame = new CustomDebtPayOffTimeFrameModel;
+                let customPayOffTimeFrame = new customDebtPayOffTimeFrameModel;
 
                 customPayOffTimeFrame.creditorName = arry.creditorName;
+                //console.log(customPayOffTimeFrame.creditorName);
                 customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+
                 customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
                 customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
                 customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
+                //   console.log(customPayOffTimeFrame.isPayedOff)
                 customPayOffTimeFrame.payOffStyle = payOffStyle;
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver;
+                //  console.log(customPayOffTimeFrame.amountLeftOver)
 
-                console.log(arry);
-                customBudetOutcome.customPayOffFrame.push(arry);
+                //customBudgetArry.push(customPayOffTimeFrame)
+                // console.log(arry);
+                //  console.log(customPayOffTimeFrame);
+                customBudetOutcome.customPayOffFrameArry.push(customPayOffTimeFrame);
             })
 
+
+
+
+
+            //console.log(customBudetOutcome);
 
         }
 
@@ -431,12 +450,14 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
         }
 
 
-
+        return customBudetOutcome
     }
 
     //customBudetOutcome.customPayOffFrame = customBudgetArry;
 
-    return customBudetOutcome;
+    //return customBudetOutcome;
+
+
 }
 export function CreateBudgetFrame() {
 

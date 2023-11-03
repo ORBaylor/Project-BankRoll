@@ -4,13 +4,13 @@ const { Schema } = mongoose;
 
 const settingSchema = new Schema({
 
-        //User-specific settings and preferences, such as currency format, 
-        //time zone, language, and notification preferences.
+    //User-specific settings and preferences, such as currency format, 
+    //time zone, language, and notification preferences.
 
-        //Make a setting that will change the graph that the user is shown
-        //Maybe use an int? 
-        //1=Pie
-        //2=Bar
+    //Make a setting that will change the graph that the user is shown
+    //Maybe use an int? 
+    //1=Pie
+    //2=Bar
 
 })
 export const SettingsModel = mongoose.model('SettingsModel', settingSchema)
@@ -19,16 +19,16 @@ const userSchema = new Schema({
     Name: String,
     UserName: String,
     Password: String,
-   ContactInformation: {
-    EmailAdress: String,
-    PhoneNumber: Number
-   }
+    ContactInformation: {
+        EmailAdress: String,
+        PhoneNumber: Number
+    }
 
 
 })
 export let UserModel = mongoose.model('UserModel', userSchema)
 
-const PayUserSchema =  new Schema({
+const PayUserSchema = new Schema({
     isUserPaid: Boolean,
     payPercent: Number,
     payAmount: Number
@@ -36,7 +36,7 @@ const PayUserSchema =  new Schema({
 let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 
 const debtSchema = new Schema({
-    
+
     creditorName: String,
     originalDebtAmount: Number,
     currentDebtAmount: Number,
@@ -44,24 +44,24 @@ const debtSchema = new Schema({
     originalMinumnPayment: Number,
     minumnPayment: Number,
     isPayedOff: Boolean,
-    dueDate: {type: Date, default: Date.now()},
+    dueDate: { type: Date, default: Date.now() },
 
-   
+
 })
 export let DebtModel = mongoose.model('DebtModel', debtSchema)
 
 const CustomDebtSchema = new Schema({
-    
+
     creditorName: String,
     originalDebtAmount: Number,
     currentDebtAmount: String,
     percentOfIncome: Number,
     amountLeftOver: Number,
     isPayedOff: Boolean,
-    
-   // dueDate: {type: Date, default: Date.now()},
 
-    
+    // dueDate: {type: Date, default: Date.now()},
+
+
 })
 export let CustomDebtModel = mongoose.model('DebtModel', debtSchema)
 
@@ -80,7 +80,7 @@ const customPayOffOptions = new Schema({
     payMore: Boolean,
     payLess: Boolean,
     PaffOff: Boolean,
-    payMorePercent:  Number,
+    payMorePercent: Number,
     payLessPercent: Number,
 
 })
@@ -96,28 +96,28 @@ let budgetFrame = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'DebtModel'
-          },
+        },
     ],
     IncomeCollection: [
         {
-           type: mongoose.Schema.Types.ObjectId,
-           ref: 'IncomeModel'
-       },
-   ],
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'IncomeModel'
+        },
+    ],
     //Use the minimum payment the user set in the debt 
     //to pay off the debt
     //useMinimumPayment: Boolean,
 
     //Use the Monthly payment the user set in the debt
     //to pay off the debt
-   // useMonthlyPayment: Boolean,
+    // useMonthlyPayment: Boolean,
 
-   // useIncomeCollection: Boolean,
+    // useIncomeCollection: Boolean,
     payOffStyle: String,
-     
+
     //The Date the user would like to have there dabt payed off,
     //Check and see if the user can pay off the debt by the date
-   // PayOffDate: Date,
+    // PayOffDate: Date,
 
 
 
@@ -141,15 +141,15 @@ const customBudgetFrame = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'DebtModel'
-          },
+        },
     ],
     IncomeCollection: [
-         {
+        {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'IncomeModel'
         },
     ],
-   
+
 
 
 })
@@ -161,31 +161,31 @@ const budgetOutcome = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
     },
-        //A Key value pair of the debts and 
-        //when they will be payed off
-       // daysUntilAllDebtPayedOff: Map,
+    //A Key value pair of the debts and 
+    //when they will be payed off
+    // daysUntilAllDebtPayedOff: Map,
 
-        //A key vaule pair of the debts that are
-        //payed off
-       // debtsPayedOff: Map,
+    //A key vaule pair of the debts that are
+    //payed off
+    // debtsPayedOff: Map,
 
-        //A key value pair of the intrest each debt has paid/will pay
-        //  intrestPayed: Map,
+    //A key value pair of the intrest each debt has paid/will pay
+    //  intrestPayed: Map,
 
-        //A key value pair of the debts and what day the payment is due.
-        //The user will be sent an email when the payment is close to being due
-        //And when it is due
-        notificationEmailList: Map,
+    //A key value pair of the debts and what day the payment is due.
+    //The user will be sent an email when the payment is close to being due
+    //And when it is due
+    notificationEmailList: Map,
 
-       // payOffMethod: String,
+    // payOffMethod: String,
 
-        DebtPayOffArray: [
-             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'debtPayOffTimeFrameModel'
-            }
-        ],
-        isPayedOff: Boolean,
+    DebtPayOffArray: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'debtPayOffTimeFrameModel'
+        }
+    ],
+    isPayedOff: Boolean,
 
 
 })
@@ -193,26 +193,33 @@ export let BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutco
 
 const customBudgetOutcome = new Schema({
 
+    AllDebtsPayedOff: Boolean,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
     },
-    customPayOffFrame: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'CustomDebtPayOffTimeFrameModel'
-        }
 
-    ],
-    AllDebtsPayedOff: Boolean,
+    // customPayOffFrameArry: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'customDebtPayOffTimeFrameModel'
+    //     }
+
+    // ],
+    customPayOffFrameArry: {
+        type: Array,
+        default: [],
+    },
+
     PayUser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PayUserModel'
+        isUserPaid: Boolean,
+        payPercent: Number,
+        payAmount: Number
     }
-   
-       //A key vaule pair of the debts that are
-        //payed off
-    
+
+    //A key vaule pair of the debts that are
+    //payed off
+
 
 
 
@@ -221,39 +228,39 @@ export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel',
 
 const debtPayOffTimeFrame = new Schema({
 
-   creditorName: String,
+    creditorName: String,
 
-   totalPayments: Number,
-   paymentsLeft: Number,
+    totalPayments: Number,
+    paymentsLeft: Number,
 
-   payment: Number,
+    payment: Number,
 
-   originalDebtAmount: Number,
-   currentDebtAmount: Number,
+    originalDebtAmount: Number,
+    currentDebtAmount: Number,
 
-   totalIntrest: Number,
-   intrestPayed: Number,
+    totalIntrest: Number,
+    intrestPayed: Number,
 
-   payOffStyle: String,
+    payOffStyle: String,
 
-   PaymentDate: Date,
-   PayOffDate: Date,
-   lastUpdated: Date,
+    PaymentDate: Date,
+    PayOffDate: Date,
+    lastUpdated: Date,
 
 
 })
 
 export let debtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
 
-const CustomDebtPayOffTimeFrame = new Schema({
+const customDebtPayOffTimeFrame = new Schema({
     creditorName: String,
- 
+
 
     originalDebtAmount: Number,
     currentDebtAmount: Number,
 
     percentOfPayUsed: Number,
- 
+
     //MAY NOT BE NEEDED!!
     // totalIntrest: Number,
     // intrestPayed: Number,
@@ -262,23 +269,23 @@ const CustomDebtPayOffTimeFrame = new Schema({
     amountOfPayUsed: Number,
 
     isPayedOff: Boolean,
- 
+
     payOffStyle: String,
- 
-   // dueDate: Date,
+
+    // dueDate: Date,
     lastUpdated: Date,
 
     amountLeftOver: Number
 
-   
 
 
- 
- 
- })
- 
- export let CustomDebtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
- 
+
+
+
+})
+
+export let customDebtPayOffTimeFrameModel = mongoose.model('customDebtPayOffTimeFrame', customDebtPayOffTimeFrame)
+
 
 
 
