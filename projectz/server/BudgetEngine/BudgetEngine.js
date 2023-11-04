@@ -4,6 +4,82 @@ import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAdded
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
 
+data = {
+    user: {
+        FirstName: 'O',
+        LastName: 'Bay',
+        UserName: 'Godbrand',
+        Password: 'password',
+        ContactInformation: {
+            EmailAdress: 'test@test.com',
+            PhoneNumber: '888-888-8888'
+        }
+    },
+    debts: [
+        {
+            creditorName: "Car",
+            originalDebtAmount: 40000,
+            currentDebtAmount: 40000,
+            intrestRate: 0.3,
+            originalMinumnPayment: 600,
+            minumnPayment: 600,
+            isPayedOff: false,
+
+        },
+        {
+            creditorName: "CuraLeaf",
+            originalDebtAmount: 500,
+            currentDebtAmount: 500,
+            intrestRate: 0.1,
+            originalMinumnPayment: 60,
+            minumnPayment: 60,
+            isPayedOff: false,
+        },
+        {
+            creditorName: "Best Buy",
+            originalDebtAmount: 509,
+            currentDebtAmount: 509,
+            intrestRate: 0.4,
+            originalMinumnPayment: 60,
+            minumnPayment: 60,
+            isPayedOff: false,
+        },
+        {
+            creditorName: "Discover",
+            originalDebtAmount: 1009,
+            currentDebtAmount: 1009,
+            intrestRate: 0.9,
+            originalMinumnPayment: 60,
+            minumnPayment: 60,
+            isPayedOff: false,
+        }
+
+    ],
+    income: [
+
+        {
+            name: 'drugs',
+            amount: 300,
+            occurrence: 'weekly'
+        },
+        {
+            name: 'guns',
+            amount: 500,
+            occurrence: 'bi-weekly'
+        },
+        {
+            name: 'Other Drugs',
+            amount: 30000,
+            occurrence: 'annually'
+        },
+    ],
+}
+
+
+
+
+
+
 let frame = new budgetFrameModel;
 let custFrame = new CustomBudgetFrameModel
 let car = new DebtModel;
@@ -22,25 +98,25 @@ let guns = new IncomeModel;
 let moreGuns = new IncomeModel;
 
 guns.name = 'guns';
-guns.amount = 500;
+guns.amount = 200;
 guns.occurrence = 'weekly';
 
 moreGuns.name = 'drugs';
-moreGuns.amount = 600;
+moreGuns.amount = 350;
 moreGuns.occurrence = 'bi-weekly';
 
 drugs.name = 'drugs';
-drugs.amount = 30000;
+drugs.amount = 20000;
 drugs.occurrence = 'annually';
 
 
 
 car.creditorName = 'Car'
-car.originalDebtAmount = 400;
-car.currentDebtAmount = 400;
+car.originalDebtAmount = 800;
+car.currentDebtAmount = 800;
 car.intrestRate = 0.3;
-car.originalMinumnPayment = 60;
-car.minumnPayment = 60;
+car.originalMinumnPayment = 80;
+car.minumnPayment = 80;
 car.isPayedOff = false;
 
 
@@ -70,23 +146,23 @@ Discover.isPayedOff = false;
 
 
 car2.creditorName = 'Car 2'
-car2.originalDebtAmount = 400;
-car2.currentDebtAmount = 400;
+car2.originalDebtAmount = 800;
+car2.currentDebtAmount = 800;
 car2.percentOfIncome = 2.5;
 car2.isPayedOff = false;
 car2.amountLeftOver = 0;
 
 
 CuraLeaf2.creditorName = 'Cura Leaf'
-CuraLeaf2.originalDebtAmount = 600;
-CuraLeaf2.currentDebtAmount = 600;
+CuraLeaf2.originalDebtAmount = 900;
+CuraLeaf2.currentDebtAmount = 900;
 CuraLeaf2.percentOfIncome = 2.5;
 CuraLeaf2.isPayedOff = false;
 CuraLeaf2.amountLeftOver = 0;
 
 BestBuy2.creditorName = 'Best Buy'
-BestBuy2.originalDebtAmount = 500;
-BestBuy2.currentDebtAmount = 500;
+BestBuy2.originalDebtAmount = 700;
+BestBuy2.currentDebtAmount = 700;
 BestBuy2.percentOfIncome = 2.5;
 BestBuy2.isPayedOff = false;
 BestBuy2.amountLeftOver = 0;
@@ -120,8 +196,14 @@ IncomeCollection.push(moreGuns)
 
 
 let user = {
-    name: '0',
-    userName: 'That guy'
+    FirstName: 'O',
+    LastName: 'Bay',
+    UserName: 'Godbrand',
+    Password: 'password',
+    ContactInformation: {
+        EmailAdress: 'test@test.com',
+        PhoneNumber: '888-888-8888'
+    }
 }
 
 // IncomeCollection = [
@@ -359,7 +441,7 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
     if (CustomPayBareMinimum(debtCollection, incomeCollection)) {
 
-
+        customBudetOutcome.isValid = true;
 
         sortedArray = SortDebtCustom(debtCollection, 'percentOfIncome', 'high');
         let totalIncome = DivideIncomeByOurr(incomeCollection);
@@ -414,6 +496,7 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
                 //   console.log(customPayOffTimeFrame.isPayedOff)
                 customPayOffTimeFrame.payOffStyle = payOffStyle;
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver;
+
                 //  console.log(customPayOffTimeFrame.amountLeftOver)
 
                 //customBudgetArry.push(customPayOffTimeFrame)
@@ -429,11 +512,10 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
             //console.log(customBudetOutcome);
 
         }
-
         else {
 
             let amountLeftOver = FindAmountLeftOver(budgetOutcomeArry)
-
+            customBudetOutcome.AllDebtsPayedOff = CheckIfAllDebtsArePaid(budgetOutcomeArry);
 
             if (amountLeftOver > 0) {
                 customBudetOutcome.PayUser.isUserPaid = true;
@@ -442,15 +524,49 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
                 amountLeftOver -= amountLeftOver;
 
             }
-            customBudgetArry = budgetOutcomeArry;
+            //customBudgetArry = budgetOutcomeArry;
 
 
             //PayOffRemainingDebt
             //Paying a user is only going to happen if there is money left over
+
+            budgetOutcomeArry.forEach((arry) => {
+
+                let customPayOffTimeFrame = new customDebtPayOffTimeFrameModel;
+
+                customPayOffTimeFrame.creditorName = arry.creditorName;
+                //console.log(customPayOffTimeFrame.creditorName);
+                customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
+
+                customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
+                customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
+                customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
+                //   console.log(customPayOffTimeFrame.isPayedOff)
+                customPayOffTimeFrame.payOffStyle = payOffStyle;
+                customPayOffTimeFrame.amountLeftOver = amountLeftOver;
+                //  console.log(customPayOffTimeFrame.amountLeftOver)
+
+                //customBudgetArry.push(customPayOffTimeFrame)
+                // console.log(arry);
+                //  console.log(customPayOffTimeFrame);
+                customBudetOutcome.customPayOffFrameArry.push(customPayOffTimeFrame);
+
+            })
+
         }
 
 
         return customBudetOutcome
+    }
+    else {
+        //TELL THE USER THEY DO NOT HAVE ENOUGH MONEY TO PAY DEBTS
+        customBudetOutcome.user = currentUser;
+        customBudetOutcome.PayUser.isUserPaid = false;
+        customBudetOutcome.PayUser.payAmount = 0;
+        customBudetOutcome.customPayOffFrameArry = [];
+        customBudetOutcome.isValid = false;
+
+        return customBudetOutcome;
     }
 
     //customBudetOutcome.customPayOffFrame = customBudgetArry;
@@ -459,7 +575,9 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 
 
 }
-export function CreateBudgetFrame() {
+export function CreateBudgetFrame(data) {
+
+    let budgetFrame = new CustomBudgetFrameModel;
 
 }
 

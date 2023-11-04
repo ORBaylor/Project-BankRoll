@@ -16,12 +16,13 @@ const settingSchema = new Schema({
 export const SettingsModel = mongoose.model('SettingsModel', settingSchema)
 
 const userSchema = new Schema({
-    Name: String,
+    FirstName: String,
+    LastName: String,
     UserName: String,
     Password: String,
     ContactInformation: {
         EmailAdress: String,
-        PhoneNumber: Number
+        PhoneNumber: String
     }
 
 
@@ -194,6 +195,7 @@ export let BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutco
 const customBudgetOutcome = new Schema({
 
     AllDebtsPayedOff: Boolean,
+    isValid: Boolean,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel'
