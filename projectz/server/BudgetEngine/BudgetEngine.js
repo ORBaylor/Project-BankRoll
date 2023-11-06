@@ -4,7 +4,8 @@ import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAdded
 //import * as HelperFuctionsJs from './HelperFuctions.js'
 
 
-data = {
+const data = {
+    payOffStyle: 'snowball',
     user: {
         FirstName: 'O',
         LastName: 'Bay',
@@ -578,7 +579,59 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 export function CreateBudgetFrame(data) {
 
     let budgetFrame = new CustomBudgetFrameModel;
+    let user = new UserModel;
 
+
+    let incomeArry = [];
+    let debtArry = []
+    let payOffStyle = '';
+
+    //MAKE A CHECK TO SEE IF THE DATA THAT IS BEING PASSED IN IS VALID
+
+    if (data.payOffStyle == '') {
+        return;
+    } else {
+        payOffStyle = data.payOffStyle
+    }
+
+    user = data.user;
+
+    data.debts.forEach((debtJson) => {
+        let debts = new DebtModel;
+
+        debts.creditorName = debtJson.creditorName;
+        debts.originalDebtAmount = debtJson.originalDebtAmount;
+        debts.currentDebtAmount = debtJson.currentDebtAmount;
+        debts.intrestRate = debtJson.intrestRate;
+        debts.originalMinumnPayment = debtJson.originalMinumnPayment;
+        debts.minumnPayment = debtJson.minumnPayment;
+        debts.isPayedOff = debtJson.isPayedOff;
+        debts.dueDate = debtJson.dueDate;
+
+        debtArry.push(debts);
+
+    })
+
+    data.income.forEach((incomeJson) => {
+        let income = new IncomeModel
+        income.name = incomeJson.name;
+        income.amount = incomeJson.amount;
+        income.occurrence = incomeJson.occurrence;
+
+        incomeArry.push(income);
+
+        // name: String,
+        //     amount: Number,
+        //         occurrence: String,
+    })
+
+    //CHECK TO SEE IF THE ARRAYS ARE EMPTY;
+    budgetFrame.DebtCollection = debtArry;
+    budgetFrame.IncomeCollection = incomeArry;
+    budgetFrame.user = data.user;;
+    budgetFrame.payOffStyle = payOffStyle;
+
+    return budgetFrame;
 }
 
 export function CreateCustomBudgetFrame() {
@@ -587,7 +640,10 @@ export function CreateCustomBudgetFrame() {
 
 let custBudget = CreateCustomBudget(custFrame);
 
-console.log(custBudget);
+//console.log(custBudget);
+
+const bugetFram = CreateBudgetFrame(data);
+console.log(bugetFram);
 
 // export function UpdateBudget(){
 
