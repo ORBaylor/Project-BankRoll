@@ -89,10 +89,7 @@ let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', custom
 
 let budgetFrame = new Schema({
 
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
-    },
+    user_id: String,
     DebtCollection: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -130,10 +127,7 @@ const customBudgetFrame = new Schema({
 
     payOffStyle: String,
     useLeftOver: Boolean,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
-    },
+    user_id: String,
     // customPayOffOption: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'CustomPayOffOptionsModel'

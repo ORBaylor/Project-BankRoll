@@ -6,16 +6,17 @@ import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAdded
 
 const data = {
     payOffStyle: 'snowball',
-    user: {
-        FirstName: 'O',
-        LastName: 'Bay',
-        UserName: 'Godbrand',
-        Password: 'password',
-        ContactInformation: {
-            EmailAdress: 'test@test.com',
-            PhoneNumber: '888-888-8888'
-        }
-    },
+    user_id: 'asdijfoajsodjaojsd',
+    // user: {
+    //     FirstName: 'O',
+    //     LastName: 'Bay',
+    //     UserName: 'Godbrand',
+    //     Password: 'password',
+    //     ContactInformation: {
+    //         EmailAdress: 'test@test.com',
+    //         PhoneNumber: '888-888-8888'
+    //     }
+    // },
     debts: [
         {
             creditorName: "Car",
@@ -76,6 +77,75 @@ const data = {
     ],
 }
 
+const data2 = {
+    payOffStyle: 'custom',
+    useLeftOver: true,
+    user_id: 'asdijfoajsodjaojsd',
+    debts: [
+        {
+            creditorName: "payPal",
+            originalDebtAmount: 4109,
+            currentDebtAmount: 4109,
+            percentOfPayUsed: 3,
+            amountOfPayUsed: 0,
+            isPayedOff: false,
+            payOffStyle: "",
+            lastUpdated: Date.now(),
+            amountLeftOver: 0,
+        },
+        {
+            creditorName: "policeAndFire",
+            originalDebtAmount: 2450,
+            currentDebtAmount: 2450,
+            percentOfPayUsed: 2,
+            amountOfPayUsed: 0,
+            isPayedOff: false,
+            payOffStyle: "",
+            lastUpdated: Date.now(),
+            amountLeftOver: 0,
+        },
+        {
+            creditorName: "420 Empire",
+            originalDebtAmount: 4020,
+            currentDebtAmount: 4020,
+            percentOfPayUsed: 3,
+            amountOfPayUsed: 0,
+            isPayedOff: false,
+            payOffStyle: "",
+            lastUpdated: Date.now(),
+            amountLeftOver: 0,
+        },
+        {
+            creditorName: "Disover",
+            originalDebtAmount: 3970,
+            currentDebtAmount: 3970,
+            percentOfPayUsed: 2,
+            amountOfPayUsed: 0,
+            isPayedOff: false,
+            payOffStyle: "",
+            lastUpdated: new Date(),
+            amountLeftOver: 0,
+        }
+    ],
+    income: [
+
+        {
+            name: 'drugs',
+            amount: 300,
+            occurrence: 'weekly'
+        },
+        {
+            name: 'guns',
+            amount: 500,
+            occurrence: 'bi-weekly'
+        },
+        {
+            name: 'Other Drugs',
+            amount: 30000,
+            occurrence: 'annually'
+        },
+    ],
+}
 
 
 
@@ -309,11 +379,6 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
 
             //Let the User know the income will not pay off the debt.
         }
-
-
-
-
-
         //Pay the largest or highest interest rate debt as 
         //fast as possible. Pay minimums on all other debt.
     } else if (payOffStyle === 'avalanche') {
@@ -578,9 +643,8 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 }
 export function CreateBudgetFrame(data) {
 
-    let budgetFrame = new CustomBudgetFrameModel;
-    let user = new UserModel;
-
+    let budgetFrame = new budgetFrameModel;
+    let user_ID = data.user_id;
 
     let incomeArry = [];
     let debtArry = []
@@ -594,7 +658,17 @@ export function CreateBudgetFrame(data) {
         payOffStyle = data.payOffStyle
     }
 
-    user = data.user;
+
+
+    // FirstName: String,
+    // LastName: String,
+    // UserName: String,
+    // Password: String,
+    // ContactInformation: {
+    // EmailAdress: String,
+    // PhoneNumber: String
+    // }
+
 
     data.debts.forEach((debtJson) => {
         let debts = new DebtModel;
@@ -628,14 +702,61 @@ export function CreateBudgetFrame(data) {
     //CHECK TO SEE IF THE ARRAYS ARE EMPTY;
     budgetFrame.DebtCollection = debtArry;
     budgetFrame.IncomeCollection = incomeArry;
-    budgetFrame.user = data.user;;
+    budgetFrame.user_id = user_ID;
     budgetFrame.payOffStyle = payOffStyle;
+    console.log(budgetFrame.user_id);
+
 
     return budgetFrame;
 }
 
-export function CreateCustomBudgetFrame() {
+export function CreateCustomBudgetFrame(data) {
+    let customBudgetFrame = new CustomBudgetFrameModel
+    let user_ID = data.user_id;
 
+    let incomeArry = [];
+    let debtArry = []
+    let payOffStyle = '';
+
+    //MAKE A CHECK TO SEE IF THE DATA THAT IS BEING PASSED IN IS VALID
+
+    if (data.payOffStyle == '') {
+        return;
+    } else {
+        payOffStyle = data.payOffStyle
+    }
+
+    data.debts.forEach((debtJson) => {
+        let customDebt = new CustomDebtModel;
+        customDebt.creditorName = debtJson.creditorName;
+        customDebt.originalDebtAmount = debtJson.originalDebtAmount;
+        customDebt.currentDebtAmount = debtJson.currentDebtAmount;
+        customDebt.percentOfIncome = debtJson.percentOfIncome;
+        customDebt.amountLeftOver = debtJson.amountLeftOver;
+        customDebt.isPayedOff = debtJson.isPayedOff;
+
+        debtArry.push(customDebt);
+    })
+
+    data.income.forEach((incomeJson) => {
+        let income = new IncomeModel
+        income.name = incomeJson.name;
+        income.amount = incomeJson.amount;
+        income.occurrence = incomeJson.occurrence;
+
+        incomeArry.push(income);
+
+        // name: String,
+        //     amount: Number,
+        //         occurrence: String,
+    })
+
+    customBudgetFrame.DebtCollection = debtArry;
+    customBudgetFrame.IncomeCollection = incomeArry;
+    customBudgetFrame.user_id = user_ID;
+    customBudgetFrame.payOffStyle = payOffStyle;
+
+    return customBudgetFrame
 }
 
 let custBudget = CreateCustomBudget(custFrame);
@@ -645,6 +766,8 @@ let custBudget = CreateCustomBudget(custFrame);
 const bugetFram = CreateBudgetFrame(data);
 console.log(bugetFram);
 
+const customBudgetFrame = CreateCustomBudgetFrame(data2);
+console.log(customBudgetFrame);
 // export function UpdateBudget(){
 
 // }
