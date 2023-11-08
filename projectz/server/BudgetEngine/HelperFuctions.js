@@ -466,7 +466,7 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []) {
 export function UpdateMiniMumPayment(debtArry = [], amount) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
-  const goodAmount = CheckMethodType(amount, 'number');
+  const goodAmount = CheckMethodType(amount, 'float');
 
   if (goodDebtArry && goodAmount) {
 
@@ -525,7 +525,7 @@ export function UpdateMiniMumPayment(debtArry = [], amount) {
     return debtArry;
 
   } else {
-
+    return debtArry;
   }
 }
 

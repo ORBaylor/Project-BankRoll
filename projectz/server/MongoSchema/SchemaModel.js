@@ -229,12 +229,12 @@ const debtPayOffTimeFrame = new Schema({
     totalPayments: Number,
     paymentsLeft: Number,
 
-    payment: Number,
+    MinimumPayment: Number,
 
     originalDebtAmount: Number,
     currentDebtAmount: Number,
 
-    totalIntrest: Number,
+    totalIntrestPaid: Number,
     intrestPayed: Number,
 
     payOffStyle: String,
