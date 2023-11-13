@@ -1097,3 +1097,13 @@ export function UpdateCustomBudgetOutCome() {
 
 }
 
+//Might move to the Mongo Helper functions
+export function RemovedPayedOffDebts(debtArray = []) {
+
+  //returns a mapped array, removing the debts that are payed off
+}
+
+export function AddErrMessage() {
+  //take in a error type and a model
+  //returns a model with error information
+}

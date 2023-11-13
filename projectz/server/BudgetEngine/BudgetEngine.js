@@ -203,66 +203,66 @@ moreGuns.amount = 350;
 moreGuns.occurrence = 'bi-weekly';
 
 drugs.name = 'drugs';
-drugs.amount = 20000;
+drugs.amount = 45000;
 drugs.occurrence = 'annually';
 
 
 
 car.creditorName = 'Car'
-car.originalDebtAmount = 800;
-car.currentDebtAmount = 800;
+car.originalDebtAmount = 26000;
+car.currentDebtAmount = 26000;
 car.intrestRate = 0.3;
-car.originalMinumnPayment = 80;
-car.minumnPayment = 80;
+car.originalMinumnPayment = 300;
+car.minumnPayment = 300;
 car.isPayedOff = false;
 
 weed.creditorName = 'Weed'
 weed.originalDebtAmount = 1200;
 weed.currentDebtAmount = 1200;
-weed.intrestRate = 0.4;
-weed.originalMinumnPayment = 60;
-weed.minumnPayment = 60;
+weed.intrestRate = 0.1;
+weed.originalMinumnPayment = 30;
+weed.minumnPayment = 30;
 weed.isPayedOff = false;
 
 MoreWeed.creditorName = 'More weed'
 MoreWeed.originalDebtAmount = 1500;
 MoreWeed.currentDebtAmount = 1500;
-MoreWeed.intrestRate = 0.6;
-MoreWeed.originalMinumnPayment = 80;
-MoreWeed.minumnPayment = 80;
+MoreWeed.intrestRate = 0.1;
+MoreWeed.originalMinumnPayment = 60;
+MoreWeed.minumnPayment = 60;
 MoreWeed.isPayedOff = false;
 
 Things.creditorName = 'Things'
 Things.originalDebtAmount = 1100;
 Things.currentDebtAmount = 1100;
 Things.intrestRate = 0.2;
-Things.originalMinumnPayment = 30;
-Things.minumnPayment = 30;
+Things.originalMinumnPayment = 20;
+Things.minumnPayment = 20;
 Things.isPayedOff = false;
 
 
 CuraLeaf.creditorName = 'Cura Leaf'
-CuraLeaf.originalDebtAmount = 600;
-CuraLeaf.currentDebtAmount = 600;
-CuraLeaf.intrestRate = 0.6;
+CuraLeaf.originalDebtAmount = 2000;
+CuraLeaf.currentDebtAmount = 2000;
+CuraLeaf.intrestRate = 0.3;
 CuraLeaf.originalMinumnPayment = 80;
 CuraLeaf.minumnPayment = 80;
 CuraLeaf.isPayedOff = false;
 
 BestBuy.creditorName = 'Best Buy'
-BestBuy.originalDebtAmount = 500;
-BestBuy.currentDebtAmount = 500;
+BestBuy.originalDebtAmount = 5000;
+BestBuy.currentDebtAmount = 5000;
 BestBuy.intrestRate = 0.5;
-BestBuy.originalMinumnPayment = 70;
-BestBuy.minumnPayment = 70;
+BestBuy.originalMinumnPayment = 170;
+BestBuy.minumnPayment = 170;
 BestBuy.isPayedOff = false;
 
 Discover.creditorName = 'Discover'
-Discover.originalDebtAmount = 760;
-Discover.currentDebtAmount = 760;
-Discover.intrestRate = 0.7;
-Discover.originalMinumnPayment = 75;
-Discover.minumnPayment = 75;
+Discover.originalDebtAmount = 8060;
+Discover.currentDebtAmount = 8060;
+Discover.intrestRate = 0.4;
+Discover.originalMinumnPayment = 125;
+Discover.minumnPayment = 125;
 Discover.isPayedOff = false;
 
 
@@ -312,9 +312,9 @@ DebtCollection.push(weed);
 DebtCollection.push(MoreWeed);
 DebtCollection.push(Things);
 
-IncomeCollection.push(guns)
+//IncomeCollection.push(guns)
 IncomeCollection.push(drugs)
-IncomeCollection.push(moreGuns)
+//IncomeCollection.push(moreGuns)
 
 
 
@@ -400,12 +400,12 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
             case 'avalanche':
 
                 //Sort the Array depending on the pay Off style
-                sortedArray = SortDebtCustom(debtCollection, 'intrestRate', 'high');
+                sortedArray = SortDebtCustom(debtCollection, 'originalDebtAmount', 'high');
 
                 break;
             case 'minimun':
                 //Sort the Array depending on the pay Off style
-                sortedArray = SortDebtCustom(debtCollection, 'intrestRate', 'high');
+                sortedArray = SortDebtCustom(debtCollection, 'minumnPayment', 'high');
 
                 break;
         }
@@ -428,6 +428,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
             outputTimeFrame.creditorName = arry.creditorName;
             outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
             outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+            console.log("total payments:" + outputTimeFrame.totalPayments + " Payments Left:" + outputTimeFrame.paymentsLeft);
             outputTimeFrame.MinimumPayment = arry.minumnPayment;
             outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
             outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
@@ -438,6 +439,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
             outputTimeFrame.PaymentDate = arry.dueDate;
             outputTimeFrame.payOffStyle = payOffStyle;
             outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
+            outputTimeFrame.isPayedOff = (GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment) == 1 ? true : false);
 
             budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
         })
