@@ -1,15 +1,35 @@
 import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
 import { log, ceil, } from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
+import { Finance } from 'financejs'
+//import { pmtjs } from 'pmtjs'
+let finance = new Finance();
 
-//Model vars
-// let User = new UserModel;
-// let Debt = new DebtModel;
-// let Income = new IncomeModel;
-// let budgetFrame = new budgetFrameModel;
-// let CustomBudgetFrame = new CustomBudgetFrameModel;
-// let BudgetOutcome = new BudgetOutcomeModel;
-// let CustomBudgetOutcome = new CustomBudgetOutcomeModel;
+// let newMinumPayment = 3220;
+// let totalmonths = 0
+// let currentPayment = 0;
+// let x = 1;
+// let isMin = false;
+// while (isMin = true) {
+
+
+//   currentPayment = finance.AM(26000, 2.5, x, 1);
+
+//   if (currentPayment >= newMinumPayment) {
+//     x++;
+//   }
+//   else {
+//     totalmonths = x;
+//     isMin = false;
+//   }
+
+// }
+
+//console.log(`total Number of Months: ${totalmonths}`);
+
+//let test = finance.AM(36320.57, 2.5, 2, 1);
+//let test = finance.AM(2000, 2.5, 4, 1);
+//console.log("Finace Method:" + test);
 
 //import {UserModel} from '../MongoSchema/SchemaModel.js';
 
@@ -319,73 +339,141 @@ export function AddPercentage() {
 
 
 //A method to get the total number of payments
-export function GetTotalPayments(debtAmount, intrestRate, payment) {
+export function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment) {
 
-  let isGoodAmount = CheckMethodType(debtAmount, 'float');
-  let isGoodRate = CheckMethodType(intrestRate, 'float');
-  let isGoodPayment = CheckMethodType(payment, "float")
+  let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
+  let isGoodRate = CheckMethodType(annualInterestRate, 'float');
+  let isGoodPayment = CheckMethodType(monthlyPayment, "float")
   let totalMonths = 0;
   let monthlyIntrestRate = 0;
 
 
   if (isGoodAmount && isGoodPayment && isGoodRate) {
 
-    if (debtAmount == payment) {
+    if (initialLoanAmount == monthlyPayment) {
       return totalMonths = 1
     }
     else {
-      //monthlyIntrestRate = GetMonthlyIntrestRate(intrestRate);
-      monthlyIntrestRate = intrestRate / 12;
-      //   totalMonths = -log(1 - ((amount * monthlyIntrestRate)/ payment)) / log(1 + monthlyIntrestRate)
-      //totalMonths = -log(1 - ((10000 * 0.004167) / 200)) / log(1 + 0.004167) //≈ 68.75
 
-      //totalMonths =               -Math.log(1 - (amount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate) 
-      totalMonths = -Math.log(1 - (debtAmount * monthlyIntrestRate / payment)) / Math.log(1 + monthlyIntrestRate);
 
+      // const monthlyInterestRate = annualInterestRate / 12 / 100;
+
+      // // Calculate the number of months to pay off the debt
+      // const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
+
+      // const roundedMonths = Math.ceil(monthsToPayOff);
+
+
+      let currentPayment = 0;
+      let x = 1;
+      let isMin = false;
+      while (isMin == false) {
+
+
+        currentPayment = finance.AM(initialLoanAmount, annualInterestRate, x, 1);
+
+        if (currentPayment >= monthlyPayment) {
+          x++;
+
+        }
+        else {
+          totalMonths = x;
+          isMin = true;
+        }
+
+      }
 
     }
 
-    const totalPayMonths = ceil(totalMonths);
 
-    return totalPayMonths
+
+
+
   } else {
 
   }
 
-  // return totalMonths;
+  return totalMonths;
 
 
 }
 
+//console.log(GetTotalPayments(26000, 0.3, 300));
 //A method to update how much intresst have been payed so far.
 
-export function calculatePayoffDate(debtAmount, annualInterestRate, monthlyPayment) {
-  // Calculate the monthly interest rate
-  const monthlyInterestRate = annualInterestRate / 12;
-
-  // Calculate the number of months required to pay off the debt
-  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+export function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayment) {
 
 
-  //console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
-  // Round up to the nearest whole month
-  const roundedMonths = Math.ceil(numberOfMonths);
+  let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
+  let isGoodRate = CheckMethodType(annualInterestRate, 'float');
+  let isGoodPayment = CheckMethodType(monthlyPayment, "float")
+  if (isGoodAmount && isGoodPayment && isGoodRate) { }
 
-  // Calculate the payoff date
-  const today = new Date();
-  const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
+  if (initialLoanAmount === monthlyPayment) {
+    //Debt is payed off
+    return new Date();
+  }
+  else {
+    // Calculate the monthly interest rate
+    //const monthlyInterestRate = annualInterestRate / 12;
 
-  return payoffDate.toDateString();
+    // Calculate the number of months required to pay off the debt
+    //const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+
+    //const numberOfMonths = finance.AM(debtAmount, 7.5, 85, 1);
+
+    //console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
+    // Round up to the nearest whole month
+    const monthlyInterestRate = annualInterestRate / 12 / 100;
+
+    // Calculate the number of months to pay off the debt
+    const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
+
+    const roundedMonths = Math.ceil(monthsToPayOff);
+
+    // Calculate the payoff date
+    const today = new Date();
+    const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
+    return payoffDate.toDateString();
+  }
+
+
 }
 
-export function GetTotalIntrest(debtAmount, annualInterestRate, monthlyPayment) {
+export function GetTotalIntrest(initialLoanAmount, annualInterestRate) {
 
+  let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
+  let isGoodRate = CheckMethodType(annualInterestRate, 'float');
+  let isGoodPayment = CheckMethodType(monthlyPayment, "float")
+  if (isGoodAmount && isGoodRate) {
+
+
+
+    // Calculate the number of months to pay off the debt
+    // const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
+
+    // const roundedMonths = Math.ceil(monthsToPayOff);
+
+    // const totalIntrest = ((monthsToPayOff * monthlyPayment) - debtAmount).toFixed(2)
+
+
+    const monthlyInterestRate = annualInterestRate / 12 / 100;
+
+    // Calculate total interest paid over the entire loan period
+    const totalInterestPaid = initialLoanAmount * monthlyInterestRate;
+
+    return totalInterestPaid;
+
+  } else {
+
+  }
   // Calculate the monthly interest rate
-  const monthlyInterestRate = annualInterestRate / 12;
+  const monthlyInterestRate = annualInterestRate / 12 / 100;
 
-  // Calculate the number of months required to pay off the debt
-  const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
+  // Calculate the number of months to pay off the debt
+  const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
 
+  const roundedMonths = Math.ceil(monthsToPayOff);
   const totalIntrest = ((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2)
 
   return totalIntrest;
@@ -1107,3 +1195,7 @@ export function AddErrMessage() {
   //take in a error type and a model
   //returns a model with error information
 }
+
+
+//A set of fuctions are going to have to be made to update the Budget Frame Models
+//Maybe put them in a different folder

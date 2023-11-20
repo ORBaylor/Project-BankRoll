@@ -243,6 +243,8 @@ const debtPayOffTimeFrame = new Schema({
     PayOffDate: Date,
     lastUpdated: Date,
 
+    isPayedOff: Boolean,
+
 
 })
 
