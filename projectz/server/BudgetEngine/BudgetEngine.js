@@ -211,7 +211,7 @@ drugs.occurrence = 'annually';
 car.creditorName = 'Car'
 car.originalDebtAmount = 26000;
 car.currentDebtAmount = 26000;
-car.intrestRate = 3.0;
+car.intrestRate = 7.0;
 car.originalMinumnPayment = 300;
 car.minumnPayment = 300;
 car.isPayedOff = false;
@@ -219,7 +219,7 @@ car.isPayedOff = false;
 weed.creditorName = 'Weed'
 weed.originalDebtAmount = 1200;
 weed.currentDebtAmount = 1200;
-weed.intrestRate = 1.0;
+weed.intrestRate = 8.0;
 weed.originalMinumnPayment = 30;
 weed.minumnPayment = 30;
 weed.isPayedOff = false;
@@ -227,7 +227,7 @@ weed.isPayedOff = false;
 MoreWeed.creditorName = 'More weed'
 MoreWeed.originalDebtAmount = 1500;
 MoreWeed.currentDebtAmount = 1500;
-MoreWeed.intrestRate = 1.0;
+MoreWeed.intrestRate = 2.0;
 MoreWeed.originalMinumnPayment = 60;
 MoreWeed.minumnPayment = 60;
 MoreWeed.isPayedOff = false;
@@ -235,7 +235,7 @@ MoreWeed.isPayedOff = false;
 Things.creditorName = 'Things'
 Things.originalDebtAmount = 1100;
 Things.currentDebtAmount = 1100;
-Things.intrestRate = 2.0;
+Things.intrestRate = 6.0;
 Things.originalMinumnPayment = 20;
 Things.minumnPayment = 20;
 Things.isPayedOff = false;
@@ -244,7 +244,7 @@ Things.isPayedOff = false;
 CuraLeaf.creditorName = 'Cura Leaf'
 CuraLeaf.originalDebtAmount = 2000;
 CuraLeaf.currentDebtAmount = 2000;
-CuraLeaf.intrestRate = 3.0;
+CuraLeaf.intrestRate = 8.0;
 CuraLeaf.originalMinumnPayment = 80;
 CuraLeaf.minumnPayment = 80;
 CuraLeaf.isPayedOff = false;
@@ -252,7 +252,7 @@ CuraLeaf.isPayedOff = false;
 BestBuy.creditorName = 'Best Buy'
 BestBuy.originalDebtAmount = 5000;
 BestBuy.currentDebtAmount = 5000;
-BestBuy.intrestRate = 5.0;
+BestBuy.intrestRate = 2.0;
 BestBuy.originalMinumnPayment = 170;
 BestBuy.minumnPayment = 170;
 BestBuy.isPayedOff = false;
@@ -260,7 +260,7 @@ BestBuy.isPayedOff = false;
 Discover.creditorName = 'Discover test'
 Discover.originalDebtAmount = 5000;
 Discover.currentDebtAmount = 5000;
-Discover.intrestRate = 5.0;
+Discover.intrestRate = 9.0;
 Discover.originalMinumnPayment = 170;
 Discover.minumnPayment = 170;
 Discover.isPayedOff = false;
@@ -353,7 +353,7 @@ let user = {
 frame.user = user;
 frame.DebtCollection = DebtCollection;
 frame.IncomeCollection = IncomeCollection;
-frame.payOffStyle = 'avalanche';
+frame.payOffStyle = 'minimun';
 
 custFrame.user = user;
 custFrame.DebtCollection = CustomDebtCollection;
@@ -410,30 +410,37 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
                 break;
         }
 
+        if (!payOffStyle == 'minimun') {
+            //console.log(sortedArray);
+            //Grab the first debt in the Array and modify the miniumPayment
+            //Add what is left of the money to the miniumPayment
+            minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
+            //console.log(minimumAdded);
+            updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
+            //console.log(updatedArray);
 
-        //console.log(sortedArray);
-        //Grab the first debt in the Array and modify the miniumPayment
-        //Add what is left of the money to the miniumPayment
-        minimumAdded = AmountAddedToCurrentDebt(debtCollection, incomeCollection);
-        //console.log(minimumAdded);
-        updatedArray = UpdateMiniMumPayment(sortedArray, minimumAdded);
-        //console.log(updatedArray);
+        } else {
+            updatedArray = sortedArray;
+        }
+
 
         //Run through all of the debts in the array 
         //caculate what needs to be caculated 
         //add the results to the budegframe model.
         updatedArray.forEach((arry) => {
             let outputTimeFrame = new debtPayOffTimeFrameModel;
+            let totalMonths = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
 
             outputTimeFrame.creditorName = arry.creditorName;
-            outputTimeFrame.totalPayments = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
-            outputTimeFrame.paymentsLeft = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment);
+            outputTimeFrame.totalPayments = totalMonths;
+            outputTimeFrame.paymentsLeft = totalMonths;
             //console.log("total payments:" + outputTimeFrame.totalPayments + " Payments Left:" + outputTimeFrame.paymentsLeft);
             outputTimeFrame.MinimumPayment = arry.minumnPayment;
             outputTimeFrame.originalDebtAmount = arry.originalDebtAmount;
             outputTimeFrame.currentDebtAmount = arry.originalDebtAmount;
 
-            // outputTimeFrame.totalIntrestPaid = GetTotalIntrest(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment).toFixed(2);
+            //Intrest paid 
+            outputTimeFrame.totalIntrestPaid = GetTotalIntrest(arry.originalDebtAmount, arry.minumnPayment, totalMonths).toFixed(2);
             // outputTimeFrame.intrestPayed = GetMonthlyIntrestRate(arry.intrestRate);
 
             outputTimeFrame.PaymentDate = arry.dueDate;
