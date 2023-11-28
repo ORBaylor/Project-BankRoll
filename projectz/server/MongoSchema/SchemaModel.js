@@ -244,6 +244,8 @@ const debtPayOffTimeFrame = new Schema({
     lastUpdated: Date,
 
     isPayedOff: Boolean,
+    hasError: Boolean
+
 
 
 })
@@ -273,7 +275,8 @@ const customDebtPayOffTimeFrame = new Schema({
     // dueDate: Date,
     lastUpdated: Date,
 
-    amountLeftOver: Number
+    amountLeftOver: Number,
+    hasError: Boolean
 
 
 

@@ -5,6 +5,7 @@ import { Finance } from 'financejs'
 //import { pmtjs } from 'pmtjs'
 let finance = new Finance();
 
+
 // let newMinumPayment = 3220;
 // let totalmonths = 0
 // let currentPayment = 0;
@@ -377,11 +378,17 @@ export function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyP
 
         }
         else {
+          //Check and see if the remaining amount is over 50%
+          //if 
+
+
           totalMonths = x;
           isMin = true;
         }
 
       }
+
+
 
     }
 
@@ -1229,6 +1236,57 @@ export function AddErrMessage() {
   //returns a model with error information
 }
 
+//budgetType = 0 budget
+//budgetType = 1 customBudget
+export function ReturnErrorFrame(budgetType) {
+
+  let errFrame = new debtPayOffTimeFrameModel;
+  let customErrFrame = new customDebtPayOffTimeFrameModel
+
+
+
+  const goodType = CheckMethodType(budgetType, 'float');
+
+  try {
+
+    if (goodType && (budgetType == 0 || budgetType == 1)) {
+
+      if (budgetType == 0) {
+        errFrame.creditorName = "Can't Pay";
+        errFrame.totalPayments = 0;
+        errFrame.paymentsLeft = 0
+        errFrame.MinimumPayment = 0;
+        errFrame.originalDebtAmount = 0;
+        errFrame.currentDebtAmount = 0;
+        errFrame.totalIntrestPaid = 0;
+        errFrame.payOffStyle = "Can't pay off minimum amount!"
+        errFrame.hasError = true;
+      } else if (budgetType == 1) {
+        customErrFrame.creditorName = "Cant Pay";
+        customErrFrame.originalDebtAmount = 0;
+        customErrFrame.currentDebtAmount = 0;
+        customErrFrame.percentOfPayUsed = 0;
+        customErrFrame.payOffStyle = "Can't pay off minimum amount!"
+        customErrFrame.hasError = true;
+
+      }
+
+    } else {
+
+      return
+    }
+  } catch {
+
+  }
+  if (budgetType == 0) {
+    return errFrame;
+  }
+  else {
+    return customErrFrame
+  }
+
+
+}
 
 //A set of fuctions are going to have to be made to update the Budget Frame Models
 //Maybe put them in a different folder
