@@ -16,8 +16,8 @@
     "financejs": "^4.1.0",
     "js": "^0.1.0",
     "mathjs": "^11.11.2",
-    "mongodb": "^6.0.0",
-    "mongoose": "^7.5.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.3",
     "nodemon": "^3.0.1",
     "pmt": "^0.0.23"
   }

@@ -71,6 +71,7 @@ const incomeSchema = new Schema({
     name: String,
     amount: Number,
     occurrence: String, //'weekly' | 'bi-weekly' | 'semi-annually' | 'annually'
+    userId: String
 
 
 })
@@ -89,19 +90,15 @@ let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', custom
 
 let budgetFrame = new Schema({
 
-    user_id: String,
-    DebtCollection: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'DebtModel'
-        },
-    ],
-    IncomeCollection: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'IncomeModel'
-        },
-    ],
+    user: String, //mongoose.SchemaType.ObjectId,
+    // DebtCollection: [
+    //     {
+    //         type: mongoose.SchemaTypes.ObjectId,
+    //         ref: 'DebtModel'
+    //     },
+    // ],
+    DebtCollection: [],//[DebtModel],
+    IncomeCollection: [],//[IncomeModel],
     //Use the minimum payment the user set in the debt 
     //to pay off the debt
     //useMinimumPayment: Boolean,
@@ -127,100 +124,22 @@ const customBudgetFrame = new Schema({
 
     payOffStyle: String,
     useLeftOver: Boolean,
-    user_id: String,
+    user: String, //mongoose.SchemaType.ObjectId,
     // customPayOffOption: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'CustomPayOffOptionsModel'
     // },
     DebtCollection: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'DebtModel'
-        },
+
     ],
     IncomeCollection: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'IncomeModel'
-        },
+
     ],
 
 
 
 })
 export let CustomBudgetFrameModel = mongoose.model('customBudgetFrame', customBudgetFrame)
-
-const budgetOutcome = new Schema({
-
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
-    },
-    //A Key value pair of the debts and 
-    //when they will be payed off
-    // daysUntilAllDebtPayedOff: Map,
-
-    //A key vaule pair of the debts that are
-    //payed off
-    // debtsPayedOff: Map,
-
-    //A key value pair of the intrest each debt has paid/will pay
-    //  intrestPayed: Map,
-
-    //A key value pair of the debts and what day the payment is due.
-    //The user will be sent an email when the payment is close to being due
-    //And when it is due
-    notificationEmailList: Map,
-
-    // payOffMethod: String,
-
-    DebtPayOffArray: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'debtPayOffTimeFrameModel'
-        }
-    ],
-    isPayedOff: Boolean,
-
-
-})
-export let BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutcome)
-
-const customBudgetOutcome = new Schema({
-
-    AllDebtsPayedOff: Boolean,
-    isValid: Boolean,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
-    },
-
-    // customPayOffFrameArry: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'customDebtPayOffTimeFrameModel'
-    //     }
-
-    // ],
-    customPayOffFrameArry: {
-        type: Array,
-        default: [],
-    },
-
-    PayUser: {
-        isUserPaid: Boolean,
-        payPercent: Number,
-        payAmount: Number
-    }
-
-    //A key vaule pair of the debts that are
-    //payed off
-
-
-
-
-})
-export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
 const debtPayOffTimeFrame = new Schema({
 
@@ -289,6 +208,70 @@ export let customDebtPayOffTimeFrameModel = mongoose.model('customDebtPayOffTime
 
 
 
+
+
+
+
+const budgetOutcome = new Schema({
+
+    user: String, //mongoose.SchemaTypes.ObjectId,
+    //A Key value pair of the debts and 
+    //when they will be payed off
+    // daysUntilAllDebtPayedOff: Map,
+
+    //A key vaule pair of the debts that are
+    //payed off
+    // debtsPayedOff: Map,
+
+    //A key value pair of the intrest each debt has paid/will pay
+    //  intrestPayed: Map,
+
+    //A key value pair of the debts and what day the payment is due.
+    //The user will be sent an email when the payment is close to being due
+    //And when it is due
+    notificationEmailList: Map,
+
+    // payOffMethod: String,
+
+    DebtPayOffArray: [
+
+    ],
+    isPayedOff: Boolean,
+
+
+})
+export let BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutcome)
+
+const customBudgetOutcome = new Schema({
+
+    AllDebtsPayedOff: Boolean,
+    isValid: Boolean,
+    user: String, //mongoose.SchemaTypes.ObjectId,
+
+
+    // customPayOffFrameArry: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'customDebtPayOffTimeFrameModel'
+    //     }
+
+    // ],
+    customPayOffFrameArry: [],
+
+    PayUser: {
+        isUserPaid: Boolean,
+        payPercent: Number,
+        payAmount: Number
+    }
+
+    //A key vaule pair of the debts that are
+    //payed off
+
+
+
+
+})
+export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
 
 

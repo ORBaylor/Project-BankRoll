@@ -665,7 +665,7 @@ export function CreateBudgetFrame(data) {
         budgetFrame.IncomeCollection = incomeArry;
         budgetFrame.user_id = user_ID;
         budgetFrame.payOffStyle = payOffStyle;
-        console.log(budgetFrame.user_id);
+        // console.log(budgetFrame.user_id);
 
 
     }
