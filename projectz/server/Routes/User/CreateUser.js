@@ -41,7 +41,7 @@ const userSchema = new Schema({
 })
 
 //Create a user
-router.post('/create', async (req, res) => {
+router.post('/user/create', async (req, res) => {
 
     //What is given to the router
     //req
@@ -85,7 +85,7 @@ router.post('/create', async (req, res) => {
 })
 
 //Update a user
-router.post('/update', async (req, res) => {
+router.post('/user/update', async (req, res) => {
     const db = client.db("test");
     const userCollection = db.collection("usermodels");
     //The id of the user that needs to be updated
@@ -139,8 +139,7 @@ router.post('/update', async (req, res) => {
 })
 
 //View a user
-router.get('/view', async (req, res) => {
-
+router.get('/user/view', async (req, res) => {
 
 
     try {

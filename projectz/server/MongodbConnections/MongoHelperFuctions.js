@@ -451,7 +451,7 @@ const client = new MongoClient(uri, {
 
 // SaveIncome(weedIncome, userID)
 
-const userId = '65a74942971fc53c89aebe1a'
+const userId = '65ad6eb2fb4b23c60362bb74'
 
 const firstName = 'First'
 const lastname = 'Update for the Day';
@@ -530,26 +530,34 @@ const newUser = new UserModel({ FirstName: firstName, LastName: lastname, UserNa
 // })
 mongoose.createConnection(uri);
 console.log("Connected")
-const db = client.db("test");
+//const db = client.db("test");
 
-const userCollection = db.collection("usermodels");
+//const userCollection = db.collection("usermodels");
 const filter = { _id: new ObjectId('65ad6eb2fb4b23c60362bb74') }
 const update = { $set: { FirstName: 'GodBrand', Lastname: 'Update', UserName: 'TheWeedMan', ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } } };
 
 
 //{ _id: '65ad6eb2fb4b23c60362bb74' } { UserName: 'TheWeedMan' } "ObjectId('65ad6eb2fb4b23c60362bb74')"
-await userCollection.updateOne(filter, update, { new: false })
-    .then(updatedDocument => {
-        if (!updatedDocument) {
-            console.log('Document not found');
-        } else {
-            console.log('Updated document:', updatedDocument);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating document:', error.message);
-    });
+const db = client.db("test");
+const debtCollection = db.collection("debtmodels");
+mongoose.createConnection(uri);
 
+const creditorName = "New Debt";
+const originallDebtAmount = 1500;
+const currentDebtAmount = 1500;
+const intrestRate = 3.3;
+const originalMinumnPayment = 200;
+const minumnPayment = 200;
+//userId = "65ad6eb2fb4b23c60362bb74";
+const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId })
+
+const insertedDebt = await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
+    if (!newDebt) {
+        console.log("Debt now found");
+    } else {
+        console.log("New Debt: " + newDebt)
+    }
+})
 mongoose.disconnect()
     .then(() => {
         console.log('Disconnected from MongoDB');
@@ -557,6 +565,7 @@ mongoose.disconnect()
     .catch((error) => {
         console.error('Error disconnecting from MongoDB:', error);
     });
+
 
 // const run1 = mongoose.connect(`mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`).then(async () => {
 //     // IncomeModel.create({ name: 'guns', amount: 200, occurrence: 'weekly' })
