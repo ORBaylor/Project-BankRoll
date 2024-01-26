@@ -45,6 +45,7 @@ const debtSchema = new Schema({
     originalMinumnPayment: Number,
     minumnPayment: Number,
     isPayedOff: Boolean,
+    userId: String,
     dueDate: { type: Date, default: Date.now() },
 
 
