@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
-import { boolean } from 'webidl-conversions';
+//import mongoose from 'mongoose';
+//import { boolean } from 'webidl-conversions';
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const settingSchema = new Schema({
@@ -13,28 +14,31 @@ const settingSchema = new Schema({
     //2=Bar
 
 })
-export const SettingsModel = mongoose.model('SettingsModel', settingSchema)
+//@
+const SettingsModel = mongoose.model('SettingsModel', settingSchema)
 
-const userSchema = new Schema({
-    FirstName: String,
-    LastName: String,
-    UserName: String,
-    Password: String,
-    ContactInformation: {
-        EmailAdress: String,
-        PhoneNumber: String
-    }
+// const userSchema = new Schema({
+//     FirstName: String,
+//     LastName: String,
+//     UserName: String,
+//     Password: String,
+//     ContactInformation: {
+//         EmailAdress: String,
+//         PhoneNumber: String
+//     }
 
 
-})
-export let UserModel = mongoose.model('UserModel', userSchema)
+// })
+// //@
+// const UserModel = mongoose.model('UserModel', userSchema)
 
 const PayUserSchema = new Schema({
     isUserPaid: Boolean,
     payPercent: Number,
     payAmount: Number
 })
-let PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
+//@
+const PayUserModel = mongoose.model('PayUserModel', PayUserSchema)
 
 const debtSchema = new Schema({
 
@@ -50,7 +54,8 @@ const debtSchema = new Schema({
 
 
 })
-export let DebtModel = mongoose.model('DebtModel', debtSchema)
+//@
+const DebtModel = mongoose.model('DebtModel', debtSchema)
 
 const CustomDebtSchema = new Schema({
 
@@ -65,7 +70,8 @@ const CustomDebtSchema = new Schema({
 
 
 })
-export let CustomDebtModel = mongoose.model('DebtModel', debtSchema)
+//@
+const CustomDebtModel = mongoose.model('DebtModel', debtSchema)
 
 const incomeSchema = new Schema({
 
@@ -76,7 +82,8 @@ const incomeSchema = new Schema({
 
 
 })
-export let IncomeModel = mongoose.model('IncomeModel', incomeSchema)
+//@
+const IncomeModel = mongoose.model('IncomeModel', incomeSchema)
 
 const customPayOffOptions = new Schema({
 
@@ -87,7 +94,8 @@ const customPayOffOptions = new Schema({
     payLessPercent: Number,
 
 })
-let CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', customPayOffOptions)
+//@
+const CustomPayOffOptionsModel = mongoose.model('CustomPayOffOptionsModel', customPayOffOptions)
 
 let budgetFrame = new Schema({
 
@@ -119,7 +127,8 @@ let budgetFrame = new Schema({
 
 
 })
-export let budgetFrameModel = mongoose.model('budgetFrameModel', budgetFrame)
+//@
+const budgetFrameModel = mongoose.model('budgetFrameModel', budgetFrame)
 
 const customBudgetFrame = new Schema({
 
@@ -140,7 +149,8 @@ const customBudgetFrame = new Schema({
 
 
 })
-export let CustomBudgetFrameModel = mongoose.model('customBudgetFrame', customBudgetFrame)
+//@
+const CustomBudgetFrameModel = mongoose.model('customBudgetFrame', customBudgetFrame)
 
 const debtPayOffTimeFrame = new Schema({
 
@@ -169,8 +179,8 @@ const debtPayOffTimeFrame = new Schema({
 
 
 })
-
-export let debtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
+//@
+const debtPayOffTimeFrameModel = mongoose.model('debtPayOffTimeFrameModel', debtPayOffTimeFrame)
 
 const customDebtPayOffTimeFrame = new Schema({
     creditorName: String,
@@ -205,13 +215,8 @@ const customDebtPayOffTimeFrame = new Schema({
 
 })
 
-export let customDebtPayOffTimeFrameModel = mongoose.model('customDebtPayOffTimeFrame', customDebtPayOffTimeFrame)
-
-
-
-
-
-
+//@
+const customDebtPayOffTimeFrameModel = mongoose.model('customDebtPayOffTimeFrame', customDebtPayOffTimeFrame)
 
 const budgetOutcome = new Schema({
 
@@ -241,7 +246,8 @@ const budgetOutcome = new Schema({
 
 
 })
-export let BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutcome)
+//@
+const BudgetOutcomeModel = mongoose.model('BudgetOutcomeModel', budgetOutcome)
 
 const customBudgetOutcome = new Schema({
 
@@ -272,8 +278,9 @@ const customBudgetOutcome = new Schema({
 
 
 })
-export let CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
+//@
+const CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
-
+module.exports = { CustomBudgetOutcomeModel, BudgetOutcomeModel, customDebtPayOffTimeFrameModel, debtPayOffTimeFrameModel, CustomBudgetFrameModel, budgetFrameModel, IncomeModel, CustomPayOffOptionsModel, CustomDebtModel, DebtModel, PayUserModel, SettingsModel }
 
 //const YourModel = mongoose.model('YourModel', yourSchema);

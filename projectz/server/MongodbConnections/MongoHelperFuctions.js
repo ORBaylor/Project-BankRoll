@@ -1,9 +1,19 @@
-import { MongoClient, ObjectId } from "mongodb";
-import * as dotenv from "dotenv";
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } from '../BudgetEngine/HelperFuctions.js'
-import { mongoose } from "mongoose";
-dotenv.config();
+// import { MongoClient, ObjectId } from "mongodb";
+// import * as dotenv from "dotenv";
+// import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+// import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } from '../BudgetEngine/HelperFuctions.js'
+// import { mongoose } from "mongoose";
+// dotenv.config();
+
+const { express } = require('express');
+const { ObjectId } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+const { DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../MongoSchema/SchemaModel.js')
+//const UserModel = require('../MongoSchema/SchemaModel.js');
+
+let SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame = require('../BudgetEngine/HelperFuctions.js');
+const mongoose = require('mongoose');
 
 
 //#region Settings
@@ -173,174 +183,174 @@ const data2 = {
     ],
 }
 
-let frame = new budgetFrameModel;
-let custFrame = new CustomBudgetFrameModel
-let car = new DebtModel;
-let CuraLeaf = new DebtModel;
-let BestBuy = new DebtModel;
-let Discover = new DebtModel;
-let weed = new DebtModel;
-let MoreWeed = new DebtModel;
-let Things = new DebtModel;
+// let frame = new budgetFrameModel;
+// let custFrame = new CustomBudgetFrameModel
+// let car = new DebtModel;
+// let CuraLeaf = new DebtModel;
+// let BestBuy = new DebtModel;
+// let Discover = new DebtModel;
+// let weed = new DebtModel;
+// let MoreWeed = new DebtModel;
+// let Things = new DebtModel;
 
-let car2 = new CustomDebtModel;
-let CuraLeaf2 = new CustomDebtModel;
-let BestBuy2 = new CustomDebtModel;
-let Discover2 = new CustomDebtModel;
-
-
-let drugs = new IncomeModel;
-let guns = new IncomeModel;
-let moreGuns = new IncomeModel;
-
-guns.name = 'guns';
-guns.amount = 200;
-guns.occurrence = 'weekly';
-//IncomeModel.create({ name: 'guns', amount: 200, occurrence: 'weekly' })
-
-moreGuns.name = 'more guns';
-moreGuns.amount = 750;
-moreGuns.occurrence = 'bi-weekly';
-
-drugs.name = 'drugs';
-drugs.amount = 40000;
-drugs.occurrence = 'annually';
+// let car2 = new CustomDebtModel;
+// let CuraLeaf2 = new CustomDebtModel;
+// let BestBuy2 = new CustomDebtModel;
+// let Discover2 = new CustomDebtModel;
 
 
+// let drugs = new IncomeModel;
+// let guns = new IncomeModel;
+// let moreGuns = new IncomeModel;
 
-car.creditorName = 'Car'
-car.originalDebtAmount = 26000;
-car.currentDebtAmount = 26000;
-car.intrestRate = 7.0;
-car.originalMinumnPayment = 300;
-car.minumnPayment = 300;
-car.isPayedOff = false;
+// guns.name = 'guns';
+// guns.amount = 200;
+// guns.occurrence = 'weekly';
+// //IncomeModel.create({ name: 'guns', amount: 200, occurrence: 'weekly' })
 
-weed.creditorName = 'Weed'
-weed.originalDebtAmount = 1200;
-weed.currentDebtAmount = 1200;
-weed.intrestRate = 8.0;
-weed.originalMinumnPayment = 30;
-weed.minumnPayment = 30;
-weed.isPayedOff = false;
+// moreGuns.name = 'more guns';
+// moreGuns.amount = 750;
+// moreGuns.occurrence = 'bi-weekly';
 
-MoreWeed.creditorName = 'More weed'
-MoreWeed.originalDebtAmount = 1500;
-MoreWeed.currentDebtAmount = 1500;
-MoreWeed.intrestRate = 2.0;
-MoreWeed.originalMinumnPayment = 60;
-MoreWeed.minumnPayment = 60;
-MoreWeed.isPayedOff = false;
-
-Things.creditorName = 'Things'
-Things.originalDebtAmount = 1100;
-Things.currentDebtAmount = 1100;
-Things.intrestRate = 6.0;
-Things.originalMinumnPayment = 20;
-Things.minumnPayment = 20;
-Things.isPayedOff = false;
-
-
-CuraLeaf.creditorName = 'Cura Leaf'
-CuraLeaf.originalDebtAmount = 20134.32;
-CuraLeaf.currentDebtAmount = 20134.32;
-CuraLeaf.intrestRate = 4.3;
-CuraLeaf.originalMinumnPayment = 230;
-CuraLeaf.minumnPayment = 230;
-CuraLeaf.isPayedOff = false;
-
-BestBuy.creditorName = 'Best Buy'
-BestBuy.originalDebtAmount = 5000;
-BestBuy.currentDebtAmount = 5000;
-BestBuy.intrestRate = 5.5;
-BestBuy.originalMinumnPayment = 170;
-BestBuy.minumnPayment = 170;
-BestBuy.isPayedOff = false;
-
-Discover.creditorName = 'Discover test'
-Discover.originalDebtAmount = 88402.42;
-Discover.currentDebtAmount = 88402.42;;
-Discover.intrestRate = 3.0;
-Discover.originalMinumnPayment = 170;
-Discover.minumnPayment = 370;
-Discover.isPayedOff = false;
-
-
-car2.creditorName = 'Car 2'
-car2.originalDebtAmount = 800;
-car2.currentDebtAmount = 800;
-car2.percentOfIncome = 2.5;
-car2.isPayedOff = false;
-car2.amountLeftOver = 0;
-
-
-CuraLeaf2.creditorName = 'Cura Leaf'
-CuraLeaf2.originalDebtAmount = 900;
-CuraLeaf2.currentDebtAmount = 900;
-CuraLeaf2.percentOfIncome = 2.5;
-CuraLeaf2.isPayedOff = false;
-CuraLeaf2.amountLeftOver = 0;
-
-BestBuy2.creditorName = 'Best Buy'
-BestBuy2.originalDebtAmount = 700;
-BestBuy2.currentDebtAmount = 700;
-BestBuy2.percentOfIncome = 2.5;
-BestBuy2.isPayedOff = false;
-BestBuy2.amountLeftOver = 0;
-
-Discover2.creditorName = 'Discover'
-Discover2.originalDebtAmount = 760;
-Discover2.currentDebtAmount = 760;
-Discover2.percentOfIncome = 2.5;
-Discover2.isPayedOff = false;
-Discover2.amountLeftOver = 0;
-
-let CustomDebtCollection = [];
-
-CustomDebtCollection.push(car2)
-CustomDebtCollection.push(Discover2)
-CustomDebtCollection.push(BestBuy2)
-CustomDebtCollection.push(CuraLeaf2)
-
-let DebtCollection = [];
-let IncomeCollection = [];
-DebtCollection.push(car)
-DebtCollection.push(CuraLeaf)
-DebtCollection.push(BestBuy)
-DebtCollection.push(Discover)
-DebtCollection.push(weed);
-DebtCollection.push(MoreWeed);
-DebtCollection.push(Things);
-
-//IncomeCollection.push(guns)
-IncomeCollection.push(drugs)
-//IncomeCollection.push(moreGuns)
+// drugs.name = 'drugs';
+// drugs.amount = 40000;
+// drugs.occurrence = 'annually';
 
 
 
+// car.creditorName = 'Car'
+// car.originalDebtAmount = 26000;
+// car.currentDebtAmount = 26000;
+// car.intrestRate = 7.0;
+// car.originalMinumnPayment = 300;
+// car.minumnPayment = 300;
+// car.isPayedOff = false;
 
-let user = {
-    FirstName: 'O',
-    LastName: 'Bay',
-    UserName: 'Godbrand',
-    Password: 'password',
-    ContactInformation: {
-        EmailAdress: 'test@test.com',
-        PhoneNumber: '888-888-8888'
-    }
-}
+// weed.creditorName = 'Weed'
+// weed.originalDebtAmount = 1200;
+// weed.currentDebtAmount = 1200;
+// weed.intrestRate = 8.0;
+// weed.originalMinumnPayment = 30;
+// weed.minumnPayment = 30;
+// weed.isPayedOff = false;
+
+// MoreWeed.creditorName = 'More weed'
+// MoreWeed.originalDebtAmount = 1500;
+// MoreWeed.currentDebtAmount = 1500;
+// MoreWeed.intrestRate = 2.0;
+// MoreWeed.originalMinumnPayment = 60;
+// MoreWeed.minumnPayment = 60;
+// MoreWeed.isPayedOff = false;
+
+// Things.creditorName = 'Things'
+// Things.originalDebtAmount = 1100;
+// Things.currentDebtAmount = 1100;
+// Things.intrestRate = 6.0;
+// Things.originalMinumnPayment = 20;
+// Things.minumnPayment = 20;
+// Things.isPayedOff = false;
 
 
-frame.user = user;
-frame.DebtCollection = DebtCollection;
-frame.IncomeCollection = IncomeCollection;
-frame.payOffStyle = 'avalanche';
+// CuraLeaf.creditorName = 'Cura Leaf'
+// CuraLeaf.originalDebtAmount = 20134.32;
+// CuraLeaf.currentDebtAmount = 20134.32;
+// CuraLeaf.intrestRate = 4.3;
+// CuraLeaf.originalMinumnPayment = 230;
+// CuraLeaf.minumnPayment = 230;
+// CuraLeaf.isPayedOff = false;
 
-custFrame.user = user;
-custFrame.DebtCollection = CustomDebtCollection;
-custFrame.IncomeCollection = IncomeCollection;
-custFrame.useLeftOver = false;
-custFrame.payOffStyle = 'custom';
+// BestBuy.creditorName = 'Best Buy'
+// BestBuy.originalDebtAmount = 5000;
+// BestBuy.currentDebtAmount = 5000;
+// BestBuy.intrestRate = 5.5;
+// BestBuy.originalMinumnPayment = 170;
+// BestBuy.minumnPayment = 170;
+// BestBuy.isPayedOff = false;
+
+// Discover.creditorName = 'Discover test'
+// Discover.originalDebtAmount = 88402.42;
+// Discover.currentDebtAmount = 88402.42;;
+// Discover.intrestRate = 3.0;
+// Discover.originalMinumnPayment = 170;
+// Discover.minumnPayment = 370;
+// Discover.isPayedOff = false;
+
+
+// car2.creditorName = 'Car 2'
+// car2.originalDebtAmount = 800;
+// car2.currentDebtAmount = 800;
+// car2.percentOfIncome = 2.5;
+// car2.isPayedOff = false;
+// car2.amountLeftOver = 0;
+
+
+// CuraLeaf2.creditorName = 'Cura Leaf'
+// CuraLeaf2.originalDebtAmount = 900;
+// CuraLeaf2.currentDebtAmount = 900;
+// CuraLeaf2.percentOfIncome = 2.5;
+// CuraLeaf2.isPayedOff = false;
+// CuraLeaf2.amountLeftOver = 0;
+
+// BestBuy2.creditorName = 'Best Buy'
+// BestBuy2.originalDebtAmount = 700;
+// BestBuy2.currentDebtAmount = 700;
+// BestBuy2.percentOfIncome = 2.5;
+// BestBuy2.isPayedOff = false;
+// BestBuy2.amountLeftOver = 0;
+
+// Discover2.creditorName = 'Discover'
+// Discover2.originalDebtAmount = 760;
+// Discover2.currentDebtAmount = 760;
+// Discover2.percentOfIncome = 2.5;
+// Discover2.isPayedOff = false;
+// Discover2.amountLeftOver = 0;
+
+// let CustomDebtCollection = [];
+
+// CustomDebtCollection.push(car2)
+// CustomDebtCollection.push(Discover2)
+// CustomDebtCollection.push(BestBuy2)
+// CustomDebtCollection.push(CuraLeaf2)
+
+// let DebtCollection = [];
+// let IncomeCollection = [];
+// DebtCollection.push(car)
+// DebtCollection.push(CuraLeaf)
+// DebtCollection.push(BestBuy)
+// DebtCollection.push(Discover)
+// DebtCollection.push(weed);
+// DebtCollection.push(MoreWeed);
+// DebtCollection.push(Things);
+
+// //IncomeCollection.push(guns)
+// IncomeCollection.push(drugs)
+// //IncomeCollection.push(moreGuns)
+
+
+
+
+// let user = {
+//     FirstName: 'O',
+//     LastName: 'Bay',
+//     UserName: 'Godbrand',
+//     Password: 'password',
+//     ContactInformation: {
+//         EmailAdress: 'test@test.com',
+//         PhoneNumber: '888-888-8888'
+//     }
+// }
+
+
+// frame.user = user;
+// frame.DebtCollection = DebtCollection;
+// frame.IncomeCollection = IncomeCollection;
+// frame.payOffStyle = 'avalanche';
+
+// custFrame.user = user;
+// custFrame.DebtCollection = CustomDebtCollection;
+// custFrame.IncomeCollection = IncomeCollection;
+// custFrame.useLeftOver = false;
+// custFrame.payOffStyle = 'custom';
 
 //#endregion 
 const MongoPassword = "Z2c1MFIFYufHRMan"
@@ -354,12 +364,7 @@ let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retry
 //     console.log("connect");
 // });
 
-const client = new MongoClient(uri, {
 
-
-
-
-});
 
 // await client.connect().then(() => {
 
@@ -377,7 +382,7 @@ const client = new MongoClient(uri, {
 //         creditorName: 'Weed',
 //         originalDebtAmount: 1200,
 //         currentDebtAmount: 1200,
-//         intrestRate: 8.0,
+//          intrestRate: 8.0,
 //         originalMinumnPayment: 30,
 //         minumnPayment: 30,
 //         isPayedOff: false
@@ -451,16 +456,73 @@ const client = new MongoClient(uri, {
 
 // SaveIncome(weedIncome, userID)
 
+
+
+
 const userId = '65ad6eb2fb4b23c60362bb74'
 
-const firstName = 'First'
-const lastname = 'Update for the Day';
+const firstName = 'I Need'
+const lastname = 'Sleep';
 const userName = 'TheWeedMan';
 const password = '420pot';
 const emailAdress = 'TheWeedMan@HotMail.com';
 const phoneNumber = '440-4-000';
 
-const newUser = new UserModel({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
+//const schema = new mongoose.Schema({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+const schema = new mongoose.Schema({
+    FirstName: String,
+    LastName: String,
+    UserName: String,
+    Password: String,
+    ContactInformation: {
+        EmailAdress: String,
+        PhoneNumber: String
+    }
+
+
+});
+
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+    // serverApi: {
+    //     version: ServerApiVersion.v1,
+    //     strict: true,
+    //     deprecationErrors: true,
+    // }
+});
+
+async function run() {
+    try {
+        // Connect the client to the server	(optional starting in v4.7)
+        await client.connect();
+        // Send a ping to confirm a successful connection
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+        mongoose.connect(uri);
+
+        //await client.connect();
+
+        const usersCollection = client.db('test').collection('usermodels');
+
+        const userNew = mongoose.model('UserModel', schema);
+        await usersCollection.insertOne({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+}
+run().catch(console.dir);
+
+
+
+//userNew.insertMany({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+
+
+//const MyUserModel = mongoose.model('usermodels', new schema({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } }));
+//const MonUser = mongoose.model().schema({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
 
 // const run = mongoose.createConnection(uri).asPromise(async () => {
 //     mongoose.set('bufferCommands', false);
@@ -528,36 +590,85 @@ const newUser = new UserModel({ FirstName: firstName, LastName: lastname, UserNa
 //         });
 
 // })
-mongoose.createConnection(uri);
-console.log("Connected")
-//const db = client.db("test");
+// YourModule.js
+//const ddb = new MongoClient(`mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`);
+// mongoose.connect(uri);
+// (async () => {
+//     // mongoose.connect(uri);
+//     if ((await mongoose.connect(uri)).ConnectionStates.connected.toString() == '1') {
+//         console.log('Connected to MongoDB!');
+//         // const MyUserModel = new UserModel({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
 
+
+//         UserModel.create({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+
+//     }
+//     // const db = client.db("test");
+//     // const debtCollection = db.collection("debtmodels");
+
+
+//     //const UserModel = require('../MongoSchema/SchemaModel.js');
+//     //const db = await mongoose.createConnection(uri);
+//     //const MyUserModel = new UserModel({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
+//     //console.log(MyUserModel);
+
+//     const db = mongoose.connection;
+
+//     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+//     db.once('open', async () => {
+//         // console.log('Connected to MongoDB!');
+//         // // Your application logic goes here
+//         // await DebtModel.insertMany(MyUserModel).then((newUser) => {
+
+//         //     if (!newUser) {
+//         //         console.log('Not found')
+//         //     }
+//         //     else {
+//         //         console.log(newUser)
+//         //     }
+//         // })
+//     });
+
+// })();
+
+
+
+
+
+
+//console.log("Connected")
+//const db = client.db("test");
+//const MyUserModel = mongoose.model('UserModel', schema);
+//const newUser = new UserModel({ FirstName: 'GodBrand', Lastname: 'Update', UserName: 'TheWeedMan', ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+//MyUserModel.create({ FirstName: 'God', Lastname: 'Brand', UserName: 'TheWeedMan', ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
 //const userCollection = db.collection("usermodels");
-const filter = { _id: new ObjectId('65ad6eb2fb4b23c60362bb74') }
+//const filter = { _id: new ObjectId('65ad6eb2fb4b23c60362bb74') }
 const update = { $set: { FirstName: 'GodBrand', Lastname: 'Update', UserName: 'TheWeedMan', ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } } };
 
 
 //{ _id: '65ad6eb2fb4b23c60362bb74' } { UserName: 'TheWeedMan' } "ObjectId('65ad6eb2fb4b23c60362bb74')"
-const db = client.db("test");
-const debtCollection = db.collection("debtmodels");
-mongoose.createConnection(uri);
+//const UserModel = mongoose.model('UserModel');
+//debtd.insertOne()
+//const db = client.db("test");
+//const debtCollection = db.collection("debtmodels");
+//mongoose.createConnection(uri);
 
-const creditorName = "New Debt";
+const creditorName = "New Debt Test Test";
 const originallDebtAmount = 1500;
 const currentDebtAmount = 1500;
 const intrestRate = 3.3;
 const originalMinumnPayment = 200;
 const minumnPayment = 200;
 //userId = "65ad6eb2fb4b23c60362bb74";
-const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId })
+//const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId })
 
-const insertedDebt = await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
-    if (!newDebt) {
-        console.log("Debt now found");
-    } else {
-        console.log("New Debt: " + newDebt)
-    }
-})
+// UserCollection.insertOne({ FirstName: 'GodBrand', Lastname: 'Update', UserName: 'TheWeedMan', ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } }).then(newDebt => {
+//     if (!newDebt) {
+//         console.log("Debt now found");
+//     } else {
+//         console.log("New Debt: " + newDebt)
+//     }
+// })
 mongoose.disconnect()
     .then(() => {
         console.log('Disconnected from MongoDB');

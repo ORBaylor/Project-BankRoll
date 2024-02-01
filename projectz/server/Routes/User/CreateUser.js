@@ -1,44 +1,38 @@
-import { MongoClient, ObjectId } from "mongodb";
-import * as dotenv from "dotenv";
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../../MongoSchema/SchemaModel.js'
-import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } from '../../BudgetEngine/HelperFuctions.js'
-import { mongoose } from "mongoose";
+//import { MongoClient, ObjectId } from "mongodb";
+//import * as dotenv from "dotenv";
+//import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../../MongoSchema/SchemaModel.js'
+//import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } from '../../BudgetEngine/HelperFuctions.js'
+//import { mongoose } from "mongoose";
 const express = require('express');
+//const ObjectId = require('mongodb');
+const { ObjectId } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../../MongoSchema/SchemaModel.js')
+const { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('../../BudgetEngine/HelperFuctions.js');
+const mongoose = require('mongoose');
+
 //const router = express.Router();
 //import { express } from "express";
 const router = express.Router();
-dotenv.config();
+//dotenv.config();
 
 const MongoPassword = "Z2c1MFIFYufHRMan"
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
+// const client = mongoose(uri, {
+//     serverSelectionTimeoutMS: 30000, // Example: Set timeout to 30 seconds
+//     socketTimeoutMS: 45000,
+// });
+
 const client = new MongoClient(uri, {
-    serverSelectionTimeoutMS: 30000, // Example: Set timeout to 30 seconds
-    socketTimeoutMS: 45000,
+    // serverApi: {
+    //     version: ServerApiVersion.v1,
+    //     strict: true,
+    //     deprecationErrors: true,
+    // }
 });
 
-
-router.get('/search', async (req, res) => {
-
-    //The right query string
-    //http://localhost:5000/api/recipes/search?query=curry&cuisine=indian&diet=vegan&intolerances=milk&type=maindish
-    const data = await fetchRecipe(query, cuisine, diet, intolerances, type, includeIngredients, excludeIngredients);
-
-    res.json(data);
-})
-
-const userSchema = new Schema({
-    FirstName: String,
-    LastName: String,
-    UserName: String,
-    Password: String,
-    ContactInformation: {
-        EmailAdress: String,
-        PhoneNumber: String
-    }
-
-
-})
 
 //Create a user
 router.post('/user/create', async (req, res) => {
@@ -58,7 +52,7 @@ router.post('/user/create', async (req, res) => {
 
     const newUser = new UserModel({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } })
 
-    await client.connect().then(() => {
+    mongoose.createConnection(uri).asPromise(() => {
 
         // IncomeModel.create({ name: 'guns', amount: 200, occurrence: 'weekly' })
         console.log("connect");
@@ -70,10 +64,23 @@ router.post('/user/create', async (req, res) => {
         //const insertDebt = debtCollection.insertOne(debt);
 
 
-    }).finally(() => {
-        //client.close();
-        console.log("finally")
-    })
+    });
+    // await mongoose.connect().then(() => {
+
+    //     // IncomeModel.create({ name: 'guns', amount: 200, occurrence: 'weekly' })
+    //     console.log("connect");
+    //     const db = client.db("test");
+
+    //     const userCollection = db.collection("usermodels");
+
+    //     const insertedUser = userCollection.insertOne(newUser);
+    //     //const insertDebt = debtCollection.insertOne(debt);
+
+
+    // }).finally(() => {
+    //     //client.close();
+    //     console.log("finally")
+    // })
 
     mongoose.disconnect()
         .then(() => {
@@ -173,3 +180,5 @@ router.get('/user/view', async (req, res) => {
     return foundUser;
 
 })
+
+module.exports = router;

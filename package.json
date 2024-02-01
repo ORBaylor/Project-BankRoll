@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server/index.js",
-    "start": "node server/index.js"
+    "dev": "nodemon projectz/server/index.js",
+    "start": "node projectz/server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -23,8 +23,5 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "pmt": "^0.0.23"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.3"
   }
 }

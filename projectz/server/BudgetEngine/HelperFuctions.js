@@ -1,8 +1,12 @@
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import { log, ceil, } from 'mathjs'
+//import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
+//import { log, ceil, } from 'mathjs'
 //import { UserModel } from "../MongoSchema/SchemaModel";
-import { Finance } from 'financejs'
+//import { Finance } from 'financejs'
 //import { pmtjs } from 'pmtjs'
+let UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel = require('../MongoSchema/SchemaModel.js')
+//let SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame = require('../../BudgetEngine/HelperFuctions.js');
+const Finance = require('financejs');
+let log, ceil = require('mathjs')
 let finance = new Finance();
 
 
@@ -34,9 +38,9 @@ let finance = new Finance();
 
 //import {UserModel} from '../MongoSchema/SchemaModel.js';
 
-let debt = new DebtModel;
+//let debt = new DebtModel;
 
-debt.intrestRate = 4.3;
+//debt.intrestRate = 4.3;
 let testArray = [33, 55, 11, 3, 54, 89, 34, 2, 47, 65]
 let testArray2 = [80, 200, '|', 40, 100, '|', 50, 300, '|']
 const testArray3 = testArray2.splice(5);
@@ -149,17 +153,17 @@ let RegularDebtArry = [
 ]
 //10440
 
-export function ReturnHalf() {
+// export function ReturnHalf() {
 
-}
+// }
 
 //For Custom Debt payoff, Maybe?
 
-export function PayCurrentDebt(debt, amount) {
+function PayCurrentDebt(debt, amount) {
 
 }
 
-export function FindLowestDebtItem(debtArray) {
+function FindLowestDebtItem(debtArray) {
 
   let goodInput = CheckMethodType(debtArray, 'array');
 
@@ -218,9 +222,9 @@ export function FindLowestDebtItem(debtArray) {
 
 // }
 
-export function SortIncome() {
+// export function SortIncome() {
 
-}
+// }
 
 
 
@@ -303,14 +307,14 @@ export function SortIncome() {
 //let protoArry = SortDebtCustom(CustDebtArry, 'currentDebtAmount', 'high');
 //console.log(protoArry)
 
-export function FindIntrestRateAI() {
-  //Future idea
-  //Use AI (Maybe) to find the intrest rate of a debt 
-}
+// export function FindIntrestRateAI() {
+//   //Future idea
+//   //Use AI (Maybe) to find the intrest rate of a debt 
+// }
 
-export function UpdateDebt() {
+// export function UpdateDebt() {
 
-}
+// }
 
 
 //Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
@@ -324,23 +328,23 @@ export function UpdateDebt() {
 
 
 //returns a yes if income is over 10% of total debt
-export function CheckIncomeOverTenPercent() {
+// export function CheckIncomeOverTenPercent() {
 
 
 
 
-}
+// }
 
 //Add 
-export function AddPercentage() {
+// export function AddPercentage() {
 
-}
+// }
 
 //---------------------------------------------BUDGET
 
 
 //A method to get the total number of payments
-export function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment) {
+function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment) {
 
   let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
   let isGoodRate = CheckMethodType(annualInterestRate, 'float');
@@ -408,7 +412,7 @@ export function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyP
 //console.log(GetTotalPayments(26000, 0.3, 300));
 //A method to update how much intresst have been payed so far.
 
-export function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayment) {
+function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayment) {
 
 
   let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
@@ -469,7 +473,7 @@ export function calculatePayoffDate(initialLoanAmount, annualInterestRate, month
 
 }
 
-export function GetTotalIntrest(initialLoanAmount, minimumPayment, loanTermInMonths) {
+function GetTotalIntrest(initialLoanAmount, minimumPayment, loanTermInMonths) {
 
   let isGoodAmount = CheckMethodType(initialLoanAmount, 'float');
   let isGoodTerm = CheckMethodType(loanTermInMonths, 'float');
@@ -523,7 +527,7 @@ export function GetTotalIntrest(initialLoanAmount, minimumPayment, loanTermInMon
 
 //A method to find the intrest of the debt object
 //Given the intrest rate and the debt amount, this method will return the intrest rate
-export function GetMonthlyIntrestRate(intrestRate) {
+function GetMonthlyIntrestRate(intrestRate) {
 
   let goodIntrestRatePercent = CheckMethodType(intrestRate, 'float');
   let goodIntrestRateInt = CheckMethodType(intrestRate, 'number');
@@ -547,7 +551,7 @@ export function GetMonthlyIntrestRate(intrestRate) {
 
 }
 
-export function FindAllOriginalDebt(customArry = []) {
+function FindAllOriginalDebt(customArry = []) {
   let goodCustomArry = CheckMethodType(customArry, 'array');
   let totalDebt = 0;
 
@@ -563,7 +567,7 @@ export function FindAllOriginalDebt(customArry = []) {
 }
 
 //returns the amount that will be added to the minimum payment to help pay it off faster.
-export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []) {
+function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -591,7 +595,7 @@ export function AmountAddedToCurrentDebt(debtArry = [], incomeArry = []) {
 
 }
 
-export function UpdateMiniMumPayment(debtArry = [], amount) {
+function UpdateMiniMumPayment(debtArry = [], amount) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodAmount = CheckMethodType(amount, 'float');
@@ -658,7 +662,7 @@ export function UpdateMiniMumPayment(debtArry = [], amount) {
 }
 
 
-export function PayBareMinimum(debtArry = [], incomeArry = []) {
+function PayBareMinimum(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -696,7 +700,7 @@ export function PayBareMinimum(debtArry = [], incomeArry = []) {
 
 //-----------------------------------------CUSTOM
 
-export function CustomDebtPaymentFrame(customArry = [], totalIncome) {
+function CustomDebtPaymentFrame(customArry = [], totalIncome) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   const goodIncome = CheckMethodType(totalIncome, 'float');
@@ -767,7 +771,7 @@ export function CustomDebtPaymentFrame(customArry = [], totalIncome) {
 
 }
 //This method will use the amount left over to pay off the remain debts
-export function PayOffRemainingDebt(customArry = []) {
+function PayOffRemainingDebt(customArry = []) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   let totalLeftOver = 0;
@@ -824,7 +828,7 @@ export function PayOffRemainingDebt(customArry = []) {
 }
 
 //runs through all of the debt and returns the total
-export function FindAllCurrentDebt(customArry = []) {
+function FindAllCurrentDebt(customArry = []) {
   let goodCustomArry = CheckMethodType(customArry, 'array');
   let totalDebt = 0;
 
@@ -840,7 +844,7 @@ export function FindAllCurrentDebt(customArry = []) {
 }
 
 //Used at the end to return the amount leftover to the user
-export function FindAmountLeftOver(customArry = []) {
+function FindAmountLeftOver(customArry = []) {
 
   let goodCustomArry = CheckMethodType(customArry, 'array');
   let totalAmount = 0;
@@ -858,7 +862,7 @@ export function FindAmountLeftOver(customArry = []) {
 }
 
 //returns a bool value if all of the current debts are paid
-export function CheckIfAllDebtsArePaid(customArry = []) {
+function CheckIfAllDebtsArePaid(customArry = []) {
 
   const goodCustomArry = CheckMethodType(customArry, 'array');
   let allDebtsPaid = false;
@@ -882,7 +886,7 @@ export function CheckIfAllDebtsArePaid(customArry = []) {
 
 }
 
-export function CustomPayBareMinimum(debtArry = [], incomeArry = []) {
+function CustomPayBareMinimum(debtArry = [], incomeArry = []) {
 
   const goodDebtArry = CheckMethodType(debtArry, 'array');
   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
@@ -913,71 +917,71 @@ export function CustomPayBareMinimum(debtArry = [], incomeArry = []) {
 }
 
 //Not needed----\\\\\\\\\\
-export function UpdateLeftOverAmount(debtArry = [], amount) {
+// export function UpdateLeftOverAmount(debtArry = [], amount) {
 
-  const goodDebtArry = CheckMethodType(debtArry, 'array');
-  const goodAmount = CheckMethodType(amount, 'number');
+//   const goodDebtArry = CheckMethodType(debtArry, 'array');
+//   const goodAmount = CheckMethodType(amount, 'number');
 
-  if (goodDebtArry && goodAmount) {
-
-
-
-    let tempAmount = 0;
-    let incrementer = 0;
+//   if (goodDebtArry && goodAmount) {
 
 
 
-    for (let i = 0; i < debtArry.length; i++) {
-      if (amount > debtArry[i].originalDebtAmount) {
-
-        debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
-        debtArry[i].isPayedOff = true;
-        amount -= debtArry[i].originalDebtAmount
-      }
-      else {
-        if (amount != 0) {
-          debtArry[i].minumnPayment += amount;
-          amount -= amount;
-        }
-
-      }
-      if (amount == 0) {
-        break;
-      }
-    }
+//     let tempAmount = 0;
+//     let incrementer = 0;
 
 
 
-    return debtArry;
+//     for (let i = 0; i < debtArry.length; i++) {
+//       if (amount > debtArry[i].originalDebtAmount) {
 
-  } else {
+//         debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
+//         debtArry[i].isPayedOff = true;
+//         amount -= debtArry[i].originalDebtAmount
+//       }
+//       else {
+//         if (amount != 0) {
+//           debtArry[i].minumnPayment += amount;
+//           amount -= amount;
+//         }
 
-  }
-}
+//       }
+//       if (amount == 0) {
+//         break;
+//       }
+//     }
+
+
+
+//     return debtArry;
+
+//   } else {
+
+//   }
+// }
 
 //-----------------------------------------------------BOTH
 
-export function getTotalIncomeAmount(incomeArry = []) {
+// export function getTotalIncomeAmount(incomeArry = []) {
 
-  //   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
-  //   let returnAmount  = 0;
+//   //   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
+//   //   let returnAmount  = 0;
 
-  //   if(goodIncomeArry){
+//   //   if(goodIncomeArry){
 
-  //      incomeArry.forEach((arry) => {
+//   //      incomeArry.forEach((arry) => {
 
-  //       returnAmount += arry.amount;
+//   //       returnAmount += arry.amount;
 
-  //      })
+//   //      })
 
-  //      return returnAmount;
-  //   }
+//   //      return returnAmount;
+//   //   }
 
-  //   return returnAmount;
-}
+//   //   return returnAmount;
+// }
 
 //Returns a true / false if the method arg matches the type
-export function CheckMethodType(input, type) {
+function CheckMethodType(input, type) {
 
   //The input is the data that is being passed through the parent method
   //The type is a string that will say what type of data should of been passed to the method
@@ -1034,7 +1038,7 @@ export function CheckMethodType(input, type) {
 
 }
 
-export function SortDebtCustom(customArry = [], sortItem = '', direction = '') {
+function SortDebtCustom(customArry = [], sortItem = '', direction = '') {
 
   const goodArray = CheckMethodType(customArry, 'array');
   const goodSort = CheckMethodType(sortItem, 'string');
@@ -1121,7 +1125,7 @@ export function SortDebtCustom(customArry = [], sortItem = '', direction = '') {
 
 }
 
-export function ReturnPercentageAmount(percentage, amount) {
+function ReturnPercentageAmount(percentage, amount) {
   const goodAmount = CheckMethodType(amount, 'float');
   const goodPercentage = CheckMethodType(percentage, 'float');
   let returnAmount = 0;
@@ -1138,7 +1142,7 @@ export function ReturnPercentageAmount(percentage, amount) {
 }
 //console.log(ReturnPercentageAmount(1.5, 400))
 
-export function SubtractAmountFromDebt(debt, amount) {
+function SubtractAmountFromDebt(debt, amount) {
 
 
   return debt = debt - amount;
@@ -1146,7 +1150,7 @@ export function SubtractAmountFromDebt(debt, amount) {
 }
 
 //returns the amount of money that is needed per month 
-export function DivideIncomeByOurr(incomeArry = []) {
+function DivideIncomeByOurr(incomeArry = []) {
   const goodIncome = CheckMethodType(incomeArry, 'array');
 
   let weeklyIcomeArry = [];
@@ -1213,32 +1217,29 @@ export function DivideIncomeByOurr(incomeArry = []) {
 
 }
 
-
-
-
 //These methods are used to update OutCome model
-export function UpdateBudgetOutCome() {
+// export function UpdateBudgetOutCome() {
 
-}
+// }
 
-export function UpdateCustomBudgetOutCome() {
+// export function UpdateCustomBudgetOutCome() {
 
-}
+// }
 
 //Might move to the Mongo Helper functions
-export function RemovedPayedOffDebts(debtArray = []) {
+// export function RemovedPayedOffDebts(debtArray = []) {
 
-  //returns a mapped array, removing the debts that are payed off
-}
+//   //returns a mapped array, removing the debts that are payed off
+// }
 
-export function AddErrMessage() {
-  //take in a error type and a model
-  //returns a model with error information
-}
+// export function AddErrMessage() {
+//   //take in a error type and a model
+//   //returns a model with error information
+// }
 
 //budgetType = 0 budget
 //budgetType = 1 customBudget
-export function ReturnErrorFrame(budgetType) {
+function ReturnErrorFrame(budgetType) {
 
   let errFrame = new debtPayOffTimeFrameModel;
   let customErrFrame = new customDebtPayOffTimeFrameModel
@@ -1288,5 +1289,7 @@ export function ReturnErrorFrame(budgetType) {
 
 }
 
+
+module.exports = { ReturnErrorFrame, DivideIncomeByOurr, SubtractAmountFromDebt, ReturnPercentageAmount, SortDebtCustom, CheckMethodType, CustomPayBareMinimum, CheckIfAllDebtsArePaid, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CustomDebtPaymentFrame, PayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAllOriginalDebt, GetMonthlyIntrestRate, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, FindLowestDebtItem, PayCurrentDebt, }
 //A set of fuctions are going to have to be made to update the Budget Frame Models
 //Maybe put them in a different folder
