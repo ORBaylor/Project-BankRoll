@@ -502,13 +502,67 @@ async function run() {
 
         mongoose.connect(uri);
 
-        //await client.connect();
+        await client.connect();
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
+        //const usersCollection = client.db('test').collection('usermodels');
         const usersCollection = client.db('test').collection('usermodels');
 
-        const userNew = mongoose.model('UserModel', schema);
-        await usersCollection.insertOne({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
 
+        const filter = { userId: "65bb0572e03745f080110f2c" }
+
+
+        const userNew = mongoose.model('UserModel', schema);
+        //await usersCollection.insertOne({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
+
+        const incomeCollection = client.db('test').collection('incomemodels');
+
+        const newIncome = incomeCollection.find(filter)
+
+        const IncomeArray = newIncome.toArray();
+
+        (await IncomeArray).forEach((income1) => {
+            console.log(income1)
+        })
+
+
+        // console.log(newIncome.toArray())
+        //  (await newIncome.toArray()).forEach((income) => {
+        //     console.log(income);
+        // })
+
+        // const newIncome = incomeCollection.find(filter, (err, allIncome) => {
+        //     if (err) {
+        //         console.error('Error finding all incomes:', err);
+        //     } else {
+        //         console.log('All Tasks:', allIncome);
+
+        //     }
+        //     (newIncome.toArray()).forEach((income) => {
+        //         console.log(income);
+        //     })
+        // })
+
+
+        // console.log((await newIncome.toArray()).toString());
+
+        // await incomeCollection.find(filter).then(foundIncome => {
+        //     console.log(foundIncome);
+        //     if (!foundIncome) {
+        //         const responseMessage = 'Income not found';
+        //         return res.json(responseMessage);
+        //     } else {
+        //         console.log('User document:', foundIncome);
+        //         // return res.json(foundIncome).sendStatus(200);
+        //         return res.sendStatus(200);
+        //     }
+        // })
+        //     .catch(error => {
+        //         console.error('Error viewing document:', error.message);
+        //     });
+
+
+        //console.log(newIncome.toArray().)
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
@@ -516,6 +570,13 @@ async function run() {
 }
 run().catch(console.dir);
 
+// mongoose.disconnect()
+//     .then(() => {
+//         console.log('Disconnected from MongoDB');
+//     })
+//     .catch((error) => {
+//         console.error('Error disconnecting from MongoDB:', error);
+//     });
 
 
 //userNew.insertMany({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } });
@@ -669,13 +730,7 @@ const minumnPayment = 200;
 //         console.log("New Debt: " + newDebt)
 //     }
 // })
-mongoose.disconnect()
-    .then(() => {
-        console.log('Disconnected from MongoDB');
-    })
-    .catch((error) => {
-        console.error('Error disconnecting from MongoDB:', error);
-    });
+
 
 
 // const run1 = mongoose.connect(`mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`).then(async () => {

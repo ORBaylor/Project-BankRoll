@@ -208,7 +208,7 @@ router.post('/view', async (req, res) => {
         const filter = { _id: new ObjectId(req.body._id) }
 
 
-        let returnUser = await userCollection.findOne(filter).then(foundUser => {
+        await userCollection.findOne(filter).then(foundUser => {
             if (!foundUser) {
                 console.log('User not found');
                 return res.sendStatus(400);
@@ -229,7 +229,7 @@ router.post('/view', async (req, res) => {
     }
 
     //check if the data is correct, if so return User
-    return foundUser;
+    //  return foundUser;
 
 })
 

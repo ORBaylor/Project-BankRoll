@@ -21,29 +21,37 @@ const client = new MongoClient(uri, {
 });
 
 //Creating a new debt
-router.get('/debt/create', async (req, res) => {
+router.post('/create', async (req, res) => {
 
-    const db = client.db("test");
-    const debtCollection = db.collection("debtmodels");
-    mongoose.createConnection(uri);
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-    const creditorName = req.creditorName;
-    const originallDebtAmount = req.originallDebtAmount;
-    const currentDebtAmount = req.currentDebtAmount;
-    const intrestRate = req.intrestRate;
-    const originalMinumnPayment = req.originalMinumnPayment;
-    const minumnPayment = req.minumnPayment;
-    const userId = req.userId;
-    const dueDate = req.dueDate;
+    mongoose.connect(uri);
+
+    //await client.connect();
+
+    const debtCollection = client.db('test').collection('debtmodels');
+
+
+    //mongoose.createConnection(uri);
+
+    const creditorName = req.body.CreditorName;
+    const originallDebtAmount = req.body.OriginallDebtAmount;
+    const currentDebtAmount = req.body.CurrentDebtAmount;
+    const intrestRate = req.body.IntrestRate;
+    const originalMinumnPayment = req.body.OriginalMinumnPayment;
+    const minumnPayment = req.body.MinumnPayment;
+    const userId = req.body.UserId;
+    const dueDate = req.body.DueDate;
     const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
 
-    const insertedDebt = await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
+    await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
         if (!newDebt) {
-            console.log("Debt now found");
+            return res.status(500).send('Internal Server Error');
         } else {
-            console.log("New Debt: " + newDebt.insertedId._id.toString())
-            res.json(newDebt.insertedId)
-
+            return res.status(200).send(`Debt Created: ${newDebt.insertedId.toString()}`);
         }
     })
     mongoose.disconnect()
@@ -57,33 +65,35 @@ router.get('/debt/create', async (req, res) => {
 })
 
 //Updating Debt
-router.post('/debt/update', async (req, res) => {
+router.post('/update', async (req, res) => {
 
     mongoose.createConnection(uri);
     const db = client.db("test");
     const debtCollection = db.collection("debtmodels");
     console.log("Connected")
-    const userId = req.userId;
+    const userId = req.body.Debt_id;
     const filter = { _id: new ObjectId(userId) }
-    const creditorName = req.creditorName;
-    const originallDebtAmount = req.originallDebtAmount;
-    const currentDebtAmount = req.currentDebtAmount;
-    const intrestRate = req.intrestRate;
-    const originalMinumnPayment = req.originalMinumnPayment;
-    const minumnPayment = req.minumnPayment;
+    const creditorName = req.body.CreditorName;
+    const originallDebtAmount = req.body.OriginallDebtAmount;
+    const currentDebtAmount = req.body.CurrentDebtAmount;
+    const intrestRate = req.body.IntrestRate;
+    const originalMinumnPayment = req.body.OriginalMinumnPayment;
+    const minumnPayment = req.body.MinumnPayment;
 
-    const dueDate = req.dueDate;
-
+    const dueDate = req.body.DueDate;
     const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
 
 
     try {
-        await debtCollection.updateOne(filter, newDebt, { new: false })
+
+        await debtCollection.updateOne(filter, { $set: { creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate } }, { new: false })
             .then(updatedDocument => {
                 if (!updatedDocument) {
                     console.log('Document not found');
+                    return res.sendStatus(500);
                 } else {
                     console.log('Updated document:', updatedDocument);
+                    return res.sendStatus(200);
                 }
             })
             .catch(error => {
@@ -106,15 +116,15 @@ router.post('/debt/update', async (req, res) => {
 })
 
 // View debt 
-router.get('/debt/view', async (req, res) => {
+router.get('/view', async (req, res) => {
 
     try {
         const db = client.db("test");
-        const debtCollection = db.collection("debtCollection");
+        const debtCollection = db.collection("debtmodels");
         mongoose.createConnection(uri);
         console.log("Connected")
-        const filter = { _id: new ObjectId(req._id) }
-
+        const filter = { _id: new ObjectId(req.body._id) }
+        console.log(filter);
 
         await debtCollection.findOne(filter).then(foundDebt => {
             if (!foundDebt) {
@@ -131,6 +141,46 @@ router.get('/debt/view', async (req, res) => {
 
 
 
+
+
+
+    } catch (error) {
+
+    }
+
+    //check if the data is correct, if so return User
+    // return foundUser;
+
+})
+
+//View all Debts
+router.get('/viewAll', async (req, res) => {
+
+    try {
+        const db = client.db("test");
+        const debtCollection = db.collection("debtmodels");
+        mongoose.createConnection(uri);
+        console.log("Connected")
+        const userId = req.body.UserId;
+        const filter = { userId: userId }
+
+        console.log(filter);
+
+        const newDebt = debtCollection.find(filter)
+        const DebtArray = await newDebt.toArray();
+        console.log(DebtArray);
+
+        if (DebtArray.length > 0) {
+            return res.json(DebtArray).sendStatus(200);
+        }
+        else {
+
+            return res.status(404).send('Not Found!');
+        }
+
+
+
+
     } catch (error) {
 
     }
@@ -141,13 +191,13 @@ router.get('/debt/view', async (req, res) => {
 })
 
 // Delete debt 
-router.get('/debt/delete', async (req, res) => {
+router.delete('/delete', async (req, res) => {
 
     const db = client.db("test");
-    const debtCollection = db.collection("debtCollection");
+    const debtCollection = db.collection("debtmodels");
     mongoose.createConnection(uri);
     console.log("Connected")
-    const filter = { _id: new ObjectId(req._id) }
+    const filter = { _id: new ObjectId(req.body._id) }
 
 
     await debtCollection.findOneAndDelete(filter).then(foundDebt => {
@@ -156,7 +206,7 @@ router.get('/debt/delete', async (req, res) => {
             return res.json(responseMessage);
         } else {
             console.log('User document:', foundDebt);
-            return res.json(foundDebt);
+            return res.sendStatus(200)
         }
     })
         .catch(error => {
