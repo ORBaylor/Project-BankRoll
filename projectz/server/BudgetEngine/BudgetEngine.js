@@ -1,6 +1,6 @@
 
-import { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } from '../MongoSchema/SchemaModel.js'
-import { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } from './HelperFuctions.js'
+const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../MongoSchema/SchemaModel.js')
+const { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('./HelperFuctions.js');
 
 
 //#region Settings
@@ -350,7 +350,7 @@ custFrame.payOffStyle = 'custom';
 
 //Creating a budget based off of the budget frame that is passed to it
 //Used for long term debt pay off
-export function CreateBudget(budetFrame = new budgetFrameModel) {
+function CreateBudget(budetFrame = new budgetFrameModel) {
 
     const payOffStyle = budetFrame.payOffStyle.toString();
 
@@ -447,7 +447,7 @@ export function CreateBudget(budetFrame = new budgetFrameModel) {
 
 //Creating a budget based off of the custom budget frame
 //Used for short term debt pay off
-export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel) {
+ function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel) {
 
     const payOffStyle = customBudetFrame.payOffStyle.toString();
 
@@ -601,22 +601,24 @@ export function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel
 }
 
 //This method will take the data that is passed from the front end and create a budget frame
-export function CreateBudgetFrame(data) {
+ function CreateBudgetFrame(data) {
 
     let budgetFrame = new budgetFrameModel;
-    let user_ID = data.user_id;
+   
 
     let incomeArry = [];
     let debtArry = []
     let payOffStyle = '';
 
     //MAKE A CHECK TO SEE IF THE DATA THAT IS BEING PASSED IN IS VALID
-    if (data.payOffStyle != null && data.debts != null && data.income != null && data.user != null) {
+    if (data.PayOffStyle != null && data.debts != null && data.income != null && data.UserId != null) {
 
-        if (data.payOffStyle == '') {
+        const user_ID = data.UserId;
+
+        if (data.PayOffStyle == '') {
             return;
         } else {
-            payOffStyle = data.payOffStyle
+            payOffStyle = data.PayOffStyle
         }
 
 
@@ -663,7 +665,7 @@ export function CreateBudgetFrame(data) {
         //CHECK TO SEE IF THE ARRAYS ARE EMPTY;
         budgetFrame.DebtCollection = debtArry;
         budgetFrame.IncomeCollection = incomeArry;
-        budgetFrame.user_id = user_ID;
+        budgetFrame.UserId = user_ID;
         budgetFrame.payOffStyle = payOffStyle;
         // console.log(budgetFrame.user_id);
 
@@ -679,21 +681,24 @@ export function CreateBudgetFrame(data) {
 }
 
 //This method will take the data that is passed from the front end and create a custom budget frame
-export function CreateCustomBudgetFrame(data) {
+ function CreateCustomBudgetFrame(data) {
     let customBudgetFrame = new CustomBudgetFrameModel
-    let user_ID = data.user_id;
-
+    
+   // console.log(data.payOffStyle);
     let incomeArry = [];
     let debtArry = []
     let payOffStyle = '';
-
+   
     //MAKE A CHECK TO SEE IF THE DATA THAT IS BEING PASSED IN IS VALID
-    if (data.payOffStyle != null && data.debts != null && data.income != null && data.user != null) {
+    if (data.payOffStyle != null && data.debts != null && data.income != null && data.UserId != null) {
+        let user_ID = data.UserId;
 
         if (data.payOffStyle == '') {
             return;
         } else {
             payOffStyle = data.payOffStyle
+            console.log(payOffStyle);
+            
         }
 
         data.debts.forEach((debtJson) => {
@@ -723,16 +728,20 @@ export function CreateCustomBudgetFrame(data) {
 
         customBudgetFrame.DebtCollection = debtArry;
         customBudgetFrame.IncomeCollection = incomeArry;
-        customBudgetFrame.user_id = user_ID;
+        customBudgetFrame.UserId = user_ID;
         customBudgetFrame.payOffStyle = payOffStyle;
+        customBudgetFrame.useLeftOver = data.useLeftOver;
 
 
     }
     else {
-
+        console.log("BudgetEngine else" )
         return;
     }
+    console.log("BudgetEngine")
+    console.log(customBudgetFrame)
 
     return customBudgetFrame;
 }
 
+module.exports ={CreateBudget,CreateCustomBudget,CreateBudgetFrame,CreateCustomBudgetFrame}

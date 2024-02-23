@@ -12,6 +12,9 @@ const createUser = require('../server/Routes/User/CreateUser.js')
 const debtt = require('../server/Routes/User/Debt.js')
 //import { Income } from "../server/Routes/User/Income.js";
 const incomee = require('../server/Routes/User/Income.js')
+const frame = require('./Routes/BudgetFrame/BudgetFrame.js')
+const c_frame = require('./Routes/BudgetFrame/CustomBudgetFrame.js')
+
 //dotenv.config();
 
 //const app = express();
@@ -38,6 +41,8 @@ app.use(cors())
 app.use('/api/user', createUser);
 app.use('/api/debt', debtt);
 app.use('/api/income', incomee);
+app.use('/api/frame', frame);
+app.use('/api/c_frame', c_frame);
 
 
 
