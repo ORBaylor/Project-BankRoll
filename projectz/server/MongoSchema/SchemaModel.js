@@ -17,20 +17,21 @@ const settingSchema = new Schema({
 //@
 const SettingsModel = mongoose.model('SettingsModel', settingSchema)
 
-// const userSchema = new Schema({
-//     FirstName: String,
-//     LastName: String,
-//     UserName: String,
-//     Password: String,
-//     ContactInformation: {
-//         EmailAdress: String,
-//         PhoneNumber: String
-//     }
+const userSchema = new Schema({
+    FirstName: String,
+    LastName: String,
+    UserName: String,
+    Password: String,
+    ContactInformation: {
+        EmailAdress: String,
+        PhoneNumber: String
+    },
+    LastActive: Date,
 
 
-// })
-// //@
-// const UserModel = mongoose.model('UserModel', userSchema)
+})
+//@
+const UserModel = mongoose.model('UserModel', userSchema)
 
 const PayUserSchema = new Schema({
     isUserPaid: Boolean,
@@ -65,13 +66,14 @@ const CustomDebtSchema = new Schema({
     percentOfIncome: Number,
     amountLeftOver: Number,
     isPayedOff: Boolean,
+    userId: String
 
     // dueDate: {type: Date, default: Date.now()},
 
 
 })
 //@
-const CustomDebtModel = mongoose.model('DebtModel', debtSchema)
+const CustomDebtModel = mongoose.model('CustomDebtModel', CustomDebtSchema)
 
 const incomeSchema = new Schema({
 
@@ -118,6 +120,7 @@ let budgetFrame = new Schema({
 
     // useIncomeCollection: Boolean,
     payOffStyle: String,
+    isActive: Boolean
 
     //The Date the user would like to have there dabt payed off,
     //Check and see if the user can pay off the debt by the date
@@ -220,7 +223,7 @@ const customDebtPayOffTimeFrameModel = mongoose.model('customDebtPayOffTimeFrame
 
 const budgetOutcome = new Schema({
 
-    user: String, //mongoose.SchemaTypes.ObjectId,
+    UserId: String, //mongoose.SchemaTypes.ObjectId,
     //A Key value pair of the debts and 
     //when they will be payed off
     // daysUntilAllDebtPayedOff: Map,
@@ -242,7 +245,7 @@ const budgetOutcome = new Schema({
     DebtPayOffArray: [
 
     ],
-    isPayedOff: Boolean,
+    //isPayedOff: Boolean,
 
 
 })
@@ -278,9 +281,9 @@ const customBudgetOutcome = new Schema({
 
 
 })
-//@
+//
 const CustomBudgetOutcomeModel = mongoose.model('CustomBudgetOutcomeModel', customBudgetOutcome)
 
-module.exports = { CustomBudgetOutcomeModel, BudgetOutcomeModel, customDebtPayOffTimeFrameModel, debtPayOffTimeFrameModel, CustomBudgetFrameModel, budgetFrameModel, IncomeModel, CustomPayOffOptionsModel, CustomDebtModel, DebtModel, PayUserModel, SettingsModel }
+module.exports = { UserModel, CustomBudgetOutcomeModel, BudgetOutcomeModel, customDebtPayOffTimeFrameModel, debtPayOffTimeFrameModel, CustomBudgetFrameModel, budgetFrameModel, IncomeModel, CustomPayOffOptionsModel, CustomDebtModel, DebtModel, PayUserModel, SettingsModel }
 
 //const YourModel = mongoose.model('YourModel', yourSchema);

@@ -1,9 +1,9 @@
-const { ObjectId } = require('mongodb');
+ const { ObjectId } = require('mongodb');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../../MongoSchema/SchemaModel.js')
 const { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('../../BudgetEngine/HelperFuctions.js');
-const {CreateBudget,CreateCustomBudget,CreateBudgetFrame,CreateCustomBudgetFrame} = require('../../BudgetEngine/BudgetEngine.js')
+const { CreateBudget,CreateCustomBudget,CreateBudgetFrame,CreateCustomBudgetFrame} = require('../../BudgetEngine/BudgetEngine.js')
 const mongoose = require('mongoose');
 
 
@@ -12,7 +12,7 @@ const { re } = require('mathjs');
 const router = express.Router();
 //dotenv.config();
 
-const MongoPassword = "Z2c1MFIFYufHRMan"
+const MongoPassword = process.env.MONGODB_PASSWORD;
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {

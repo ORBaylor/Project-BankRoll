@@ -12,7 +12,7 @@ const express = require('express');
 const router = express.Router();
 //dotenv.config();
 
-const MongoPassword = "Z2c1MFIFYufHRMan"
+const MongoPassword = process.env.MONGODB_PASSWORD;
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -45,6 +45,7 @@ router.post('/create', async (req, res) => {
         if (!insertedFrame) {
             return res.status(500).send('Internal Server Error');
         } else {
+            console.log(insertedFrame);
             return res.status(200).send(`Frame Created: ${insertedFrame.insertedId.toString()}`);
         }
     })
@@ -123,7 +124,7 @@ router.get('/view', async (req, res) => {
 
         } else {
             console.log('User document:', foundUser);
-            return res.send(foundUser)
+            return res.send(foundUser).status(200);
         }
     })
         .catch(error => {

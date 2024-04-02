@@ -3,7 +3,7 @@
 //import { UserModel } from "../MongoSchema/SchemaModel";
 //import { Finance } from 'financejs'
 //import { pmtjs } from 'pmtjs'
-let UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel = require('../MongoSchema/SchemaModel.js')
+const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../MongoSchema/SchemaModel.js')
 //let SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame = require('../../BudgetEngine/HelperFuctions.js');
 const Finance = require('financejs');
 let log, ceil = require('mathjs')
@@ -1236,60 +1236,82 @@ function DivideIncomeByOurr(incomeArry = []) {
 //   //take in a error type and a model
 //   //returns a model with error information
 // }
+// if (budgetType == 0) {
+//   errFrame.creditorName = "Can't Pay";
+//   errFrame.totalPayments = 0;
+//   errFrame.paymentsLeft = 0
+//   errFrame.MinimumPayment = 0;
+//   errFrame.originalDebtAmount = 0;
+//   errFrame.currentDebtAmount = 0;
+//   errFrame.totalIntrestPaid = 0;
+//   errFrame.payOffStyle = "Can't pay off minimum amount!"
+//   errFrame.hasError = true;
+// } else if (budgetType == 1) {
+//   customErrFrame.creditorName = "Cant Pay";
+//   customErrFrame.originalDebtAmount = 0;
+//   customErrFrame.currentDebtAmount = 0;
+//   customErrFrame.percentOfPayUsed = 0;
+//   customErrFrame.payOffStyle = "Can't pay off minimum amount!"
+//   customErrFrame.hasError = true;
 
+// }
 //budgetType = 0 budget
 //budgetType = 1 customBudget
-function ReturnErrorFrame(budgetType) {
+function ReturnErrorFrame(frameType) {
 
-  let errFrame = new debtPayOffTimeFrameModel;
+  let errPayOffFrame = new debtPayOffTimeFrameModel;
   let customErrFrame = new customDebtPayOffTimeFrameModel
+  const emptyArray = [];
 
 
+  const goodType = CheckMethodType(frameType, 'string');
 
-  const goodType = CheckMethodType(budgetType, 'float');
+    if(goodType){
 
-  try {
+      switch(frameType){
 
-    if (goodType && (budgetType == 0 || budgetType == 1)) {
+        case 'budgetFrameModel':
+          const errorBudget = new budgetFrameModel({payOffStyle: "Error",  UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
+          return errorBudget;
+        break;
 
-      if (budgetType == 0) {
-        errFrame.creditorName = "Can't Pay";
-        errFrame.totalPayments = 0;
-        errFrame.paymentsLeft = 0
-        errFrame.MinimumPayment = 0;
-        errFrame.originalDebtAmount = 0;
-        errFrame.currentDebtAmount = 0;
-        errFrame.totalIntrestPaid = 0;
-        errFrame.payOffStyle = "Can't pay off minimum amount!"
-        errFrame.hasError = true;
-      } else if (budgetType == 1) {
-        customErrFrame.creditorName = "Cant Pay";
-        customErrFrame.originalDebtAmount = 0;
-        customErrFrame.currentDebtAmount = 0;
-        customErrFrame.percentOfPayUsed = 0;
-        customErrFrame.payOffStyle = "Can't pay off minimum amount!"
-        customErrFrame.hasError = true;
+        case 'CustomBudgetFrameModel':
+          const errorCustomBudget = new CustomBudgetFrameModel({payOffStyle: "Error", useLeftOver: false, UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
+          return errorCustomBudget;
+        break;
 
+        case 'debtPayOffTimeFrameModel': 
+          const errorPayOffTimeFrame = new debtPayOffTimeFrameModel({ creditorName: "Error", totalPayments: 0, paymentsLeft: 0, MinimumPayment: 0, originalDebtAmount: 0, currentDebtAmount: 0, totalIntrestPaid: 0, intrestPayed: 0, payOffStyle: 'Error', hasError: true  });
+          return errorPayOffTimeFrame;
+        break;
+
+        case 'customDebtPayOffTimeFrameModel':
+          const errorCustomPayOffTimeFrame = new customDebtPayOffTimeFrameModel({creditorName: "Error", percentOfPayUsed: 0, amountLeftOver: 0, amountOfPayUsed: 0 , originalDebtAmount: 0, currentDebtAmount: 0, isPayedOff: false, payOffStyle: 'Error', hasError: true });
+          return errorCustomPayOffTimeFrame
+          break;
+        
+          case 'BudgetOutcomeModel':
+            const errorBudgetOutcome = new BudgetOutcomeModel({UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
+            return errorBudgetOutcome
+            break;
+          
+          case 'CustomBudgetOutcomeModel':
+              const errorCustomBudgetOutcome = new CustomBudgetOutcomeModel({UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
+              return errorCustomPayOffTimeFrame
+              break;
       }
 
-    } else {
-
-      return
     }
-  } catch {
+    else{
 
-  }
-  if (budgetType == 0) {
-    return errFrame;
-  }
-  else {
-    return customErrFrame
-  }
+    }
+
+  
 
 
 }
 
 
-module.exports = { ReturnErrorFrame, DivideIncomeByOurr, SubtractAmountFromDebt, ReturnPercentageAmount, SortDebtCustom, CheckMethodType, CustomPayBareMinimum, CheckIfAllDebtsArePaid, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CustomDebtPaymentFrame, PayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAllOriginalDebt, GetMonthlyIntrestRate, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, FindLowestDebtItem, PayCurrentDebt, }
+module.exports = { CheckMethodType, ReturnErrorFrame, DivideIncomeByOurr, SubtractAmountFromDebt, ReturnPercentageAmount, SortDebtCustom, CheckMethodType, CustomPayBareMinimum, CheckIfAllDebtsArePaid, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CustomDebtPaymentFrame, PayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAllOriginalDebt, GetMonthlyIntrestRate, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, FindLowestDebtItem, PayCurrentDebt, }
 //A set of fuctions are going to have to be made to update the Budget Frame Models
 //Maybe put them in a different folder

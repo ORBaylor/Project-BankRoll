@@ -17,8 +17,7 @@ const { json } = require('body-parser');
 //import { express } from "express";
 const router = express.Router();
 //dotenv.config();
-
-const MongoPassword = "Z2c1MFIFYufHRMan"
+const MongoPassword = process.env.MONGODB_PASSWORD;
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
 // const client = mongoose(uri, {
@@ -52,6 +51,7 @@ router.post('/create', async (req, res) => {
     //const emailAdress = "TheWeedMan@HotMail.com";
     console.log(emailAdress)
     const phoneNumber = req.body.ContactInformation.PhoneNumber;
+    const lastActive = req.body.LastActive
     //const phoneNumber = "999-999-9999";
 
 
@@ -72,7 +72,7 @@ router.post('/create', async (req, res) => {
         const usersCollection = client.db('test').collection('usermodels');
 
         //const userNew = mongoose.model('UserModel', schema);
-        await usersCollection.insertOne({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } }).then((newUser) => {
+        await usersCollection.insertOne({ FirstName: firstName, LastName: lastname, UserName: userName, Password: password, LastActive: lastActive, ContactInformation: { EmailAdress: emailAdress, PhoneNumber: phoneNumber } }).then((newUser) => {
 
             if (!newUser) {
                 return res.status(500).send('Internal Server Error');

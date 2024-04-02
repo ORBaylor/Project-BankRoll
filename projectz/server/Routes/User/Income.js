@@ -13,7 +13,9 @@ const router = express.Router();
 
 //dotenv.config();
 
-const MongoPassword = "Z2c1MFIFYufHRMan"
+//const MongoPassword = "Z2c1MFIFYufHRMan"
+const MongoPassword = process.env.MONGODB_PASSWORD;
+console.log(MongoPassword)
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {

@@ -12,7 +12,7 @@ const express = require('express');
 const router = express.Router();
 //dotenv.config();
 
-const MongoPassword = "Z2c1MFIFYufHRMan"
+const MongoPassword = process.env.MONGODB_PASSWORD;
 let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -38,14 +38,15 @@ router.post('/create', async (req, res) => {
     //mongoose.createConnection(uri);
 
     const creditorName = req.body.CreditorName;
-    const originallDebtAmount = req.body.OriginallDebtAmount;
+    const originallDebtAmount = req.body.OriginalDebtAmount;
     const currentDebtAmount = req.body.CurrentDebtAmount;
     const intrestRate = req.body.IntrestRate;
     const originalMinumnPayment = req.body.OriginalMinumnPayment;
     const minumnPayment = req.body.MinumnPayment;
     const userId = req.body.UserId;
+    const payedOff = req.body.IsPayedOff
     const dueDate = req.body.DueDate;
-    const newDebt = new DebtModel({ creditorName: creditorName, originallDebtAmount: originallDebtAmount, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
+    const newDebt = new DebtModel({ creditorName: creditorName, isPayedOff: payedOff , currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
 
     await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
         if (!newDebt) {
