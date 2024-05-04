@@ -10,37 +10,6 @@ let log, ceil = require('mathjs')
 let finance = new Finance();
 
 
-// let newMinumPayment = 3220;
-// let totalmonths = 0
-// let currentPayment = 0;
-// let x = 1;
-// let isMin = false;
-// while (isMin = true) {
-
-
-//   currentPayment = finance.AM(26000, 2.5, x, 1);
-
-//   if (currentPayment >= newMinumPayment) {
-//     x++;
-//   }
-//   else {
-//     totalmonths = x;
-//     isMin = false;
-//   }
-
-// }
-
-//console.log(`total Number of Months: ${totalmonths}`);
-
-//let test = finance.AM(36320.57, 2.5, 2, 1);
-//let test = finance.AM(2000, 2.5, 4, 1);
-//console.log("Finace Method:" + test);
-
-//import {UserModel} from '../MongoSchema/SchemaModel.js';
-
-//let debt = new DebtModel;
-
-//debt.intrestRate = 4.3;
 let testArray = [33, 55, 11, 3, 54, 89, 34, 2, 47, 65]
 let testArray2 = [80, 200, '|', 40, 100, '|', 50, 300, '|']
 const testArray3 = testArray2.splice(5);
@@ -151,13 +120,7 @@ let RegularDebtArry = [
     isPayedOff: false,
   }
 ]
-//10440
 
-// export function ReturnHalf() {
-
-// }
-
-//For Custom Debt payoff, Maybe?
 
 function PayCurrentDebt(debt, amount) {
 
@@ -191,155 +154,6 @@ function FindLowestDebtItem(debtArray) {
 }
 
 
-// export function FindLowestDebtArrayDecending(debtArray){
-
-//   let goodInput = CheckMethodType(debtArray, 'array');
-
-//   if(goodInput){
-//     // for (let i = 0; i < debtArray.length - 1; i++) {
-//     //   let minIndex = i;
-//     //   for (let j = i + 1; j < debtArray.length; j++) {
-//     //     if (debtArray[j] < debtArray[minIndex]) {
-//     //       minIndex = j;
-//     //     }
-//     //   }
-//     //   if (minIndex !== i) {
-//     //     const temp = debtArray[i];
-//     //     debtArray[i] = debtArray[minIndex];
-//     //     debtArray[minIndex] = temp;
-//     //   }
-//     // }
-//     debtArray.sort((a,b) => a.originalDebtAmount - b.originalDebtAmount)
-
-//     return debtArray;
-
-//     //people.sort((a, b) => a.age - b.age);
-//   }
-//   else{
-//     debtArray
-//   }
-
-
-// }
-
-// export function SortIncome() {
-
-// }
-
-
-
-
-//list the debts by lowest intrest rate
-// export function SortDebtbyIntrestLowToHigh(intrestArray = []){
-
-//   let goodInput = CheckMethodType(intrestArray, 'array');
-
-//   if(goodInput){
-//     for (let i = 0; i < intrestArray.length - 1; i++) {
-//       let minIndex = i;
-//       for (let j = i + 1; j < intrestArray.length; j++) {
-//         if (intrestArray[j] < intrestArray[minIndex]) {
-//           minIndex = j;
-//         }
-//       }
-//       if (minIndex !== i) {
-//         const temp = intrestArray[i];
-//         intrestArray[i] = intrestArray[minIndex];
-//         intrestArray[minIndex] = temp;
-//       }
-//     }
-//     return intrestArray;
-//   }
-//   else {
-//     return intrestArray;
-//   }
-
-
-// }
-
-// export function getlowestDebtItem(intrestArray){
-
-//   let goodInput = CheckMethodType(intrestArray, 'array');
-
-//   if(goodInput){
-//     for (let i = 0; i < intrestArray.length - 1; i++) {
-//       let minIndex = i;
-//       for (let j = i + 1; j < intrestArray.length; j++) {
-//         if (intrestArray[j] < intrestArray[minIndex]) {
-//           minIndex = j;
-//         }
-//       }
-//       if (minIndex !== i) {
-//         const temp = intrestArray[i];
-//         intrestArray[i] = intrestArray[minIndex];
-//         intrestArray[minIndex] = temp;
-//       }
-//     }
-//     return intrestArray[0];
-//   }
-//   else {
-//     return intrestArray;
-//   }
-
-
-// }
-
-
-//list the debts by highest intrest rate
-// export function SortDebtbyIntrestHighToLow(intrestArray){
-
-//   let goodInput = CheckMethodType(intrestArray, 'array');
-
-//   if(goodInput){
-//      // Create a copy of the array and reverse it
-//      const reversedArr = [...intrestArray].sort((a, b) => b.intrestRate - a.intrestRate);
-//      return reversedArr;
-//   }
-//   else{
-
-//     return intrestArray;
-//   }
-
-
-// }
-
-
-//let protoArry = SortDebtCustom(CustDebtArry, 'currentDebtAmount', 'high');
-//console.log(protoArry)
-
-// export function FindIntrestRateAI() {
-//   //Future idea
-//   //Use AI (Maybe) to find the intrest rate of a debt 
-// }
-
-// export function UpdateDebt() {
-
-// }
-
-
-//Number of Months = -log(1 - ((Debt Amount x Monthly Interest Rate) / Monthly Payment)) / log(1 + Monthly Interest Rate)
-
-
-
-
-
-
-//const newArry = CustomDebtPaymentFrame(CustDebtArry, 15000);
-
-
-//returns a yes if income is over 10% of total debt
-// export function CheckIncomeOverTenPercent() {
-
-
-
-
-// }
-
-//Add 
-// export function AddPercentage() {
-
-// }
-
 //---------------------------------------------BUDGET
 
 
@@ -359,15 +173,6 @@ function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment)
       return totalMonths = 1
     }
     else {
-
-
-      // const monthlyInterestRate = annualInterestRate / 12 / 100;
-
-      // // Calculate the number of months to pay off the debt
-      // const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
-
-      // const roundedMonths = Math.ceil(monthsToPayOff);
-
 
       let currentPayment = 0;
       let x = 1;
@@ -392,13 +197,7 @@ function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment)
 
       }
 
-
-
     }
-
-
-
-
 
   } else {
 
@@ -409,7 +208,7 @@ function GetTotalPayments(initialLoanAmount, annualInterestRate, monthlyPayment)
 
 }
 
-//console.log(GetTotalPayments(26000, 0.3, 300));
+
 //A method to update how much intresst have been payed so far.
 
 function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayment) {
@@ -425,15 +224,6 @@ function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayme
     return new Date();
   }
   else {
-    // Calculate the monthly interest rate
-    //const monthlyInterestRate = annualInterestRate / 12;
-
-    // Calculate the number of months required to pay off the debt
-    //const numberOfMonths = -Math.log(1 - (debtAmount * monthlyInterestRate / monthlyPayment)) / Math.log(1 + monthlyInterestRate);
-
-    //const numberOfMonths = finance.AM(debtAmount, 7.5, 85, 1);
-
-
 
     let currentPayment = 0;
     let x = 1;
@@ -454,16 +244,11 @@ function calculatePayoffDate(initialLoanAmount, annualInterestRate, monthlyPayme
       }
 
     }
-
-    //console.log(((numberOfMonths * monthlyPayment) - debtAmount).toFixed(2));
     // Round up to the nearest whole month
     //const monthlyInterestRate = annualInterestRate / 12 / 100;
-
     // Calculate the number of months to pay off the debt
     //const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
-
     //const roundedMonths = Math.ceil(monthsToPayOff);
-
     // Calculate the payoff date
     const today = new Date();
     const payoffDate = new Date(today.getFullYear(), today.getMonth() + roundedMonths, today.getDate());
@@ -480,29 +265,7 @@ function GetTotalIntrest(initialLoanAmount, minimumPayment, loanTermInMonths) {
   let isGoodPay = CheckMethodType(minimumPayment, "float")
   if (isGoodAmount && isGoodPay && isGoodTerm) {
 
-
-
-    // Calculate the number of months to pay off the debt
-    // const monthsToPayOff = finance.PMT(monthlyInterestRate, -monthlyPayment, initialLoanAmount);
-
-    // const roundedMonths = Math.ceil(monthsToPayOff);
-
-    // const totalIntrest = ((monthsToPayOff * monthlyPayment) - debtAmount).toFixed(2)
-
-
-
-
-    // const monthlyInterestRate = annualInterestRate / 12;
-
-    // // Calculate total interest paid over the entire loan period
-    // const totalInterestPaid = initialLoanAmount * monthlyInterestRate;
-
-    // return totalInterestPaid;
-
-
     // const monthlyInterestRate = annualInterestRate / 12 / 100;
-
-
     // const monthlyPayment = (initialLoanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
     // const totalPayments = monthlyPayment * numberOfPayments;
     const totalAmount = minimumPayment * loanTermInMonths;
@@ -628,31 +391,6 @@ function UpdateMiniMumPayment(debtArry = [], amount) {
       }
     }
 
-    // while(amount != 0){
-
-
-
-    //     if(amount > debtArry[0].originalDebtAmount){
-
-    //       debtArry[incrementer].minumnPayment = debtArry[incrementer].originalDebtAmount;
-    //       amount  -= tempAmount
-    //     }
-    //     else{
-    //       if(amount != 0){
-    //         debtArry[incrementer].minumnPayment += amount;
-    //         amount -= amount;
-    //       }
-    //       else{
-    //         return;
-    //       }
-
-    //     }
-    //    if(amount > 0){
-    //     incrementer++;
-    //    }
-
-
-    // }
 
     return debtArry;
 
@@ -692,12 +430,6 @@ function PayBareMinimum(debtArry = [], incomeArry = []) {
   }
 }
 
-
-
-//let amount = UpdateMiniMumPayment(RegularDebtArry, 3000);
-//console.log(amount);
-
-
 //-----------------------------------------CUSTOM
 
 function CustomDebtPaymentFrame(customArry = [], totalIncome) {
@@ -714,7 +446,7 @@ function CustomDebtPaymentFrame(customArry = [], totalIncome) {
     customArry.forEach((Arry) => {
       let customDebtFrame = new customDebtPayOffTimeFrameModel;
 
-      // let percentOfPay = 0;
+
       let amountOfPay = 0;
       let percentOfPay = Arry.percentOfIncome;
 
@@ -785,10 +517,7 @@ function PayOffRemainingDebt(customArry = []) {
         totalLeftOver += arry.amountLeftOver;
         arry.amountLeftOver = 0;
       }
-      // else {
 
-      //   if(arry.currentDebtAmount > 0 && totalLeftOver > arry)
-      // }
     })
 
     customArry.forEach((arry) => {
@@ -807,7 +536,7 @@ function PayOffRemainingDebt(customArry = []) {
             if (totalLeftOver > 0) {
               arry.currentDebtAmount -= totalLeftOver;
               totalLeftOver -= totalLeftOver;
-              //totalLeftOver = 0;
+
 
             }
           }
@@ -916,69 +645,7 @@ function CustomPayBareMinimum(debtArry = [], incomeArry = []) {
   }
 }
 
-//Not needed----\\\\\\\\\\
-// export function UpdateLeftOverAmount(debtArry = [], amount) {
-
-//   const goodDebtArry = CheckMethodType(debtArry, 'array');
-//   const goodAmount = CheckMethodType(amount, 'number');
-
-//   if (goodDebtArry && goodAmount) {
-
-
-
-//     let tempAmount = 0;
-//     let incrementer = 0;
-
-
-
-//     for (let i = 0; i < debtArry.length; i++) {
-//       if (amount > debtArry[i].originalDebtAmount) {
-
-//         debtArry[i].minumnPayment = debtArry[i].originalDebtAmount;
-//         debtArry[i].isPayedOff = true;
-//         amount -= debtArry[i].originalDebtAmount
-//       }
-//       else {
-//         if (amount != 0) {
-//           debtArry[i].minumnPayment += amount;
-//           amount -= amount;
-//         }
-
-//       }
-//       if (amount == 0) {
-//         break;
-//       }
-//     }
-
-
-
-//     return debtArry;
-
-//   } else {
-
-//   }
-// }
-
 //-----------------------------------------------------BOTH
-
-// export function getTotalIncomeAmount(incomeArry = []) {
-
-//   //   const goodIncomeArry = CheckMethodType(incomeArry, 'array');
-//   //   let returnAmount  = 0;
-
-//   //   if(goodIncomeArry){
-
-//   //      incomeArry.forEach((arry) => {
-
-//   //       returnAmount += arry.amount;
-
-//   //      })
-
-//   //      return returnAmount;
-//   //   }
-
-//   //   return returnAmount;
-// }
 
 //Returns a true / false if the method arg matches the type
 function CheckMethodType(input, type) {
@@ -1140,7 +807,6 @@ function ReturnPercentageAmount(percentage, amount) {
   return returnAmount;
 
 }
-//console.log(ReturnPercentageAmount(1.5, 400))
 
 function SubtractAmountFromDebt(debt, amount) {
 
@@ -1217,46 +883,7 @@ function DivideIncomeByOurr(incomeArry = []) {
 
 }
 
-//These methods are used to update OutCome model
-// export function UpdateBudgetOutCome() {
 
-// }
-
-// export function UpdateCustomBudgetOutCome() {
-
-// }
-
-//Might move to the Mongo Helper functions
-// export function RemovedPayedOffDebts(debtArray = []) {
-
-//   //returns a mapped array, removing the debts that are payed off
-// }
-
-// export function AddErrMessage() {
-//   //take in a error type and a model
-//   //returns a model with error information
-// }
-// if (budgetType == 0) {
-//   errFrame.creditorName = "Can't Pay";
-//   errFrame.totalPayments = 0;
-//   errFrame.paymentsLeft = 0
-//   errFrame.MinimumPayment = 0;
-//   errFrame.originalDebtAmount = 0;
-//   errFrame.currentDebtAmount = 0;
-//   errFrame.totalIntrestPaid = 0;
-//   errFrame.payOffStyle = "Can't pay off minimum amount!"
-//   errFrame.hasError = true;
-// } else if (budgetType == 1) {
-//   customErrFrame.creditorName = "Cant Pay";
-//   customErrFrame.originalDebtAmount = 0;
-//   customErrFrame.currentDebtAmount = 0;
-//   customErrFrame.percentOfPayUsed = 0;
-//   customErrFrame.payOffStyle = "Can't pay off minimum amount!"
-//   customErrFrame.hasError = true;
-
-// }
-//budgetType = 0 budget
-//budgetType = 1 customBudget
 function ReturnErrorFrame(frameType) {
 
   let errPayOffFrame = new debtPayOffTimeFrameModel;
@@ -1266,47 +893,47 @@ function ReturnErrorFrame(frameType) {
 
   const goodType = CheckMethodType(frameType, 'string');
 
-    if(goodType){
+  if (goodType) {
 
-      switch(frameType){
+    switch (frameType) {
 
-        case 'budgetFrameModel':
-          const errorBudget = new budgetFrameModel({payOffStyle: "Error",  UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
-          return errorBudget;
+      case 'budgetFrameModel':
+        const errorBudget = new budgetFrameModel({ payOffStyle: "Error", UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
+        return errorBudget;
         break;
 
-        case 'CustomBudgetFrameModel':
-          const errorCustomBudget = new CustomBudgetFrameModel({payOffStyle: "Error", useLeftOver: false, UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
-          return errorCustomBudget;
+      case 'CustomBudgetFrameModel':
+        const errorCustomBudget = new CustomBudgetFrameModel({ payOffStyle: "Error", useLeftOver: false, UserId: "Error", DebtCollection: emptyArray, IncomeCollection: emptyArray })
+        return errorCustomBudget;
         break;
 
-        case 'debtPayOffTimeFrameModel': 
-          const errorPayOffTimeFrame = new debtPayOffTimeFrameModel({ creditorName: "Error", totalPayments: 0, paymentsLeft: 0, MinimumPayment: 0, originalDebtAmount: 0, currentDebtAmount: 0, totalIntrestPaid: 0, intrestPayed: 0, payOffStyle: 'Error', hasError: true  });
-          return errorPayOffTimeFrame;
+      case 'debtPayOffTimeFrameModel':
+        const errorPayOffTimeFrame = new debtPayOffTimeFrameModel({ creditorName: "Error", totalPayments: 0, paymentsLeft: 0, MinimumPayment: 0, originalDebtAmount: 0, currentDebtAmount: 0, totalIntrestPaid: 0, intrestPayed: 0, payOffStyle: 'Error', hasError: true });
+        return errorPayOffTimeFrame;
         break;
 
-        case 'customDebtPayOffTimeFrameModel':
-          const errorCustomPayOffTimeFrame = new customDebtPayOffTimeFrameModel({creditorName: "Error", percentOfPayUsed: 0, amountLeftOver: 0, amountOfPayUsed: 0 , originalDebtAmount: 0, currentDebtAmount: 0, isPayedOff: false, payOffStyle: 'Error', hasError: true });
-          return errorCustomPayOffTimeFrame
-          break;
-        
-          case 'BudgetOutcomeModel':
-            const errorBudgetOutcome = new BudgetOutcomeModel({UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
-            return errorBudgetOutcome
-            break;
-          
-          case 'CustomBudgetOutcomeModel':
-              const errorCustomBudgetOutcome = new CustomBudgetOutcomeModel({UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
-              return errorCustomPayOffTimeFrame
-              break;
-      }
+      case 'customDebtPayOffTimeFrameModel':
+        const errorCustomPayOffTimeFrame = new customDebtPayOffTimeFrameModel({ creditorName: "Error", percentOfPayUsed: 0, amountLeftOver: 0, amountOfPayUsed: 0, originalDebtAmount: 0, currentDebtAmount: 0, isPayedOff: false, payOffStyle: 'Error', hasError: true });
+        return errorCustomPayOffTimeFrame
+        break;
 
-    }
-    else{
+      case 'BudgetOutcomeModel':
+        const errorBudgetOutcome = new BudgetOutcomeModel({ UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
+        return errorBudgetOutcome
+        break;
 
+      case 'CustomBudgetOutcomeModel':
+        const errorCustomBudgetOutcome = new CustomBudgetOutcomeModel({ UserId: " ", DebtPayOffArray: emptyArray, isPayedOff: false });
+        return errorCustomPayOffTimeFrame
+        break;
     }
 
-  
+  }
+  else {
+
+  }
+
+
 
 
 }

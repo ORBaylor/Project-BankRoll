@@ -1,8 +1,4 @@
-//import express from 'express';
-//import { connect } from 'mongoose';
-//import { Router, express } from "express";
-//import { router } from "express";
-//import { cors } from "cors";
+
 require('dotenv').config();
 
 const express = require('express');
@@ -13,11 +9,8 @@ const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameMo
 const { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('./BudgetEngine/HelperFuctions.js');
 const mongoose = require('mongoose');
 const moment = require('moment');
-//import { User } from "../server/Routes/User/CreateUser.js";
 const createUser = require('../server/Routes/User/CreateUser.js')
-//import { Debt } from "../server/Routes/User/Debt.js";
 const debtt = require('../server/Routes/User/Debt.js')
-//import { Income } from "../server/Routes/User/Income.js";
 const incomee = require('../server/Routes/User/Income.js')
 const frame = require('./Routes/BudgetFrame/BudgetFrame.js')
 const c_frame = require('./Routes/BudgetFrame/CustomBudgetFrame.js')
@@ -26,17 +19,11 @@ const c_budget = require('./Routes/Budget/CustomBuget.js')
 const c_debt = require('./Routes/User/CustomDebt.js')
 
 
-//dotenv.config();
-
-//const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
-//onnect('mongodb://localhost:27017/your-database-name', { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 const bodyParser = require('body-parser');
-//const cors = require('cors');
-//Using express
 const app = express();
 //Middleware
 app.use(express.json());
@@ -56,7 +43,9 @@ async function UpdateMiddleware(req, res, next) {
     try {
 
         const MongoPassword = process.env.MONGODB_PASSWORD;
-        let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
+
+        const uri = process.env.MONGODB_URI;
+        console.log(uri);
 
         const client = new MongoClient(uri, {
             // serverApi: {
@@ -70,9 +59,7 @@ async function UpdateMiddleware(req, res, next) {
         const userCollection = db.collection("usermodels");
         mongoose.createConnection(uri);
         console.log("Connected")
-        // const filter = { _id: new ObjectId(req.body._id) }
-
-        console.log("userCollection")
+        // console.log("userCollection")
         await userCollection.find().toArray().then(foundUser => {
             if (!foundUser) {
                 console.log('User Not Made');
@@ -80,19 +67,15 @@ async function UpdateMiddleware(req, res, next) {
 
             } else {
                 //If so, check and see if 24 hours has past since the last check login time
-                const lastLoginTime = moment(foundUser.LastActive).format('YYYY-MM-DD');
+                const lastLoginTime = moment(foundUser[0].LastActive).format('YYYY-MM-DD');
                 const lastLoginPlusTwentyFour = moment(lastLoginTime).add(1, 'd').format('YYYY-MM-DD');
                 const updatedLogin = moment().format('YYYY-MM-DD');
                 const userId = foundUser[0]._id
                 const filter = { _id: new ObjectId(userId) }
                 //Check if 24 hours has past
-                console.log("lastLoginTime: " + lastLoginTime)
-                console.log("lastLoginPlusTwentyFour: " + lastLoginPlusTwentyFour)
-                console.log("updatedLogin: " + updatedLogin)
-                console.log("foundUser._id: " + foundUser[0]._id)
-                console.log("filter : " + filter)
 
-                if (!moment().isAfter(lastLoginPlusTwentyFour)) {
+
+                if ((moment(`${updatedLogin}`).isAfter(`${lastLoginTime}`, 'day'))) {
                     //Update Lastactive 
                     console.log("Inside Moment if statement")
 

@@ -1,18 +1,15 @@
 const { ObjectId } = require('mongodb');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
 const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../../MongoSchema/SchemaModel.js')
 const { CheckMethodType, SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('../../BudgetEngine/HelperFuctions.js');
 const { CreateBudget, CreateCustomBudget, CreateBudgetFrame, CreateCustomBudgetFrame } = require("../../BudgetEngine/BudgetEngine.js")
 const mongoose = require('mongoose');
-
 const moment = require('moment');
 const express = require('express');
 const router = express.Router();
-//dotenv.config();
 
-const MongoPassword = process.env.MONGODB_PASSWORD;
-let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
+
+const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 30000, // Example: Set timeout to 30 seconds
@@ -61,41 +58,32 @@ router.post('/create', async (req, res) => {
 //Will be used to update debt pay off
 router.post('/update', async (req, res) => {
 
-    //Get the BudgetOutComeModel ID
-    //Get the aamount of months it has been since the user last logged in. 
 
     //CREATE A METHOD THAT WILL TAKE TWO ARGS AND RETURN AN UPDATED BUDETOUTCOME
 
     //Save new BudgetOutComeModels
 
     let currentBudgetOutcomeModel = new BudgetOutcomeModel;
-
-
-
     await client.connect();
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
     mongoose.connect(uri);
-
-    //await client.connect();
 
     const budgetOutcomeCollection = client.db('test').collection('budgetoutcomemodel');
     const budgetFrameId = req.body._id;
-    const numMonths = req.body.NumberOfMonth;
-    const currentDate = moment().format(req.body.CurrentDate);
-    //console.log("currentDate: "+currentDate)
+    const lastActiveVar = req.body.LastActive;
+    const currentDate = moment().format()
+
+    const numMonths = GetMonths(lastActiveVar, currentDate);
+
 
     //Get updated BudetOutCome 
     currentBudgetOutcomeModel = await UpdateBudgetOutcome(budgetFrameId, numMonths, currentDate);
-    // console.log("currentBudgetOutcomeModel: " +currentBudgetOutcomeModel.DebtPayOffArray)
 
-    currentBudgetOutcomeModel.DebtPayOffArray.forEach((arry) => {
-        console.log(arry);
-    })
+
+    // currentBudgetOutcomeModel.DebtPayOffArray.forEach((arry) => {
+    //     console.log(arry);
+    // })
     const filter = { _id: new ObjectId(budgetFrameId) }
-    //const updatedFrame = new budgetFrameModel({})
+
 
     const isActive = req.body.IsActive
 
@@ -103,26 +91,26 @@ router.post('/update', async (req, res) => {
 
 
 
-    // await budgetOutcomeCollection.updateOne(filter, { $set: { DebtPayOffArray: currentBudgetOutcomeModel.DebtPayOffArray, isActive: isActive  } }, { new: false })
-    //         .then(updatedDocument => {
-    //             if (!updatedDocument) {
-    //                 console.log('Document not found');
-    //                 return res.sendStatus(500);
-    //             } else {
-    //                 console.log('Updated document:', updatedDocument);
-    //                 return res.sendStatus(200)
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error updating document:', error.message);
-    //         });
-    //  mongoose.disconnect()
-    //         .then(() => {
-    //             console.log('Disconnected from MongoDB');
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error disconnecting from MongoDB:', error);
-    //         });
+    // await budgetOutcomeCollection.updateOne(filter, { $set: { DebtPayOffArray: currentBudgetOutcomeModel.DebtPayOffArray, isActive: isActive } }, { new: false })
+    //     .then(updatedDocument => {
+    //         if (!updatedDocument) {
+    //             console.log('Document not found');
+    //             return res.sendStatus(500);
+    //         } else {
+    //             console.log('Updated document:', updatedDocument);
+    //             return res.sendStatus(200)
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error updating document:', error.message);
+    //     });
+    // mongoose.disconnect()
+    //     .then(() => {
+    //         console.log('Disconnected from MongoDB');
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error disconnecting from MongoDB:', error);
+    //     });
 
 })
 
@@ -131,8 +119,6 @@ router.get('/view', async (req, res) => {
     await client.connect();
 
     mongoose.connect(uri);
-
-    //await client.connect();
 
     const budgetOutcomeCollection = client.db('test').collection('budgetoutcomemodel');
     const budgetFrameId = req.body._id;
@@ -169,15 +155,8 @@ router.get('/viewAll', async (req, res) => {
 
     try {
         const budgetOutcomeCollection = client.db('test').collection('budgetoutcomemodel');
-        // const budgetFrameId = req.body._id;
-        //  const filter = { _id: new ObjectId(budgetFrameId) }
-
-        console.log("Connected")
         const userId = req.body.UserId;
         const filter = { UserId: userId }
-
-        console.log(filter);
-
         const newFrame = budgetOutcomeCollection.find(filter)
         const frameArray = await newFrame.toArray();
         console.log(frameArray);
@@ -209,14 +188,7 @@ router.get('/viewAll', async (req, res) => {
 router.delete('/delete', async (req, res) => {
 
     await client.connect();
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
     mongoose.connect(uri);
-
-    //await client.connect();
-
     const budgetOutcomeCollection = client.db('test').collection('budgetoutcomemodel');
     const budgetFrameId = req.body._id;
     const filter = { _id: new ObjectId(budgetFrameId) }
@@ -288,10 +260,11 @@ async function UpdateBudgetOutcome(modelId, numOfMonths, currentDate) {
             // console.log( "  Name: " + currentBudgetModel.creditorName)
             //If only one month has passed
             if (numOfMonths == 1) {
-                //  console.log("currentPaymentDate: "+ currentPaymentDate.valueOf())
-                // console.log("currentDateVar: "+ currentDateVar.valueOf())
-                // if(moment(currentPaymentDate).isSameOrAfter(currentDateVar, 'month')){
-                if (currentDateVar.valueOf() >= currentPaymentDate.valueOf()) {
+
+                // if (currentDateVar.valueOf() >= currentPaymentDate.valueOf()) {
+                if (moment(`${currentPaymentDate}`).isSameOrAfter(`${currentDateVar}`, 'month')) {
+                    //(moment(`${updatedLogin}`).isAfter(`${lastLoginTime}`, 'day'))
+
                     //subtract the current Minimum Monthly payment from the current current debt amount
                     // console.log("Made it inside if");
                     currentDebt = (currentDebt - currentMinPayment);
@@ -313,7 +286,7 @@ async function UpdateBudgetOutcome(modelId, numOfMonths, currentDate) {
                         console.log("currentPaymentDate Before: " + currentPaymentDate + "  Name" + currentBudgetModel.creditorName)
                         // currentPaymentDate = moment(currentPaymentDate).year(1).format('YYYY-MM-DD');
                         currentPaymentDate = moment(currentPaymentDate).add(1, 'M').format('YYYY-MM-DD');
-                        console.log("currentPaymentDate After: " + currentPaymentDate + "  Name" + currentBudgetModel.creditorName)
+                        console.log("currentPaymentDate After: " + currentPaymentDate + "  Name " + currentBudgetModel.creditorName)
                         currentBudgetModel.currentDebtAmount = currentDebt;
                         currentBudgetModel.PaymentDate = currentPaymentDate;
                         currentBudgetModel.paymentsLeft = currentPaymentsLeft;
@@ -334,7 +307,9 @@ async function UpdateBudgetOutcome(modelId, numOfMonths, currentDate) {
 
                 // if(moment(currentPaymentDate).isSameOrAfter(currentDateVar)){
                 try {
-                    if (currentDateVar.valueOf() >= currentPaymentDate.valueOf()) {
+                    // if (currentDateVar.valueOf() >= currentPaymentDate.valueOf()) {
+                    if (moment(`${currentPaymentDate}`).isSameOrAfter(`${currentDateVar}`, 'month')) {
+
 
                         const subtractAmount = (currentMinPayment * numOfMonths);
 
@@ -388,8 +363,46 @@ async function UpdateBudgetOutcome(modelId, numOfMonths, currentDate) {
                     console.log(error.message)
                 }
 
-            } else {
+            } else if (numOfMonths == 0) {
+                console.log(numOfMonths + "else if")
                 //Has not been a month
+                if (moment(`${currentPaymentDate}`).isSameOrAfter(`${currentDateVar}`, 'day')) {
+
+
+                    // console.log("Made it inside if");
+                    currentDebt = (currentDebt - currentMinPayment);
+
+                    //subtract 1 from the payments left
+                    currentPaymentsLeft = (currentPaymentsLeft - numOfMonths);
+
+                    //Check and see if the debt is payed off and set the isPayedOff var.
+                    if (currentDebt <= 0) {
+                        currentBudgetModel.isPayedOff = true;
+                        currentDebt = 0;
+                        currentBudgetModel.currentDebtAmount = currentDebt;
+                        currentBudgetModel.paymentsLeft = 0;
+                        currentBudgetModel.PaymentDate = moment().format()
+                        console.log("Num of Month == 0 currentPaymentDate: " + currentPaymentDate)
+                    } else {
+                        //Add one month from the Payment date
+                        // currentPaymentDate = moment(currentPaymentDate).add(1, 'm').format();
+                        console.log("currentPaymentDate Before: " + currentPaymentDate + "  Name" + currentBudgetModel.creditorName)
+                        // currentPaymentDate = moment(currentPaymentDate).year(1).format('YYYY-MM-DD');
+                        currentPaymentDate = moment(currentPaymentDate).add(1, 'M').format('YYYY-MM-DD');
+                        console.log("currentPaymentDate After: " + currentPaymentDate + "  Name" + currentBudgetModel.creditorName)
+                        currentBudgetModel.currentDebtAmount = currentDebt;
+                        currentBudgetModel.PaymentDate = currentPaymentDate;
+                        currentBudgetModel.paymentsLeft = currentPaymentsLeft;
+                        currentBudgetModel.isPayedOff = false;
+                    }
+
+
+                } else {
+
+                    //Not time to update debt
+                    console.log(numOfMonths + "else ")
+                }
+
             }
         }
         else {
@@ -419,9 +432,6 @@ async function getBudetFrame(id) {
     if (goodId) {
 
         await client.connect();
-        // Send a ping to confirm a successful connection
-        // await client.db("admin").command({ ping: 1 });
-        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
         mongoose.connect(uri);
 
@@ -434,7 +444,7 @@ async function getBudetFrame(id) {
         await frameCollection.findOne(filter).then(foundUser => {
             if (!foundUser) {
                 console.log('User not found');
-                //return res.sendStatus(400);
+
 
             } else {
 
@@ -464,13 +474,7 @@ async function getBudetOutcomeFrame(id) {
     if (goodId) {
 
         await client.connect();
-        // Send a ping to confirm a successful connection
-        // await client.db("admin").command({ ping: 1 });
-        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
         mongoose.connect(uri);
-
-        //await client.connect();
 
         const frameCollection = client.db('test').collection('budgetoutcomemodel');
         const budgetFrameId = id;
@@ -479,7 +483,7 @@ async function getBudetOutcomeFrame(id) {
         await frameCollection.findOne(filter).then(foundUser => {
             if (!foundUser) {
                 console.log('User not found');
-                //return res.sendStatus(400);
+
 
             } else {
 
@@ -504,10 +508,13 @@ async function getBudetOutcomeFrame(id) {
 
 //Returns how many months have passed.
 function GetMonths(startDate, endDate) {
-    const startMoment = moment(startDate);
-    const endMoment = moment(endDate);
+    const startMoment = moment(startDate).format();
+    const endMoment = moment(endDate).format('YYYY-MM-DD');
+    moment(endMoment).diff(`${startMoment}`, 'months')
+    //console.log("GetMonth: " + moment(endMoment).diff(`${startMoment}`, 'months'))
 
-    return endMoment.diff(startMoment, 'months');
+    return moment(endMoment).diff(`${startMoment}`, 'months');
+
 }
 //Return the last IsActive time
 async function ReturnActiveTime() {
@@ -517,18 +524,17 @@ async function ReturnActiveTime() {
         const db = client.db("test");
         const userCollection = db.collection("usermodels");
         mongoose.createConnection(uri);
-        console.log("Connected")
-        // const filter = { _id: new ObjectId(req.body._id) }
+
+
 
 
         await userCollection.find().then(foundUser => {
             if (!foundUser) {
                 console.log('User not found');
-                //return res.sendStatus(400);
+
                 lastActive = moment().format('YYYY-MM-DD');
             } else {
                 console.log('User document:', foundUser);
-                // res.send(foundUser)
                 lastActive = moment(foundUser.LastActive).format('YYYY-MM-DD')
             }
         }).catch(error => {

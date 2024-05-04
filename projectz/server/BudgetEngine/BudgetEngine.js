@@ -1,6 +1,6 @@
 
 const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../MongoSchema/SchemaModel.js')
-const { SortDebtCustom, CheckMethodType , CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('./HelperFuctions.js');
+const { SortDebtCustom, CheckMethodType, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('./HelperFuctions.js');
 
 
 //#region Settings
@@ -361,8 +361,6 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
     let sortedArray = [];
     let minimumAdded = 0;
 
-    //console.log(debtCollection[0].originalDebtAmount)
-
     budgetOutcome.UserId = currentUser;
 
     //Pay the smallest debt as fast as 
@@ -402,17 +400,15 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
             updatedArray = sortedArray;
         }
 
-      //  console.log(updatedArray);
+
         //Run through all of the debts in the array 
         //caculate what needs to be caculated 
         //add the results to the budegframe model.
         updatedArray.forEach((arry) => {
             let outputTimeFrame = new debtPayOffTimeFrameModel;
-            //  console.log(arry.originalDebtAmount);
-            //  console.log(arry.intrestRate);
-            // console.log(arry.minumnPayment);
+
             let totalMonths = GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
-            console.log("Total Months: "+totalMonths);
+            console.log("Total Months: " + totalMonths);
             outputTimeFrame.creditorName = arry.creditorName;
             outputTimeFrame.totalPayments = totalMonths;
             outputTimeFrame.paymentsLeft = totalMonths;
@@ -423,13 +419,12 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
 
             //Intrest paid 
             outputTimeFrame.totalIntrestPaid = GetTotalIntrest(arry.originalDebtAmount, arry.minumnPayment, totalMonths);
-            // outputTimeFrame.intrestPayed = GetMonthlyIntrestRate(arry.intrestRate);
 
             outputTimeFrame.PaymentDate = arry.dueDate;
             outputTimeFrame.payOffStyle = payOffStyle;
             outputTimeFrame.PayOffDate = calculatePayoffDate(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment)
             outputTimeFrame.isPayedOff = (GetTotalPayments(arry.originalDebtAmount, arry.intrestRate, arry.minumnPayment) == 1 ? true : false);
-           
+
             outputTimeFrame.hasError = false;
 
             budgetOutcome.DebtPayOffArray.push(outputTimeFrame);
@@ -451,7 +446,7 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
 
 //Creating a budget based off of the custom budget frame
 //Used for short term debt pay off
- function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel) {
+function CreateCustomBudget(customBudetFrame = new CustomBudgetFrameModel) {
 
     const payOffStyle = customBudetFrame.payOffStyle;
 
@@ -464,8 +459,6 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
 
 
     let customBudgetArry = [];
-
-    // let totalIncome = 0;
     let sortedArray = [];
 
 
@@ -481,19 +474,13 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
         if (useLeftOver == true) {
 
             let remainingOutcomeArry = PayOffRemainingDebt(budgetOutcomeArry)
-            // console.log(remainingOutcomeArry);
-
             let amountLeftOver = FindAmountLeftOver(remainingOutcomeArry)
-
 
             if (CheckIfAllDebtsArePaid(remainingOutcomeArry) && amountLeftOver > 0) {
                 customBudetOutcome.AllDebtsPayedOff = true;
                 customBudetOutcome.PayUser.isUserPaid = true;
                 customBudetOutcome.PayUser.payAmount = amountLeftOver.toFixed(2);
 
-
-
-                //console.log(customBudetOutcome);
                 // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
                 amountLeftOver -= amountLeftOver;
 
@@ -502,12 +489,10 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
                 if (amountLeftOver > 0) {
                     customBudetOutcome.isUserPaid = true;
                     customBudetOutcome.payAmount = amountLeftOver.toFixed(2);
-                    // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
                     amountLeftOver -= amountLeftOver;
                 } else {
                     customBudetOutcome.isUserPaid = false;
                     customBudetOutcome.payAmount = amountLeftOver.toFixed(2);
-                    // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
                     amountLeftOver -= amountLeftOver;
                 }
 
@@ -518,30 +503,16 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
                 let customPayOffTimeFrame = new customDebtPayOffTimeFrameModel;
 
                 customPayOffTimeFrame.creditorName = arry.creditorName;
-                //console.log(customPayOffTimeFrame.creditorName);
                 customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount;
 
                 customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount;
                 customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
                 customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
-                //   console.log(customPayOffTimeFrame.isPayedOff)
                 customPayOffTimeFrame.payOffStyle = payOffStyle;
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver.toFixed(2);
                 customPayOffTimeFrame.hasError = false;
-
-                //  console.log(customPayOffTimeFrame.amountLeftOver)
-
-                //customBudgetArry.push(customPayOffTimeFrame)
-                // console.log(arry);
-                //  console.log(customPayOffTimeFrame);
                 customBudetOutcome.customPayOffFrameArry.push(customPayOffTimeFrame);
             })
-
-
-
-
-
-            //console.log(customBudetOutcome);
 
         }
         else {
@@ -552,12 +523,9 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
             if (amountLeftOver > 0) {
                 customBudetOutcome.PayUser.isUserPaid = true;
                 customBudetOutcome.PayUser.payAmount = amountLeftOver.toFixed(2);
-                // customBudetOutcome.PayUser.payPercent = Make a method that will find the amount of pay was used
                 amountLeftOver -= amountLeftOver;
 
             }
-            //customBudgetArry = budgetOutcomeArry;
-
 
             //PayOffRemainingDebt
             //Paying a user is only going to happen if there is money left over
@@ -567,20 +535,12 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
                 let customPayOffTimeFrame = new customDebtPayOffTimeFrameModel;
 
                 customPayOffTimeFrame.creditorName = arry.creditorName;
-                //console.log(customPayOffTimeFrame.creditorName);
                 customPayOffTimeFrame.originalDebtAmount = arry.originalDebtAmount.toFixed(2);
-
                 customPayOffTimeFrame.currentDebtAmount = arry.currentDebtAmount.toFixed(2);
                 customPayOffTimeFrame.percentOfPayUsed = arry.percentOfPayUsed;
                 customPayOffTimeFrame.isPayedOff = arry.isPayedOff;
-                //   console.log(customPayOffTimeFrame.isPayedOff)
                 customPayOffTimeFrame.payOffStyle = payOffStyle;
                 customPayOffTimeFrame.amountLeftOver = amountLeftOver.toFixed(2);
-                //  console.log(customPayOffTimeFrame.amountLeftOver)
-
-                //customBudgetArry.push(customPayOffTimeFrame)
-                // console.log(arry);
-                //  console.log(customPayOffTimeFrame);
                 customBudetOutcome.customPayOffFrameArry.push(customPayOffTimeFrame);
 
             })
@@ -597,18 +557,14 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
         return customBudetOutcome;
     }
 
-    //customBudetOutcome.customPayOffFrame = customBudgetArry;
-
-    //return customBudetOutcome;
-
 
 }
 
 //This method will take the data that is passed from the front end and create a budget frame
- function CreateBudgetFrame(data) {
+function CreateBudgetFrame(data) {
 
     let budgetFrame = new budgetFrameModel;
-   
+
 
     let incomeArry = [];
     let debtArry = []
@@ -624,8 +580,6 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
         } else {
             payOffStyle = data.PayOffStyle
         }
-
-
 
         // FirstName: String,
         // LastName: String,
@@ -658,12 +612,7 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
             income.name = incomeJson.name;
             income.amount = incomeJson.amount;
             income.occurrence = incomeJson.occurrence;
-
             incomeArry.push(income);
-
-            // name: String,
-            //     amount: Number,
-            //         occurrence: String,
         })
 
         //CHECK TO SEE IF THE ARRAYS ARE EMPTY;
@@ -671,9 +620,6 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
         budgetFrame.IncomeCollection = incomeArry;
         budgetFrame.UserId = user_ID;
         budgetFrame.payOffStyle = payOffStyle;
-        // console.log(budgetFrame.user_id);
-
-
     }
     else {
         return
@@ -685,14 +631,13 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
 }
 
 //This method will take the data that is passed from the front end and create a custom budget frame
- function CreateCustomBudgetFrame(data) {
+function CreateCustomBudgetFrame(data) {
     let customBudgetFrame = new CustomBudgetFrameModel
-    
-   // console.log(data.payOffStyle);
+
     let incomeArry = [];
     let debtArry = []
     let payOffStyle = '';
-   
+
     //MAKE A CHECK TO SEE IF THE DATA THAT IS BEING PASSED IN IS VALID
     if (data.payOffStyle != null && data.debts != null && data.income != null && data.UserId != null) {
         let user_ID = data.UserId;
@@ -702,7 +647,7 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
         } else {
             payOffStyle = data.payOffStyle
             console.log(payOffStyle);
-            
+
         }
 
         data.debts.forEach((debtJson) => {
@@ -723,12 +668,7 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
             income.name = incomeJson.name;
             income.amount = incomeJson.amount;
             income.occurrence = incomeJson.occurrence;
-
             incomeArry.push(income);
-
-            // name: String,
-            //     amount: Number,
-            //         occurrence: String,
         })
 
         customBudgetFrame.DebtCollection = debtArry;
@@ -740,13 +680,12 @@ function CreateBudget(budetFrame = new budgetFrameModel) {
 
     }
     else {
-        console.log("BudgetEngine else" )
+        console.log("BudgetEngine else")
         return;
     }
-    //console.log("BudgetEngine")
-   // console.log(customBudgetFrame)
+
 
     return customBudgetFrame;
 }
 
-module.exports ={CreateBudget,CreateCustomBudget,CreateBudgetFrame,CreateCustomBudgetFrame}
+module.exports = { CreateBudget, CreateCustomBudget, CreateBudgetFrame, CreateCustomBudgetFrame }

@@ -1,8 +1,6 @@
 
-//const ObjectId = require('mongodb');
 const { ObjectId } = require('mongodb');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
 const { UserModel, DebtModel, IncomeModel, budgetFrameModel, CustomBudgetFrameModel, BudgetOutcomeModel, CustomBudgetOutcomeModel, debtPayOffTimeFrameModel, CustomDebtModel, customDebtPayOffTimeFrameModel } = require('../../MongoSchema/SchemaModel.js')
 const { SortDebtCustom, CustomPayBareMinimum, UpdateMiniMumPayment, AmountAddedToCurrentDebt, FindAmountLeftOver, FindAllCurrentDebt, PayOffRemainingDebt, CheckIfAllDebtsArePaid, CustomDebtPaymentFrame, getTotalIncomeAmount, GetTotalIntrest, calculatePayoffDate, GetTotalPayments, GetMonthlyIntrestRate, PayBareMinimum, DivideIncomeByOurr, ReturnErrorFrame } = require('../../BudgetEngine/HelperFuctions.js');
 const mongoose = require('mongoose');
@@ -10,10 +8,8 @@ const mongoose = require('mongoose');
 
 const express = require('express');
 const router = express.Router();
-//dotenv.config();
 
-const MongoPassword = process.env.MONGODB_PASSWORD;
-let uri = `mongodb+srv://dbUser:${MongoPassword}@test.xqxjfvx.mongodb.net/?retryWrites=true&w=majority`;
+const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 30000, // Example: Set timeout to 30 seconds
@@ -24,19 +20,10 @@ const client = new MongoClient(uri, {
 router.post('/create', async (req, res) => {
 
     await client.connect();
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     mongoose.connect(uri);
 
-    //await client.connect();
-
     const debtCollection = client.db('test').collection('debtmodels');
-
-
-    //mongoose.createConnection(uri);
-
     const creditorName = req.body.CreditorName;
     const originallDebtAmount = req.body.OriginalDebtAmount;
     const currentDebtAmount = req.body.CurrentDebtAmount;
@@ -46,7 +33,7 @@ router.post('/create', async (req, res) => {
     const userId = req.body.UserId;
     const payedOff = req.body.IsPayedOff
     const dueDate = req.body.DueDate;
-    const newDebt = new DebtModel({ creditorName: creditorName, isPayedOff: payedOff , currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
+    const newDebt = new DebtModel({ creditorName: creditorName, isPayedOff: payedOff, currentDebtAmount: currentDebtAmount, intrestRate: intrestRate, originalMinumnPayment: originalMinumnPayment, originallDebtAmount: originallDebtAmount, minumnPayment: minumnPayment, userId: userId, dueDate: dueDate })
 
     await debtCollection.insertOne(newDebt).then(newDebt).then(newDebt => {
         if (!newDebt) {
